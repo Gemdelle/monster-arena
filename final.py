@@ -9,8 +9,10 @@ screen = pygame.display.set_mode((800,400)) # Create screen. This code ends, so 
 pygame.display.set_caption('Monster Arena')
 clock = pygame.time.Clock() # clock object to handle frame rate
 
-test_surface = pygame.Surface((100,200))
-test_surface.fill('Red')
+test_font = 
+
+sky_surface = pygame.image.load('graphics/Sky.png')
+ground_surface = pygame.image.load('graphics/ground.png')
 
 while True: # The game will be continuously updated.
     for event in pygame.event.get():
@@ -18,7 +20,8 @@ while True: # The game will be continuously updated.
             pygame.quit() 
             exit()
 
-    screen.blit(test_surface,(0,0)) # block image transfer -> to display images in screen
+    screen.blit(sky_surface,(0,0)) # block image transfer -> to display images in screen
+    screen.blit(ground_surface,(0,250))
 
 
     pygame.display.update() # update the screen
