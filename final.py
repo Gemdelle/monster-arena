@@ -10,6 +10,8 @@ def displayScore():
     score_rect = score_surf.get_rect(center = (400,50))
     screen.blit(score_surf,score_rect)
 
+    return current_time
+
 # Setup
 pygame.init()
 screen = pygame.display.set_mode((800,400)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
@@ -18,6 +20,7 @@ clock = pygame.time.Clock() # clock object to handle frame rate
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
+score = 0
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
@@ -42,11 +45,8 @@ player_stand_rect = player_stand.get_rect(center = (400,200))
 title_surf = test_font.render('Monster Arena',False, 'White')
 title_rect = title_surf.get_rect(center = (400,70))
 
-final_score_surf = test_font.render(str(score_surf),False,'White')
-final_score_rect = final_score_surf.get_rect(center = (400, 350))
-
 instructions = test_font.render('Press space to start',False,'White')
-instructions_rect = instructions.get_rect(center = (400,380))
+instructions_rect = instructions.get_rect(center = (400,330))
 
 while True: # The game will be continuously updated.
     for event in pygame.event.get():
@@ -74,7 +74,7 @@ while True: # The game will be continuously updated.
         # pygame.draw.rect(screen,'#c0e8ec',score_rect)
         # pygame.draw.rect(screen,'#c0e8ec',score_rect,12)
         # screen.blit(score_surf,score_rect)
-        displayScore()
+        score = displayScore()
 
         # Snail
         screen.blit(snail_surface,snail_rect)
@@ -96,8 +96,15 @@ while True: # The game will be continuously updated.
         screen.fill((94,129,162))
         screen.blit(player_stand,player_stand_rect)
         screen.blit(title_surf,title_rect)
-        screen.blit(final_score_surf,final_score_rect)
-        screen.blit(instructions,instructions_rect)
+
+        score_message = test_font.render(f'Your score: {score}',False,'White')
+        score_message_rect = score_message.get_rect(center = (400,330))
+
+        if score == 0:
+            screen.blit(instructions,instructions_rect)
+        else:
+            screen.blit(score_message,score_message_rect)
+        
 
     pygame.display.update() # update the screen
     clock.tick(60) # while True runs 60 times per second
