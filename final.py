@@ -65,7 +65,7 @@ def fly_animation():
 
 # Setup
 pygame.init()
-screen = pygame.display.set_mode((800,400)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
+screen = pygame.display.set_mode((1200,650)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
 clock = pygame.time.Clock() # clock object to handle frame rate
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
@@ -75,7 +75,9 @@ score = 0
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
+sky_surface = pygame.transform.rotozoom(sky_surface,0,1.5)
 ground_surface = pygame.image.load('graphics/ground.png').convert()
+ground_surface = pygame.transform.rotozoom(ground_surface,0,1.5)
 
 # Obstacles
 snail_walk_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
@@ -92,12 +94,12 @@ fly_surf = fly_fly[fly_index]
 
 obstacle_rect_list = []
 
-player_walk_1 = pygame.image.load('graphics/player/player_walk_1.png').convert_alpha()
-player_walk_2 = pygame.image.load('graphics/player/player_walk_2.png').convert_alpha()
+player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
+player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
 player_index = 0
 player_surf = player_walk[player_index]
-player_jump = pygame.image.load('graphics/player/jump.png').convert_alpha()
+player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
 
 player_rect = player_surf.get_rect(bottomright = (100,300))
 player_gravity = 0
@@ -118,18 +120,22 @@ instructions_rect = instructions.get_rect(center = (400,330))
 obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
-while True: # The game will be continuously updated.
+running = True
+
+while running: # The game will be continuously updated.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN and event.type == pygame.K_ESCAPE:
             pygame.quit() 
             exit()
 
         if game_active:
             if event.type == pygame.MOUSEMOTION:
-                if player_rect.bottom == 300 and player_rect.collidepoint(event.pos):
+                if player_rect.bottom == 450 and player_rect.collidepoint(event.pos):
                     player_gravity = -20
             if event.type == pygame.KEYDOWN:
-                if player_rect.bottom == 300 and event.key == pygame.K_SPACE:
+                if player_rect.bottom == 450 and event.key == pygame.K_SPACE:
                         player_gravity = -20
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -144,15 +150,15 @@ while True: # The game will be continuously updated.
 
     if game_active:
         screen.blit(sky_surface,(0,0)) # block image transfer -> to display images in screen
-        screen.blit(ground_surface,(0,300))
+        screen.blit(ground_surface,(0,450))
 
         score = displayScore()
 
         # Player
         player_gravity += 1
         player_rect.y += player_gravity
-        if player_rect.bottom >= 300:
-            player_rect.bottom = 300
+        if player_rect.bottom >= 450:
+            player_rect.bottom = 450
         player_animation()
         screen.blit(player_surf,player_rect)
 
@@ -169,7 +175,7 @@ while True: # The game will be continuously updated.
         screen.blit(player_stand,player_stand_rect)
         screen.blit(title_surf,title_rect)
         obstacle_rect_list.clear()
-        player_rect.midbottom = (80,300)
+        player_rect.midbottom = (80,450)
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
