@@ -120,7 +120,7 @@ sky_background_surface = pygame.transform.rotozoom(sky_background_surface,0,0.35
 
 # Define game variables
 scroll_sky_background = 0
-scroll_sky = 0
+scroll = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
@@ -134,9 +134,7 @@ good_atom_walk = [good_atom_1,good_atom_2]
 good_atom_surf = good_atom_walk[good_atom_index]
 
 bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
-bad_atom_1 = pygame.transform.rotozoom(bad_atom_1,0,2)
 bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
-bad_atom_2 = pygame.transform.rotozoom(bad_atom_2,0,2)
 bad_atom_index = 0
 bad_atom_walk = [bad_atom_1,bad_atom_2]
 bad_atom_surf = bad_atom_walk[bad_atom_index]
@@ -157,7 +155,7 @@ proton_rect = proton_surf.get_rect(center = (100,100))
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
-player_crouch = pygame.image.load('graphics\Player\hydrogen_character_crouch.png')
+
 player_index = 0
 player_surf = player_walk[player_index]
 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
@@ -252,9 +250,9 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if randint(0,2):
-                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),200))) 
+                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),120))) 
             else:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300)))
 
     if game_active:
         # print(player_rect.midbottom[1],score)
@@ -268,13 +266,15 @@ while running: # The game will be continuously updated.
 
         # SKY SURFACE
         for i in range(0,tiles):
-            screen.blit(sky_surface,(i * sky_surface_width + scroll_sky,0))
+            screen.blit(sky_surface,(i * sky_surface_width + scroll,0))
         # scrolling sky_surface background and reseting
-        scroll_sky -= 5
-        if abs(scroll_sky) > sky_surface_width:
-            scroll_sky = 0
+        scroll -= 5
+        if abs(scroll) > sky_surface_width:
+            scroll = 0
 
-        screen.blit(ground_surface,(0,450))
+        # GROUND SURFACE
+        for i in range(0,tiles):
+            screen.blit(ground_surface,(i * sky_surface_width + scroll,450))            
 
         score = displayScore()
         
