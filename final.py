@@ -157,7 +157,7 @@ proton_rect = proton_surf.get_rect(center = (100,100))
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
-player_crouch = pygame.image.load('graphics\Player\hydrogen_character_crouch.png')
+
 player_index = 0
 player_surf = player_walk[player_index]
 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
