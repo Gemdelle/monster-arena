@@ -178,8 +178,10 @@ obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
 running = True
+
 move_right = False
 move_left = False
+crouch = False
 
 while running: # The game will be continuously updated.
     for event in pygame.event.get():
@@ -202,11 +204,15 @@ while running: # The game will be continuously updated.
                     move_left = True
                 if event.key == pygame.K_d:
                     move_right = True 
+                if event.key == pygame.K_s:
+                    crouch = True
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     move_left = False
                 if  event.key == pygame.K_d:
                     move_right = False
+                if event.key == pygame.K_s:
+                    crouch = False
             if move_left:
                 player_rect.right -= 10
                 if player_rect.right <= 140:
@@ -217,9 +223,9 @@ while running: # The game will be continuously updated.
                     player_rect.right = 1190
             if score > 20 and score <= 30:
                 if move_right:
-                    player_rect.right += 12
+                    player_rect.right += 14
                 if move_left:
-                    player_rect.right -= 12
+                    player_rect.right -= 14
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
