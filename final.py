@@ -133,13 +133,15 @@ good_atom_index = 0
 good_atom_walk = [good_atom_1,good_atom_2]
 good_atom_surf = good_atom_walk[good_atom_index]
 
+good_atom_rect_list = []
+
 bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
 bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
 bad_atom_index = 0
 bad_atom_walk = [bad_atom_1,bad_atom_2]
 bad_atom_surf = bad_atom_walk[bad_atom_index]
 
-bad_atom_rect_list = []
+bad_atom_rect_list = [bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300)),bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300))]
 
 # Items
 proton_1 = pygame.image.load('graphics/items/proton1.png')
@@ -239,8 +241,6 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if randint(0,2):
-                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),120))) 
-            else:
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300)))
 
     if game_active:
