@@ -215,6 +215,11 @@ while running: # The game will be continuously updated.
                 player_rect.right += 10
                 if player_rect.right >= 1190:
                     player_rect.right = 1190
+            if score > 20 and score <= 30:
+                if move_right:
+                    player_rect.right += 12
+                if move_left:
+                    player_rect.right -= 12
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
