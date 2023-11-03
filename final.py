@@ -41,18 +41,24 @@ def player_animation():
         player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
         player_jump = player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
-    elif score > 10 and score < 20:
+    elif score > 10 and score <= 20:
         player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
         player_jump = player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
-    elif score > 20 and score < 30:
+        player_rect.midbottom = (80,410)
+
+    elif score > 20 and score <= 30:
         player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
         player_jump = player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
-    elif score > 30 and score < 40:
+        player_rect.midbottom = (80,450)
+
+    elif score > 30:
         player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
         player_jump = player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+        player_rect.midbottom = (80,430)
+
 
     player_walk = [player_walk_1,player_walk_2]
     # player_surf = player_walk[player_index]
@@ -221,6 +227,8 @@ while running: # The game will be continuously updated.
         screen.blit(title_surf,title_rect)
         bad_atom_rect_list.clear()
         player_rect.midbottom = (80,450)
+        player_rect.midbottom = (80,450)
+
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
