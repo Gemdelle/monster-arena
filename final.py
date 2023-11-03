@@ -171,9 +171,6 @@ while running: # The game will be continuously updated.
             exit()
 
         if game_active:
-            if event.type == pygame.MOUSEMOTION:
-                if player_rect.bottom == 450 and player_rect.collidepoint(event.pos):
-                    player_gravity = -20
             if event.type == pygame.KEYDOWN:
                 if player_rect.bottom == 450 and event.key == pygame.K_SPACE:
                         player_gravity = -20
