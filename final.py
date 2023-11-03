@@ -126,6 +126,15 @@ tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
 ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
 
+# Bars
+protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.4) 
+protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
+
+electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.4)
+electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
+
 # Enemies
 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
 good_atom_2 = pygame.image.load('graphics/atoms/good_atom2.png').convert_alpha()
@@ -275,6 +284,10 @@ while running: # The game will be continuously updated.
         # GROUND SURFACE
         for i in range(0,tiles):
             screen.blit(ground_surface,(i * sky_surface_width + scroll,450))            
+
+        # BARS
+        screen.blit(protons_bar_sur, (50,50))
+        screen.blit(electrons_bar_sur, (50,120))
 
         score = displayScore()
         
