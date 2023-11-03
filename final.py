@@ -183,7 +183,7 @@ while running: # The game will be continuously updated.
         if game_active:
             if event.type == pygame.KEYDOWN:
                 # print(player_rect.midbottom[1],score)
-                if player_rect.midbottom[1] == 450 and event.key == pygame.K_SPACE:
+                if player_rect.bottom == 450 and event.key == pygame.K_SPACE:
                         player_gravity = -20
                 # if score > 10 and score < 20:
                 #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
