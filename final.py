@@ -120,7 +120,7 @@ sky_background_surface = pygame.transform.rotozoom(sky_background_surface,0,0.35
 
 # Define game variables
 scroll_sky_background = 0
-scroll_sky = 0
+scroll = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
@@ -257,13 +257,15 @@ while running: # The game will be continuously updated.
 
         # SKY SURFACE
         for i in range(0,tiles):
-            screen.blit(sky_surface,(i * sky_surface_width + scroll_sky,0))
+            screen.blit(sky_surface,(i * sky_surface_width + scroll,0))
         # scrolling sky_surface background and reseting
-        scroll_sky -= 5
-        if abs(scroll_sky) > sky_surface_width:
-            scroll_sky = 0
+        scroll -= 5
+        if abs(scroll) > sky_surface_width:
+            scroll = 0
 
-        screen.blit(ground_surface,(0,450))
+        # GROUND SURFACE
+        for i in range(0,tiles):
+            screen.blit(ground_surface,(i * sky_surface_width + scroll,450))            
 
         score = displayScore()
         
