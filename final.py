@@ -13,17 +13,15 @@ def displayScore():
 
     return current_time
 
-def obstacle_movement(obstacle_list):
+def bad_atom_movement(obstacle_list):
     if obstacle_list:
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
-            if obstacle_rec.bottom == 300:
-                screen.blit(snail_surf,obstacle_rec)
-            else:
-                screen.blit(fly_surf,obstacle_rec)
+            if obstacle_rec.bottom <= 300:
+                screen.blit(bad_atom_surf,obstacle_rec)
 
-        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100] # delete snails that are beyond -100(x)
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
 
         return obstacle_list
     else:
@@ -40,9 +38,9 @@ def player_animation():
     global player_surf, player_index, player_walk_1,player_walk_2,player_jump, score
     
     if score < 10:
-            player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
-            player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
-            player_jump = player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
+        player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
+        player_jump = player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
     elif score > 10 and score < 20:
         player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
@@ -68,21 +66,29 @@ def player_animation():
             player_index = 0
         player_surf = player_walk[int(player_index)]
 
-def snail_animation():
-    global snail_surf, snail_index
+def good_atom_animation():
+    global good_atom_surf, good_atom_index
 
-    snail_index += 0.1
-    if snail_index >= len(snail_walk):
-        snail_index = 0
-    snail_surf = snail_walk[int(snail_index)]
+    good_atom_index += 0.1
+    if good_atom_index >= len(good_atom_walk):
+        good_atom_index = 0
+    good_atom_surf = good_atom_walk[int(good_atom_index)]
 
-def fly_animation():
-    global fly_surf, fly_index
+def bad_atom_animation():
+    global bad_atom_surf, bad_atom_index
 
-    fly_index += 0.1
-    if fly_index >= len(fly_fly):
-        fly_index = 0
-    fly_surf = fly_fly[int(fly_index)]
+    bad_atom_index += 0.1
+    if bad_atom_index >= len(bad_atom_walk):
+        bad_atom_index = 0
+    bad_atom_surf = bad_atom_walk[int(bad_atom_index)]
+
+def proton_animation():
+    global proton_surf, proton_index
+
+    proton_index += 0.1
+    if proton_index >= len(proton_fly):
+        proton_index = 0
+    proton_surf = proton_fly[int(proton_index)]
 
 # Setup
 pygame.init()
@@ -100,20 +106,31 @@ sky_surface = pygame.transform.rotozoom(sky_surface,0,1.5)
 ground_surface = pygame.image.load('graphics/ground.png').convert()
 ground_surface = pygame.transform.rotozoom(ground_surface,0,1.5)
 
-# Obstacles
-snail_walk_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-snail_walk_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
-snail_index = 0
-snail_walk = [snail_walk_1,snail_walk_2]
-snail_surf = snail_walk[snail_index]
+# Enemies
+good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
+good_atom_2 = pygame.image.load('graphics/atoms/good_atom2.png').convert_alpha()
+good_atom_index = 0
+good_atom_walk = [good_atom_1,good_atom_2]
+good_atom_surf = good_atom_walk[good_atom_index]
 
-fly_fly_1 = pygame.image.load('graphics/fly/fly1.png').convert_alpha()
-fly_fly_2 = pygame.image.load('graphics/fly/fly2.png').convert_alpha()
-fly_index = 0
-fly_fly = [fly_fly_1,fly_fly_2]
-fly_surf = fly_fly[fly_index]
+bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
+bad_atom_1 = pygame.transform.rotozoom(bad_atom_1,0,2)
+bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
+bad_atom_2 = pygame.transform.rotozoom(bad_atom_2,0,2)
+bad_atom_index = 0
+bad_atom_walk = [bad_atom_1,bad_atom_2]
+bad_atom_surf = bad_atom_walk[bad_atom_index]
 
-obstacle_rect_list = []
+bad_atom_rect_list = []
+
+# Items
+proton_1 = pygame.image.load('graphics/items/proton1.png')
+proton_2 = pygame.image.load('graphics/items/proton2.png')
+proton_fly = [proton_1,proton_2]
+proton_index = 0
+proton_surf = proton_fly[proton_index]
+
+proton_rect = proton_surf.get_rect(center = (100,100))
 
 # Player Characters
 
@@ -167,9 +184,9 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if randint(0,2):
-                obstacle_rect_list.append(snail_surf.get_rect(bottomright = (randint(900,1100),300))) 
+                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),200))) 
             else:
-                obstacle_rect_list.append(fly_surf.get_rect(bottomright = (randint(900,1100),randint(80,220)))) 
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
 
     if game_active:
         screen.blit(sky_surface,(0,0)) # block image transfer -> to display images in screen
@@ -185,18 +202,22 @@ while running: # The game will be continuously updated.
         screen.blit(player_surf,player_rect)
 
         # Obstacle movement
-        obstacle_rect_list = obstacle_movement(obstacle_rect_list)
-        snail_animation()
-        fly_animation()
+        bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
+
+        good_atom_animation()
+        bad_atom_animation()
+
+        # Itemas
+        proton_animation()
 
         # Collisions
-        game_active = collisions(player_rect,obstacle_rect_list)
+        game_active = collisions(player_rect,bad_atom_rect_list)
 
     else:
         screen.fill((94,129,162))
         screen.blit(player_stand,player_stand_rect)
         screen.blit(title_surf,title_rect)
-        obstacle_rect_list.clear()
+        bad_atom_rect_list.clear()
         player_rect.midbottom = (80,450)
         player_gravity = 0
 
