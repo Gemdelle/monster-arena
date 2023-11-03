@@ -1,6 +1,7 @@
 import pygame
 from sys import exit # to exit the game without having issues with the True loop
 from random import randint
+import math
 
 # 01. Basic Setup
 # 02. Surfaces
@@ -96,7 +97,9 @@ def proton_animation():
 
 # Setup
 pygame.init()
-screen = pygame.display.set_mode((1200,650)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 650
+screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
 clock = pygame.time.Clock() # clock object to handle frame rate
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
@@ -107,9 +110,15 @@ score = 0
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
 sky_surface = pygame.transform.rotozoom(sky_surface,0,1.2)
+sky_surface_width = sky_surface.get_width()
 
 sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
 sky_background_surface = pygame.transform.rotozoom(sky_background_surface,0,0.35)
+
+# Define game variables
+scroll_sky_background = 0
+scroll_sky = 0
+tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
 ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
@@ -198,9 +207,23 @@ while running: # The game will be continuously updated.
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
 
     if game_active:
-        print(player_rect.midbottom[1],score)
-        screen.blit(sky_background_surface,(0,110)) # block image transfer -> to display images in screen
-        screen.blit(sky_surface,(0,0))
+        # print(player_rect.midbottom[1],score)
+        # SKY BACKGROUND SURFACE
+        for i in range(0,tiles):
+            screen.blit(sky_background_surface,(i * sky_surface_width + scroll_sky_background,110))
+        # scrolling sky_surface background and reseting
+        scroll_sky_background -= 3
+        if abs(scroll_sky_background) > sky_surface_width:
+            scroll_sky_background = 0
+
+        # SKY SURFACE
+        for i in range(0,tiles):
+            screen.blit(sky_surface,(i * sky_surface_width + scroll_sky,0))
+        # scrolling sky_surface background and reseting
+        scroll_sky -= 5
+        if abs(scroll_sky) > sky_surface_width:
+            scroll_sky = 0
+
         screen.blit(ground_surface,(0,450))
 
         score = displayScore()
