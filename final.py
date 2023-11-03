@@ -198,26 +198,24 @@ while running: # The game will be continuously updated.
                 #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
                 #             player_gravity = -20
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    move_left = True
                 if event.key == pygame.K_RIGHT:
                     move_right = True 
             if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    move_left = False
                 if  event.key == pygame.K_RIGHT:
                     move_right = False
+            if move_left:
+                player_rect.right -= 10
+                if player_rect.right <= 140:
+                    player_rect.right = 140
             if move_right:
                 player_rect.right += 10
                 if player_rect.right >= 1190:
                     player_rect.right = 1190
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    move_left = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    move_left = False
-            if move_left:
-                player_rect.right -= 10
-                if player_rect.right <= 140:
-                    player_rect.right = 140
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
