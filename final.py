@@ -7,7 +7,7 @@ from random import randint
 
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
-    score_surf = test_font.render(str(current_time),False,(64,4,64))
+    score_surf = test_font.render(str(current_time),False,'White')
     score_rect = score_surf.get_rect(center = (600,50))
     screen.blit(score_surf,score_rect)
 
@@ -101,10 +101,14 @@ start_time = 0
 score = 0
 
 # Surfaces
-sky_surface = pygame.image.load('graphics/Sky.png').convert()
-sky_surface = pygame.transform.rotozoom(sky_surface,0,1.5)
-ground_surface = pygame.image.load('graphics/ground.png').convert()
-ground_surface = pygame.transform.rotozoom(ground_surface,0,1.5)
+sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
+sky_surface = pygame.transform.rotozoom(sky_surface,0,1.2)
+
+sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
+sky_background_surface = pygame.transform.rotozoom(sky_background_surface,0,0.35)
+
+ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
+ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
 
 # Enemies
 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
@@ -186,7 +190,8 @@ while running: # The game will be continuously updated.
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
 
     if game_active:
-        screen.blit(sky_surface,(0,0)) # block image transfer -> to display images in screen
+        screen.blit(sky_background_surface,(0,110)) # block image transfer -> to display images in screen
+        screen.blit(sky_surface,(0,0))
         screen.blit(ground_surface,(0,450))
 
         score = displayScore()
