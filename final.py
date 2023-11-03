@@ -162,6 +162,7 @@ player_index = 0
 player_surf = player_walk[player_index]
 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
 
+
 player_rect = player_surf.get_rect(midbottom = (100,450))
 player_gravity = 0
 
@@ -183,6 +184,7 @@ pygame.time.set_timer(obstacle_timer,1500)
 
 running = True
 
+jump = False
 move_right = False
 move_left = False
 crouch = False
@@ -198,8 +200,10 @@ while running: # The game will be continuously updated.
         if game_active:
             if event.type == pygame.KEYDOWN:
                 # print(player_rect.midbottom[1],score)
-                if player_rect.bottom == 450 and event.key == pygame.K_SPACE or player_rect.bottom == 450 and event.key == pygame.K_w:
-                        player_gravity = -20
+                if player_rect.bottom == 450 and event.key == pygame.K_w:
+                    jump = True
+                if jump == True:
+                    player_gravity = -20
                 # if score > 10 and score < 20:
                 #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
                 #             player_gravity = -20
@@ -231,9 +235,16 @@ while running: # The game will be continuously updated.
                     player_rect.right += 14
                 if move_left:
                     player_rect.right -= 14
+            player_animation()
 
             if crouch:
                 player_surf = player_crouch
+            if player_surf == player_crouch:
+                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],500))
+                # player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom))
+            elif not jump:
+                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],450))
+            
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
@@ -271,7 +282,6 @@ while running: # The game will be continuously updated.
         player_rect.y += player_gravity
         if player_rect.bottom >= 450:
             player_rect.bottom = 450
-        player_animation()
         screen.blit(player_surf,player_rect)
 
         # Obstacle movement
