@@ -178,6 +178,8 @@ obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
 running = True
+move_right = False
+move_left = False
 
 while running: # The game will be continuously updated.
     for event in pygame.event.get():
@@ -195,6 +197,28 @@ while running: # The game will be continuously updated.
                 # if score > 10 and score < 20:
                 #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
                 #             player_gravity = -20
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    move_right = True 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_d:
+                    move_right = False
+            if move_right: 
+                print(player_rect.right)
+                player_rect.right += 10
+                if player_rect.right >= 1190:
+                    player_rect.right = 1190
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    move_left = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    move_left = False
+            if move_left:
+                player_rect.right -= 10
+                if player_rect.right <= 140:
+                    player_rect.right = 140
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
@@ -253,12 +277,11 @@ while running: # The game will be continuously updated.
         screen.blit(title_surf,title_rect)
         bad_atom_rect_list.clear()
         player_rect.midbottom = (80,450)
-        player_rect.midbottom = (80,450)
 
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (400,330))
+        score_message_rect = score_message.get_rect(center = (600,450))
 
         if score == 0:
             screen.blit(instructions,instructions_rect)
