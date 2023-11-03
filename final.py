@@ -169,6 +169,8 @@ obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
 running = True
+move_right = False
+move_left = False
 
 while running: # The game will be continuously updated.
     for event in pygame.event.get():
@@ -186,6 +188,28 @@ while running: # The game will be continuously updated.
                 # if score > 10 and score < 20:
                 #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
                 #             player_gravity = -20
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    move_right = True 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_d:
+                    move_right = False
+            if move_right: 
+                print(player_rect.right)
+                player_rect.right += 10
+                if player_rect.right >= 1190:
+                    player_rect.right = 1190
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    move_left = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    move_left = False
+            if move_left:
+                player_rect.right -= 10
+                if player_rect.right <= 140:
+                    player_rect.right = 140
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
@@ -198,7 +222,7 @@ while running: # The game will be continuously updated.
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
 
     if game_active:
-        print(player_rect.midbottom[1],score)
+        # print(player_rect.midbottom[1],score)
         screen.blit(sky_background_surface,(0,110)) # block image transfer -> to display images in screen
         screen.blit(sky_surface,(0,0))
         screen.blit(ground_surface,(0,450))
