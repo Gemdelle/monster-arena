@@ -8,7 +8,7 @@ from random import randint
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,(64,4,64))
-    score_rect = score_surf.get_rect(center = (400,50))
+    score_rect = score_surf.get_rect(center = (600,50))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -147,14 +147,14 @@ player_gravity = 0
 # Intro Screen
 player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2) # overwrites variable to scale image 
-player_stand_rect = player_stand.get_rect(center = (400,200))
+player_stand_rect = player_stand.get_rect(center = (600,300))
 
 # text
 title_surf = test_font.render('Monster Arena',False, 'White')
-title_rect = title_surf.get_rect(center = (400,70))
+title_rect = title_surf.get_rect(center = (600,70))
 
 instructions = test_font.render('Press space to start',False,'White')
-instructions_rect = instructions.get_rect(center = (400,330))
+instructions_rect = instructions.get_rect(center = (600,430))
 
 # Timer
 obstacle_timer = pygame.USEREVENT + 1
