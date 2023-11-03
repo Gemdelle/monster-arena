@@ -40,32 +40,30 @@ def player_animation():
     if score < 10:
         player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
-        player_jump = player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
+        player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
     elif score > 10 and score <= 20:
         player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
-        player_jump = player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
-        player_rect.midbottom = (80,410)
+        player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
+        # player_rect.midbottom = (80,404)
 
     elif score > 20 and score <= 30:
         player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
-        player_jump = player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
-        player_rect.midbottom = (80,450)
+        player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
+        # player_rect.midbottom = (80,450)
 
     elif score > 30:
         player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
-        player_jump = player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
-        player_rect.midbottom = (80,430)
-
+        player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+        # player_rect.midbottom = (80,430)
 
     player_walk = [player_walk_1,player_walk_2]
-    # player_surf = player_walk[player_index]
-    # player_rect = player_surf.get_rect(bottomright = (100,300))
-
+    
     if player_rect.bottom < 300: # play walking animation if the player is on the floor
-        player_surf = player_jump
+        if score < 10:
+            player_surf = player_jump
     else: # play jump animation if it is not on the floor
         player_index += 0.1
         if player_index >= len(player_walk):
@@ -144,14 +142,14 @@ proton_rect = proton_surf.get_rect(center = (100,100))
 
 # Player Characters
 
-player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
-player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
+player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
+player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
 player_index = 0
 player_surf = player_walk[player_index]
-player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
+player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
 
-player_rect = player_surf.get_rect(bottomright = (100,300))
+player_rect = player_surf.get_rect(midbottom = (100,450))
 player_gravity = 0
 
 # Intro Screen
@@ -182,8 +180,12 @@ while running: # The game will be continuously updated.
 
         if game_active:
             if event.type == pygame.KEYDOWN:
-                if player_rect.bottom == 450 and event.key == pygame.K_SPACE:
+                # print(player_rect.midbottom[1],score)
+                if player_rect.midbottom[1] == 450 and event.key == pygame.K_SPACE:
                         player_gravity = -20
+                # if score > 10 and score < 20:
+                #     if player_rect.midbottom[1] == 404 and event.key == pygame.K_SPACE:
+                #             player_gravity = -20
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
@@ -196,6 +198,7 @@ while running: # The game will be continuously updated.
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
 
     if game_active:
+        print(player_rect.midbottom[1],score)
         screen.blit(sky_background_surface,(0,110)) # block image transfer -> to display images in screen
         screen.blit(sky_surface,(0,0))
         screen.blit(ground_surface,(0,450))
