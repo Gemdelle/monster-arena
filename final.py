@@ -37,8 +37,29 @@ def collisions(player,obstacles):
     return True
 
 def player_animation():
-    global player_surf, player_index
-        
+    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, score
+    
+    if score < 10:
+            player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
+            player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
+            player_jump = player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
+    elif score > 10 and score < 20:
+        player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
+        player_jump = player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
+    elif score > 20 and score < 30:
+        player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
+        player_jump = player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
+    elif score > 30 and score < 40:
+        player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
+        player_jump = player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+
+    player_walk = [player_walk_1,player_walk_2]
+    # player_surf = player_walk[player_index]
+    # player_rect = player_surf.get_rect(bottomright = (100,300))
+
     if player_rect.bottom < 300: # play walking animation if the player is on the floor
         player_surf = player_jump
     else: # play jump animation if it is not on the floor
@@ -94,12 +115,14 @@ fly_surf = fly_fly[fly_index]
 
 obstacle_rect_list = []
 
-player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
-player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
+# Player Characters
+
+player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
+player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
 player_index = 0
 player_surf = player_walk[player_index]
-player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
+player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
 
 player_rect = player_surf.get_rect(bottomright = (100,300))
 player_gravity = 0
@@ -153,8 +176,7 @@ while running: # The game will be continuously updated.
         screen.blit(ground_surface,(0,450))
 
         score = displayScore()
-
-        # Player
+        
         player_gravity += 1
         player_rect.y += player_gravity
         if player_rect.bottom >= 450:
