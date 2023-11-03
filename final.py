@@ -94,12 +94,12 @@ fly_surf = fly_fly[fly_index]
 
 obstacle_rect_list = []
 
-player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
-player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
+player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
+player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
 player_index = 0
 player_surf = player_walk[player_index]
-player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
 
 player_rect = player_surf.get_rect(bottomright = (100,300))
 player_gravity = 0
