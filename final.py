@@ -230,12 +230,11 @@ while running: # The game will be continuously updated.
         screen.blit(title_surf,title_rect)
         bad_atom_rect_list.clear()
         player_rect.midbottom = (80,450)
-        player_rect.midbottom = (80,450)
 
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (400,330))
+        score_message_rect = score_message.get_rect(center = (600,450))
 
         if score == 0:
             screen.blit(instructions,instructions_rect)
