@@ -204,12 +204,12 @@ while running: # The game will be continuously updated.
                 # print(player_rect.midbottom[1],score)
                 if player_rect.bottom == 450 and event.key == pygame.K_SPACE or player_rect.bottom == 450 and event.key == pygame.K_w:
                     player_gravity = -20
-            #         jump = True
-            # if event.type == pygame.KEYUP:
-            #     if event.key == pygame.K_w:
-            #         jump = False
+                    jump = True
 
-                #   player_gravity = -20
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_w:
+                    jump = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     move_left = True
@@ -247,10 +247,9 @@ while running: # The game will be continuously updated.
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom))
                 print(player_rect.midbottom[1])
             
-            if player_rect.midbottom[1] == 500 and not crouch:
+            if not crouch and jump == False:
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],450))
-            # elif player_rect.bottom < 400:
-            #     player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],450))
+
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
