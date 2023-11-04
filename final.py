@@ -98,6 +98,15 @@ def proton_animation():
         proton_index = 0
     proton_surf = proton_fly[int(proton_index)]
 
+def portal_1_animation():
+    global portal_1_surf, portal_1_index
+
+    portal_1_index += 0.1
+    if portal_1_index >= len(portal_1_movement):
+        portal_1_index = 0
+    portal_1_surf = portal_1_movement[int(portal_1_index)]
+
+
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1200
@@ -125,6 +134,15 @@ tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
 ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
+
+# Bars
+protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.4) 
+protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
+
+electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.4)
+electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 
 # Enemies
 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
@@ -265,10 +283,9 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if randint(0,2):
-                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),200))) 
-            else:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300)))
+                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),120))) 
+            # else:
+            #     bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),200)))
 
     if game_active:
         # print(player_rect.midbottom[1],score)
@@ -290,6 +307,10 @@ while running: # The game will be continuously updated.
 
         screen.blit(ground_surface,(0,450))
 
+        # BARS
+        screen.blit(protons_bar_sur, (50,50))
+        screen.blit(electrons_bar_sur, (50,120))
+
         score = displayScore()
         
         player_gravity += 1
@@ -304,11 +325,18 @@ while running: # The game will be continuously updated.
         good_atom_animation()
         bad_atom_animation()
 
-        # Itemas
+        # Items
         proton_animation()
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
+
+        # Portals
+
+        if score > 10 and score < 20:
+            screen.blit(portal_1_surf,portal_1_rect)
+        
+        portal_1_animation()
 
     else:
         screen.fill((94,129,162))
