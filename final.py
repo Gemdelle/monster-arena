@@ -91,6 +91,22 @@ def proton_animation():
         proton_index = 0
     proton_surf = proton_fly[int(proton_index)]
 
+def proton_movement(proton_list):
+   
+    if proton_list:
+        for proton_rec in proton_list:
+           proton_rec.x -= 5
+
+           if proton_rec.bottom <= 300:
+                screen.blit(proton_surf,proton_rec)
+        
+        proton_list = [proton for proton in proton_list if proton.x > -200] # delete snails that are beyond -100(x)
+
+        return proton_list
+    else:
+        return []
+
+
 # crear electron_animation (caballito)
 def electron_animation():
     global electron_surf, electron_index
@@ -100,22 +116,20 @@ def electron_animation():
         electron_index = 0
     electron_surf = electron_fly[int(electron_index)]
 
-def electron_movement(obstacle_list):
+def electron_movement(electron_list):
    
-    if obstacle_list:
-        for obstacle_rec in obstacle_list:
-            obstacle_rec.x -= 5
+    if electron_list:
+        for electron_rec in electron_list:
+           electron_rec.x -= 5
 
-            if obstacle_rec.bottom <= 300:
-                screen.blit(electron_surf,obstacle_rec)
-          
-        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
+           if electron_rec.bottom <= 300:
+                screen.blit(electron_surf,electron_rec)
+        
+        electron_list = [electron for electron in electron_list if electron.x > -200] # delete snails that are beyond -100(x)
 
-        return obstacle_list
+        return electron_list
     else:
         return []
-
-
 
 def portal_animation():
     global portal_surf, portal_index
@@ -209,6 +223,9 @@ proton_fly = [proton_1,proton_2]
 proton_index = 0
 proton_surf = proton_fly[proton_index]
 
+proton_rect_list = []
+proton_spawn_count = 0
+
 proton_rect = proton_surf.get_rect(center = (100,100))
 
 electron_1 = pygame.image.load('graphics/items/electron1.png')
@@ -216,6 +233,9 @@ electron_2 = pygame.image.load('graphics/items/electron2.png')
 electron_fly = [electron_1,electron_2]
 electron_index = 0
 electron_surf = electron_fly[electron_index]
+
+electron_rect_list = []
+electron_spawn_count = 0
 
 electron_rect = electron_surf.get_rect(center = (100,100))
 
@@ -332,15 +352,26 @@ while running: # The game will be continuously updated.
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
-            if good_atom_spawn_count <= config[current_level]["good_atoms"]:
+            if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),200)))
                 good_atom_spawn_count += 1
                 print("good_atom_spawn_count ", good_atom_spawn_count)
 
-            if bad_atom_spawn_count <= config[current_level]["bad_atoms"]:
+            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(80,220))))
                 bad_atom_spawn_count += 1
                 print("bad_atom_spawn_count ", bad_atom_spawn_count)
+
+            if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
+                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                electron_spawn_count += 1
+                print("electron_spawn_count ", electron_spawn_count)
+
+            if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
+                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                proton_spawn_count += 1
+                print("electron_spawn_count ", electron_spawn_count)
+                
 
             if score < 10:
                 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
@@ -422,7 +453,11 @@ while running: # The game will be continuously updated.
         bad_atom_animation()
 
         # Items
+        electron_rect_list = electron_movement(electron_rect_list)
+        proton_rect_list = proton_movement(proton_rect_list)
+        # proton_rect_list = proton_movement(proton_rect_list)
         proton_animation()
+        electron_animation()
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
