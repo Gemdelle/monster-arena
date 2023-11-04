@@ -143,11 +143,11 @@ ground_sur_3_rect = ground_sur_3.get_rect(center = (100,100))
 
 # Bars
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
-protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.4) 
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.6) 
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
-electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.4)
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.6)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 
 # Enemies
@@ -371,7 +371,7 @@ while running: # The game will be continuously updated.
 
         # BARS
         screen.blit(protons_bar_sur, (50,50))
-        screen.blit(electrons_bar_sur, (50,120))
+        screen.blit(electrons_bar_sur, (50,150))
 
         score = displayScore()
         
