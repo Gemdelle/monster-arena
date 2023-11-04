@@ -154,6 +154,14 @@ proton_surf = proton_fly[proton_index]
 
 proton_rect = proton_surf.get_rect(center = (100,100))
 
+electron_1 = pygame.image.load('graphics/items/electron1.png')
+electron_2 = pygame.image.load('graphics/items/electron2.png')
+electron_fly = [electron_1,electron_2]
+electron_index = 0
+electron_surf = electron_fly[electron_index]
+
+electron_rect = electron_surf.get_rect(center = (100,100))
+
 # Player Characters
 
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
