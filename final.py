@@ -98,6 +98,15 @@ def proton_animation():
         proton_index = 0
     proton_surf = proton_fly[int(proton_index)]
 
+def portal_1_animation():
+    global portal_1_surf, portal_1_index
+
+    portal_1_index += 0.1
+    if portal_1_index >= len(portal_1_movement):
+        portal_1_index = 0
+    portal_1_surf = portal_1_movement[int(portal_1_index)]
+
+
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1200
@@ -145,9 +154,7 @@ good_atom_surf = good_atom_walk[good_atom_index]
 good_atom_rect_list = []
 
 bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
-bad_atom_1 = pygame.transform.rotozoom(bad_atom_1,0,2)
 bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
-bad_atom_2 = pygame.transform.rotozoom(bad_atom_2,0,2)
 bad_atom_index = 0
 bad_atom_walk = [bad_atom_1,bad_atom_2]
 bad_atom_surf = bad_atom_walk[bad_atom_index]
@@ -163,8 +170,16 @@ proton_surf = proton_fly[proton_index]
 
 proton_rect = proton_surf.get_rect(center = (100,100))
 
-# Player Characters
+# Portals
+portal_1_up = pygame.image.load('graphics/portal/portal1up.png')
+portal_1_down = pygame.image.load('graphics/portal/portal1down.png')
+portal_1_movement = [portal_1_up,portal_1_down]
+portal_1_index = 0
+portal_1_surf = portal_1_movement[portal_1_index]
 
+portal_1_rect = portal_1_surf.get_rect(midbottom = (500,400))
+
+# Player Characters
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
@@ -266,10 +281,9 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if randint(0,2):
-                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),200))) 
-            else:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),randint(80,220)))) 
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),300)))
+                bad_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1100,1500),120))) 
+            # else:
+            #     bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1100,1500),200)))
 
     if game_active:
         # print(player_rect.midbottom[1],score)
@@ -309,11 +323,18 @@ while running: # The game will be continuously updated.
         good_atom_animation()
         bad_atom_animation()
 
-        # Itemas
+        # Items
         proton_animation()
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
+
+        # Portals
+
+        if score > 10 and score < 20:
+            screen.blit(portal_1_surf,portal_1_rect)
+        
+        portal_1_animation()
 
     else:
         screen.fill((94,129,162))
