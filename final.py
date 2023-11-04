@@ -332,6 +332,9 @@ while running: # The game will be continuously updated.
         game_active = collisions(player_rect,bad_atom_rect_list)
 
         # Portals
+        portal_1_surf_up = pygame.image.load('graphics/assets/sprites/png/portal1.png')
+        portal_1_surf_down = pygame.image.load('graphics/assets/sprites/png/portal2.png')
+        portal_movement = [portal_1_surf_up, portal_1_surf_down]
 
         if score > 10 and score < 20:
             screen.blit(portal_1_surf,portal_1_rect)
