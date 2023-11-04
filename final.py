@@ -250,7 +250,7 @@ player_surf = player_walk[player_index]
 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
 
 
-player_rect = player_surf.get_rect(midbottom = (100,450))
+player_rect = player_surf.get_rect(midbottom = (0,0))
 player_gravity = 0
 
 # Intro Screen
@@ -297,7 +297,8 @@ while running: # The game will be continuously updated.
         if game_active:
             if event.type == pygame.KEYDOWN:
                 # print(player_rect.midbottom[1],score)
-                if player_rect.bottom == 710 and event.key == pygame.K_SPACE or player_rect.bottom == 710 and event.key == pygame.K_w:
+
+                if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
                     player_gravity = -25
                     print(player_rect.midbottom[1])
                     jump = True
@@ -327,8 +328,8 @@ while running: # The game will be continuously updated.
                     player_rect.right = 140
             if move_right:
                 player_rect.right += 10
-                if player_rect.right >= 1190:
-                    player_rect.right = 1190
+                if player_rect.right >= 1920:
+                    player_rect.right = 1920
             if score > 20 and score <= 30:
                 if move_right:
                     player_rect.right += 14
@@ -427,9 +428,17 @@ while running: # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
+        ground_1 = (0,450)
+        ground_2 = (600,920)
+        ground_3 = (1300,1950)
+
         screen.blit(ground_sur_1,(0,810))
         screen.blit(ground_sur_2,(600,510))
         screen.blit(ground_sur_3,(1300,610))
+
+        walking_sur_1 = pygame.draw.line(screen, 'Blue', (0,810), (480,810), 2)
+        walking_sur_2 = pygame.draw.line(screen, 'Blue', (600,510), (960,510), 2)
+        walking_sur_3 = pygame.draw.line(screen, 'Blue', (1300,610), (1950,610), 2)
 
         rect = pygame.Rect(0,0,1920,80)
         pygame.draw.rect(screen, 'White', rect)
@@ -439,11 +448,19 @@ while running: # The game will be continuously updated.
         screen.blit(electrons_bar_sur, (50,210))
 
         score = displayScore()
-        
+
         player_gravity += 1
         player_rect.y += player_gravity
-        if player_rect.bottom >= 710:
-            player_rect.bottom = 710
+        if player_rect.x > ground_1[0] and player_rect.x < ground_1[1]:
+            if player_rect.bottom >= 810:
+                player_rect.bottom = 810
+        if player_rect.x > ground_2[0] and player_rect.x < ground_2[1]:
+            if player_rect.bottom >= 510:
+                player_rect.bottom = 510
+        if player_rect.x > ground_3[0] and player_rect.x < ground_3[1]:
+            if player_rect.bottom >= 610:
+                player_rect.bottom = 610
+
         screen.blit(player_surf,player_rect)
 
         # Obstacle movement
