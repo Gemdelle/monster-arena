@@ -26,7 +26,6 @@ def bad_atom_movement(obstacle_list):
 
             if obstacle_rec.bottom <= 300:
                 screen.blit(bad_atom_surf,obstacle_rec)
-                bad_atom_spawn_count += 1
 
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
 
@@ -36,13 +35,14 @@ def bad_atom_movement(obstacle_list):
 
 def good_atom_movement(obstacle_list):
     global good_atom_spawn_count
+
     if obstacle_list:
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
             if obstacle_rec.bottom <= 300:
                 screen.blit(good_atom_surf,obstacle_rec)
-                good_atom_spawn_count += 1
+
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
 
         return obstacle_list
@@ -57,52 +57,7 @@ def collisions(player,obstacles):
     return True
 
 def player_animation():
-    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count, portal_down, portal_up, portal_movement
-    
-    if score < 10:
-        player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
-        player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
-        player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
-        player_crouch = pygame.image.load('graphics/player/hydrogen_character_crouch.png')
-        current_level = 1
-        good_atom_spawn_count = 0
-        bad_atom_spawn_count = 0
-
-    elif score > 10 and score <= 20:
-        player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
-        player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
-        player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
-        player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
-        portal_down = pygame.image.load('graphics/portal/portal1up.png')
-        portal_up = pygame.image.load('graphics/portal/portal1down.png')
-        current_level = 2
-        good_atom_spawn_count = 0
-        bad_atom_spawn_count = 0
-
-    elif score > 20 and score <= 30:
-        player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
-        player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
-        player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
-        player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
-        portal_up = pygame.image.load('graphics/portal/portal2up.png')
-        portal_down = pygame.image.load('graphics/portal/portal2down.png')
-        current_level = 3
-        good_atom_spawn_count = 0
-        bad_atom_spawn_count = 0
-
-    elif score > 30:
-        player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
-        player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
-        player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
-        player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
-        portal_up = pygame.image.load('graphics/portal/portal3up.png')
-        portal_down = pygame.image.load('graphics/portal/portal3down.png')
-        current_level = 4
-        good_atom_spawn_count = 0
-        bad_atom_spawn_count = 0
-
-    player_walk = [player_walk_1,player_walk_2]
-    portal_movement = [portal_up,portal_down]
+    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count, player_walk
     
     if player_rect.bottom < 710: # play walking animation if the player is on the floor
         player_surf = player_jump
@@ -159,6 +114,8 @@ game_active = False
 start_time = 0
 score = 0
 current_level = 1
+
+is_changing_level = False
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
@@ -337,10 +294,50 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if good_atom_spawn_count <= config[current_level]["good_atoms"]:
-                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(2000,6000),200)))
+                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                good_atom_spawn_count += 1
+                print("good_atom_spawn_count ", good_atom_spawn_count)
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"]:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(2000,6000),randint(80,220))))
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(80,220))))
+                bad_atom_spawn_count += 1
+                print("bad_atom_spawn_count ", bad_atom_spawn_count)
+
+            if score < 10:
+                player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
+                player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
+                player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
+                player_crouch = pygame.image.load('graphics/player/hydrogen_character_crouch.png')
+                current_level = 1
+
+            elif 10 < score <= 20:
+                player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
+                player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
+                player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
+                player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
+                portal_down = pygame.image.load('graphics/portal/portal1up.png')
+                portal_up = pygame.image.load('graphics/portal/portal1down.png')
+                current_level = 2
+
+            elif 20 < score <= 30:
+                player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
+                player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
+                player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
+                player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
+                portal_up = pygame.image.load('graphics/portal/portal2up.png')
+                portal_down = pygame.image.load('graphics/portal/portal2down.png')
+                current_level = 3
+
+            elif score > 30:
+                player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
+                player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
+                player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+                player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
+                portal_up = pygame.image.load('graphics/portal/portal3up.png')
+                portal_down = pygame.image.load('graphics/portal/portal3down.png')
+                current_level = 4
+
+            player_walk = [player_walk_1, player_walk_2]
 
 
     if game_active:
@@ -377,7 +374,6 @@ while running: # The game will be continuously updated.
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
         good_atom_rect_list = good_atom_movement(good_atom_rect_list)
-
         good_atom_animation()
         bad_atom_animation()
 
