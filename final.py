@@ -12,7 +12,7 @@ from Config.config import config
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,'White')
-    score_rect = score_surf.get_rect(center = (960,100))
+    score_rect = score_surf.get_rect(center = (960,150))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -133,8 +133,6 @@ def portalMovement():
         portal_rect.midbottom = (2000,660)
     
 
-
-
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
@@ -176,11 +174,11 @@ ground_sur_3_rect = ground_sur_3.get_rect(center = (100,100))
 
 # Bars
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
-protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.6) 
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55) 
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
-electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.6)
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.55)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 
 # Enemies
@@ -358,7 +356,6 @@ while running: # The game will be continuously updated.
                 player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
                 portal_down = pygame.image.load('graphics/portal/portal1up.png')
                 portal_up = pygame.image.load('graphics/portal/portal1down.png')
-                current_level = 2
 
             elif 20 < score <= 30:
                 player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
@@ -399,13 +396,16 @@ while running: # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
-        screen.blit(ground_sur_1,(0,510))
-        screen.blit(ground_sur_2,(600,810))
+        screen.blit(ground_sur_1,(0,810))
+        screen.blit(ground_sur_2,(600,510))
         screen.blit(ground_sur_3,(1300,610))
 
+        rect = pygame.Rect(0,0,1920,80)
+        pygame.draw.rect(screen, 'White', rect)
+
         # BARS
-        screen.blit(protons_bar_sur, (50,50))
-        screen.blit(electrons_bar_sur, (50,150))
+        screen.blit(protons_bar_sur, (50,120))
+        screen.blit(electrons_bar_sur, (50,210))
 
         score = displayScore()
         
@@ -455,6 +455,5 @@ while running: # The game will be continuously updated.
         else:
             screen.blit(score_message,score_message_rect)
         
-
     pygame.display.update() # update the screen
     clock.tick(60) # while True runs 60 times per second
