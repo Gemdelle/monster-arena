@@ -93,13 +93,22 @@ def proton_animation():
 
 # crear electron_animation (caballito)
 
-def portal_1_animation():
-    global portal_1_surf, portal_1_index
+def portal_animation():
+    global portal_surf, portal_index
 
-    portal_1_index += 0.1
-    if portal_1_index >= len(portal_movement):
-        portal_1_index = 0
-    portal_1_surf = portal_movement[int(portal_1_index)]
+    portal_index += 0.1
+    if portal_index >= len(portal_movement):
+        portal_index = 0
+    portal_surf = portal_movement[int(portal_index)] 
+
+def portalMovement():
+    portal_rect.x -= 5
+    if portal_rect.midbottom > (-200,660): 
+        screen.blit(portal_surf, portal_rect)
+    if portal_rect.midbottom < (-200,660):
+        portal_rect.midbottom = (2000,660)
+    
+
 
 
 # Setup
@@ -214,10 +223,10 @@ pygame.time.set_timer(obstacle_timer,1500)
 portal_up = pygame.image.load('graphics/portal/portal1up.png')
 portal_down = pygame.image.load('graphics/portal/portal1down.png')
 portal_movement = [portal_up,portal_down]
-portal_1_index = 0
-portal_1_surf = portal_movement[portal_1_index]
+portal_index = 0
+portal_surf = portal_movement[portal_index]
 
-portal_1_rect = portal_1_surf.get_rect(midbottom = (1100,660))
+portal_rect = portal_surf.get_rect(midbottom = (2000,660))
 
 running = True
 
@@ -289,7 +298,7 @@ while running: # The game will be continuously updated.
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                game_active = True
+                game_active = True 
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
@@ -338,6 +347,7 @@ while running: # The game will be continuously updated.
                 current_level = 4
 
             player_walk = [player_walk_1, player_walk_2]
+            portal_movement = [portal_up,portal_down]            
 
 
     if game_active:
@@ -385,10 +395,14 @@ while running: # The game will be continuously updated.
 
         # Portals
 
-        if score > 10 and score < 20:
-            screen.blit(portal_1_surf, portal_1_rect)
+        if 10 < score < 20:
+            portalMovement()
+        elif 20 < score <= 30:
+            portalMovement()
+        elif 30 < score <= 40:
+            portalMovement()
 
-        portal_1_animation()
+        portal_animation()
 
     else:
         screen.fill((94,129,162))
