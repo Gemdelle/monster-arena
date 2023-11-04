@@ -115,8 +115,6 @@ def electron_movement(obstacle_list):
     else:
         return []
 
-
-
 def portal_animation():
     global portal_surf, portal_index
 
@@ -132,9 +130,6 @@ def portalMovement():
     if portal_rect.midbottom < (-200,660):
         portal_rect.midbottom = (2000,660)
     
-
-
-
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
@@ -334,12 +329,12 @@ while running: # The game will be continuously updated.
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
-            if good_atom_spawn_count <= config[current_level]["good_atoms"]:
+            if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),200)))
                 good_atom_spawn_count += 1
                 print("good_atom_spawn_count ", good_atom_spawn_count)
 
-            if bad_atom_spawn_count <= config[current_level]["bad_atoms"]:
+            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(80,220))))
                 bad_atom_spawn_count += 1
                 print("bad_atom_spawn_count ", bad_atom_spawn_count)
