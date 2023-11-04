@@ -166,8 +166,16 @@ scroll_sky_background = 0
 scroll_sky = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
-ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
-ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
+ground_sur_1 = pygame.image.load('graphics/ground/ground-1.png').convert_alpha()
+ground_sur_1 = pygame.transform.rotozoom(ground_sur_1,0,1.5)
+ground_sur_2 = pygame.image.load('graphics/ground/ground-2.png').convert_alpha()
+ground_sur_2 = pygame.transform.rotozoom(ground_sur_2,0,1.5)
+ground_sur_3 = pygame.image.load('graphics/ground/ground-3.png').convert_alpha()
+ground_sur_3 = pygame.transform.rotozoom(ground_sur_3,0,1.5)
+
+ground_sur_1_rect = ground_sur_1.get_rect(center = (100,100))
+ground_sur_2_rect = ground_sur_2.get_rect(center = (100,100))
+ground_sur_3_rect = ground_sur_3.get_rect(center = (100,100))
 
 # Bars
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
@@ -353,7 +361,9 @@ while running: # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
-        screen.blit(ground_surface,(0,710))
+        screen.blit(ground_sur_1,(0,510))
+        screen.blit(ground_sur_2,(600,810))
+        screen.blit(ground_sur_3,(1300,610))
 
         # BARS
         screen.blit(protons_bar_sur, (50,50))
