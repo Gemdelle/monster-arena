@@ -136,6 +136,8 @@ def proton_animation():
         proton_index = 0
     proton_surf = proton_fly[int(proton_index)]
 
+# crear electron_animation (caballito)
+
 def portal_1_animation():
     global portal_1_surf, portal_1_index
 
