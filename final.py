@@ -92,6 +92,30 @@ def proton_animation():
     proton_surf = proton_fly[int(proton_index)]
 
 # crear electron_animation (caballito)
+def electron_animation():
+    global electron_surf, electron_index
+
+    electron_index += 0.1
+    if electron_index >= len(electron_fly):
+        electron_index = 0
+    electron_surf = electron_fly[int(electron_index)]
+
+def electron_movement(obstacle_list):
+   
+    if obstacle_list:
+        for obstacle_rec in obstacle_list:
+            obstacle_rec.x -= 5
+
+            if obstacle_rec.bottom <= 300:
+                screen.blit(electron_surf,obstacle_rec)
+          
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
+
+        return obstacle_list
+    else:
+        return []
+
+
 
 def portal_1_animation():
     global portal_1_surf, portal_1_index
