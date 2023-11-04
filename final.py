@@ -12,7 +12,7 @@ from Config.config import config
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,'White')
-    score_rect = score_surf.get_rect(center = (600,50))
+    score_rect = score_surf.get_rect(center = (960,100))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -97,7 +97,7 @@ def player_animation():
 
     player_walk = [player_walk_1,player_walk_2]
     
-    if player_rect.bottom < 300: # play walking animation if the player is on the floor
+    if player_rect.bottom < 710: # play walking animation if the player is on the floor
         player_surf = player_jump
     else: # play jump animation if it is not on the floor
         player_index += 0.1
@@ -231,14 +231,14 @@ player_gravity = 0
 # Intro Screen
 player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2) # overwrites variable to scale image 
-player_stand_rect = player_stand.get_rect(center = (600,300))
+player_stand_rect = player_stand.get_rect(center = (960,500))
 
 # text
 title_surf = test_font.render('Monster Arena',False, 'White')
-title_rect = title_surf.get_rect(center = (600,70))
+title_rect = title_surf.get_rect(center = (960,100))
 
 instructions = test_font.render('Press space to start',False,'White')
-instructions_rect = instructions.get_rect(center = (600,430))
+instructions_rect = instructions.get_rect(center = (960,630))
 
 # Timer
 obstacle_timer = pygame.USEREVENT + 1
@@ -251,7 +251,7 @@ portal_1_movement = [portal_1_up,portal_1_down]
 portal_1_index = 0
 portal_1_surf = portal_1_movement[portal_1_index]
 
-portal_1_rect = portal_1_surf.get_rect(midbottom = (500,400))
+portal_1_rect = portal_1_surf.get_rect(midbottom = (1100,660))
 
 running = True
 
@@ -272,8 +272,9 @@ while running: # The game will be continuously updated.
         if game_active:
             if event.type == pygame.KEYDOWN:
                 # print(player_rect.midbottom[1],score)
-                if player_rect.bottom == 450 and event.key == pygame.K_SPACE or player_rect.bottom == 450 and event.key == pygame.K_w:
-                    player_gravity = -20
+                if player_rect.bottom == 710 and event.key == pygame.K_SPACE or player_rect.bottom == 710 and event.key == pygame.K_w:
+                    player_gravity = -25
+                    print(player_rect.midbottom[1])
                     jump = True
 
             if event.type == pygame.KEYUP:
@@ -313,12 +314,12 @@ while running: # The game will be continuously updated.
             if crouch:
                 player_surf = player_crouch
             if player_surf == player_crouch:
-                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],500))
+                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],760))
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom))
                 print(player_rect.midbottom[1])
             
-            if not crouch and jump == False:
-                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],450))
+            if not crouch and player_rect.midbottom[1] < 711 and jump == False:
+                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],710))
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -350,7 +351,7 @@ while running: # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
-        screen.blit(ground_surface,(0,450))
+        screen.blit(ground_surface,(0,710))
 
         # BARS
         screen.blit(protons_bar_sur, (50,50))
@@ -360,8 +361,8 @@ while running: # The game will be continuously updated.
         
         player_gravity += 1
         player_rect.y += player_gravity
-        if player_rect.bottom >= 450:
-            player_rect.bottom = 450
+        if player_rect.bottom >= 710:
+            player_rect.bottom = 710
         screen.blit(player_surf,player_rect)
 
         # Obstacle movement
@@ -389,12 +390,12 @@ while running: # The game will be continuously updated.
         screen.blit(player_stand,player_stand_rect)
         screen.blit(title_surf,title_rect)
         bad_atom_rect_list.clear()
-        player_rect.midbottom = (80,450)
+        player_rect.midbottom = (80,710)
 
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (600,450))
+        score_message_rect = score_message.get_rect(center = (960,540))
 
         if score == 0:
             screen.blit(instructions,instructions_rect)
