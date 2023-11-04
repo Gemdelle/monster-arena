@@ -57,7 +57,7 @@ def collisions(player,obstacles):
     return True
 
 def player_animation():
-    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count
+    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count, portal_down, portal_up, portal_movement
     
     if score < 10:
         player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
@@ -73,6 +73,8 @@ def player_animation():
         player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
         player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
         player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
+        portal_down = pygame.image.load('graphics/portal/portal1up.png')
+        portal_up = pygame.image.load('graphics/portal/portal1down.png')
         current_level = 2
         good_atom_spawn_count = 0
         bad_atom_spawn_count = 0
@@ -82,6 +84,8 @@ def player_animation():
         player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
         player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
         player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
+        portal_up = pygame.image.load('graphics/portal/portal2up.png')
+        portal_down = pygame.image.load('graphics/portal/portal2down.png')
         current_level = 3
         good_atom_spawn_count = 0
         bad_atom_spawn_count = 0
@@ -91,11 +95,14 @@ def player_animation():
         player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
         player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
         player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
+        portal_up = pygame.image.load('graphics/portal/portal3up.png')
+        portal_down = pygame.image.load('graphics/portal/portal3down.png')
         current_level = 4
         good_atom_spawn_count = 0
         bad_atom_spawn_count = 0
 
     player_walk = [player_walk_1,player_walk_2]
+    portal_movement = [portal_up,portal_down]
     
     if player_rect.bottom < 710: # play walking animation if the player is on the floor
         player_surf = player_jump
@@ -133,9 +140,9 @@ def portal_1_animation():
     global portal_1_surf, portal_1_index
 
     portal_1_index += 0.1
-    if portal_1_index >= len(portal_1_movement):
+    if portal_1_index >= len(portal_movement):
         portal_1_index = 0
-    portal_1_surf = portal_1_movement[int(portal_1_index)]
+    portal_1_surf = portal_movement[int(portal_1_index)]
 
 
 # Setup
@@ -245,11 +252,11 @@ obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
 # Portals
-portal_1_up = pygame.image.load('graphics/portal/portal1up.png')
-portal_1_down = pygame.image.load('graphics/portal/portal1down.png')
-portal_1_movement = [portal_1_up,portal_1_down]
+portal_up = pygame.image.load('graphics/portal/portal1up.png')
+portal_down = pygame.image.load('graphics/portal/portal1down.png')
+portal_movement = [portal_up,portal_down]
 portal_1_index = 0
-portal_1_surf = portal_1_movement[portal_1_index]
+portal_1_surf = portal_movement[portal_1_index]
 
 portal_1_rect = portal_1_surf.get_rect(midbottom = (1100,660))
 
