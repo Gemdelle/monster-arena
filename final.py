@@ -92,6 +92,30 @@ def proton_animation():
     proton_surf = proton_fly[int(proton_index)]
 
 # crear electron_animation (caballito)
+def electron_animation():
+    global electron_surf, electron_index
+
+    electron_index += 0.1
+    if electron_index >= len(electron_fly):
+        electron_index = 0
+    electron_surf = electron_fly[int(electron_index)]
+
+def electron_movement(obstacle_list):
+   
+    if obstacle_list:
+        for obstacle_rec in obstacle_list:
+            obstacle_rec.x -= 5
+
+            if obstacle_rec.bottom <= 300:
+                screen.blit(electron_surf,obstacle_rec)
+          
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
+
+        return obstacle_list
+    else:
+        return []
+
+
 
 def portal_animation():
     global portal_surf, portal_index
@@ -139,16 +163,24 @@ scroll_sky_background = 0
 scroll_sky = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
-ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
-ground_surface = pygame.transform.rotozoom(ground_surface,0,2)
+ground_sur_1 = pygame.image.load('graphics/ground/ground-1.png').convert_alpha()
+ground_sur_1 = pygame.transform.rotozoom(ground_sur_1,0,1.5)
+ground_sur_2 = pygame.image.load('graphics/ground/ground-2.png').convert_alpha()
+ground_sur_2 = pygame.transform.rotozoom(ground_sur_2,0,1.5)
+ground_sur_3 = pygame.image.load('graphics/ground/ground-3.png').convert_alpha()
+ground_sur_3 = pygame.transform.rotozoom(ground_sur_3,0,1.5)
+
+ground_sur_1_rect = ground_sur_1.get_rect(center = (100,100))
+ground_sur_2_rect = ground_sur_2.get_rect(center = (100,100))
+ground_sur_3_rect = ground_sur_3.get_rect(center = (100,100))
 
 # Bars
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
-protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.4) 
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.6) 
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
-electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.4)
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.6)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 
 # Enemies
@@ -367,11 +399,13 @@ while running: # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
-        screen.blit(ground_surface,(0,710))
+        screen.blit(ground_sur_1,(0,510))
+        screen.blit(ground_sur_2,(600,810))
+        screen.blit(ground_sur_3,(1300,610))
 
         # BARS
         screen.blit(protons_bar_sur, (50,50))
-        screen.blit(electrons_bar_sur, (50,120))
+        screen.blit(electrons_bar_sur, (50,150))
 
         score = displayScore()
         
