@@ -12,7 +12,7 @@ from Config.config import config
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,'White')
-    score_rect = score_surf.get_rect(center = (835,115))
+    score_rect = score_surf.get_rect(center = (935,115))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -257,7 +257,7 @@ def check_current_player():
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
@@ -368,7 +368,6 @@ electron_spawn_count = 0
 electron_rect = electron_surf.get_rect(center = (100,100))
 
 # Player Characters
-
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
 player_walk = [player_walk_1, player_walk_2]
@@ -535,11 +534,11 @@ while running:  # The game will be continuously updated.
         check_current_player()
     
         # BARS
-        screen.blit(timer_charging,(0,0))
-        screen.blit(timer,(0,0))
-        screen.blit(hidden_sulfur,(0,0))
-        screen.blit(hidden_bromine,(0,0))
-        screen.blit(hidden_xenon,(0,0))
+        screen.blit(timer_charging,(100,0))
+        screen.blit(timer,(100,0))
+        screen.blit(hidden_sulfur,(100,0))
+        screen.blit(hidden_bromine,(100,0))
+        screen.blit(hidden_xenon,(100,0))
         
         screen.blit(protons_bar_sur, (50,120))
         screen.blit(electrons_bar_sur, (50,210))
