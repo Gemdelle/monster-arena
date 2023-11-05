@@ -40,8 +40,8 @@ def good_atom_movement(obstacle_list):
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
-            if obstacle_rec.bottom <= 300:
-                screen.blit(good_atom_surf,obstacle_rec)
+            # if obstacle_rec.bottom <= 1000:  
+            screen.blit(good_atom_surf,obstacle_rec)
 
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
 
@@ -358,22 +358,22 @@ while running: # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
-                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 good_atom_spawn_count += 1
                 print("good_atom_spawn_count ", good_atom_spawn_count)
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(80,220))))
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 bad_atom_spawn_count += 1
                 print("bad_atom_spawn_count ", bad_atom_spawn_count)
 
             if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
-                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 electron_spawn_count += 1
                 print("electron_spawn_count ", electron_spawn_count)
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
-                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),300)))
+                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 proton_spawn_count += 1
                 print("proton_spawn_count ", proton_spawn_count)
                 
