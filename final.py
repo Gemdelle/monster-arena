@@ -218,7 +218,9 @@ bad_atom_spawn_count = 0
 
 # Items
 proton_1 = pygame.image.load('graphics/items/proton1.png')
+proton_1 = pygame.transform.rotozoom(proton_1,0,0.7)
 proton_2 = pygame.image.load('graphics/items/proton2.png')
+proton_2 = pygame.transform.rotozoom(proton_2,0,0.7)
 proton_fly = [proton_1,proton_2]
 proton_index = 0
 proton_surf = proton_fly[proton_index]
@@ -229,7 +231,9 @@ proton_spawn_count = 0
 proton_rect = proton_surf.get_rect(center = (100,100))
 
 electron_1 = pygame.image.load('graphics/items/electron1.png')
+electron_1 = pygame.transform.rotozoom(electron_1,0,0.7)
 electron_2 = pygame.image.load('graphics/items/electron2.png')
+electron_2 = pygame.transform.rotozoom(electron_2,0,0.7)
 electron_fly = [electron_1,electron_2]
 electron_index = 0
 electron_surf = electron_fly[electron_index]
@@ -369,9 +373,9 @@ while running: # The game will be continuously updated.
                 print("electron_spawn_count ", electron_spawn_count)
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
-                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),200)))
+                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),300)))
                 proton_spawn_count += 1
-                print("electron_spawn_count ", electron_spawn_count)
+                print("proton_spawn_count ", proton_spawn_count)
                 
 
             if score < 10:
