@@ -55,6 +55,14 @@ def collisions(player,objects):
                 return False
     return True
 
+def itemsCollisions(player,objects):
+    if objects:
+        for object_rect in objects:
+            if player.colliderect(object_rect):
+                objects.remove(object_rect)
+                return True
+    return False
+
 def player_animation():
     global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count, player_walk
     
@@ -303,7 +311,6 @@ while running: # The game will be continuously updated.
 
                 if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
                     player_gravity = -25
-                    print(player_rect.midbottom[1])
                     jump = True
 
             if event.type == pygame.KEYUP:
@@ -345,7 +352,6 @@ while running: # The game will be continuously updated.
             if player_surf == player_crouch:
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],760))
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom))
-                print(player_rect.midbottom[1])
             
             if not crouch and player_rect.midbottom[1] < 711 and jump == False:
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],710))
@@ -359,22 +365,22 @@ while running: # The game will be continuously updated.
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 good_atom_spawn_count += 1
-                print("good_atom_spawn_count ", good_atom_spawn_count)
+                # print("good_atom_spawn_count ", good_atom_spawn_count)
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 bad_atom_spawn_count += 1
-                print("bad_atom_spawn_count ", bad_atom_spawn_count)
+                # print("bad_atom_spawn_count ", bad_atom_spawn_count)
 
             if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
                 electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 electron_spawn_count += 1
-                print("electron_spawn_count ", electron_spawn_count)
+                # print("electron_spawn_count ", electron_spawn_count)
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
                 proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 proton_spawn_count += 1
-                print("proton_spawn_count ", proton_spawn_count)
+                # print("proton_spawn_count ", proton_spawn_count)
                 
 
             if score < 10:
@@ -481,10 +487,14 @@ while running: # The game will be continuously updated.
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
-        if collisions(player_rect,proton_rect_list):
-            protons += 1
-        if collisions(player_rect,electron_rect_list):
-            electrons += 1
+        if proton_rect_list:
+            if itemsCollisions(player_rect,proton_rect_list):
+                protons += 1
+        if electron_rect_list:
+            if itemsCollisions(player_rect,electron_rect_list):
+                electrons += 1 
+        
+        print(protons)
 
         # Portals
 
