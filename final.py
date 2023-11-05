@@ -257,7 +257,7 @@ def check_current_player():
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 700
+SCREEN_HEIGHT = 1080
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
@@ -517,9 +517,9 @@ while running:  # The game will be continuously updated.
             scroll_sky = 0
 
         ground_1 = (0,450)
-        ground_2 = (550,820)
-        ground_3 = (1000,750)
-        ground_4 = (1300,1950)
+        ground_2 = (510,870)
+        ground_3 = (950,1205)
+        ground_4 = (1270,1950)
 
         screen.blit(ground_sur_1,(0,710))
         screen.blit(ground_sur_2,(550,850))
@@ -551,14 +551,14 @@ while running:  # The game will be continuously updated.
         player_rect.y += player_gravity
 
         if ground_1[0] < player_rect.x < ground_1[1]:
-            if player_rect.bottom >= 810:
-                player_rect.bottom = 810
+            if player_rect.bottom >= 710:
+                player_rect.bottom = 710
         if ground_2[0] < player_rect.x < ground_2[1]:
-            if player_rect.bottom >= 610:
-                player_rect.bottom = 610
+            if player_rect.bottom >= 850:
+                player_rect.bottom = 850
         if ground_3[0] < player_rect.x < ground_3[1]:
-            if player_rect.bottom >= 750:
-                player_rect.bottom = 750
+            if player_rect.bottom >= 730:
+                player_rect.bottom = 730
         if ground_4[0] < player_rect.x < ground_4[1]:
             if player_rect.bottom >= 610:
                  player_rect.bottom = 610        
