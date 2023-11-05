@@ -287,10 +287,13 @@ ground_sur_2 = pygame.image.load('graphics/ground/ground-2.png').convert_alpha()
 ground_sur_2 = pygame.transform.rotozoom(ground_sur_2, 0, 1.5)
 ground_sur_3 = pygame.image.load('graphics/ground/ground-3.png').convert_alpha()
 ground_sur_3 = pygame.transform.rotozoom(ground_sur_3, 0, 1.5)
+ground_sur_4 = pygame.image.load('graphics/ground/ground-4.png').convert_alpha()
+ground_sur_4 = pygame.transform.rotozoom(ground_sur_4, 0, 1.5)
 
 ground_sur_1_rect = ground_sur_1.get_rect(center=(100, 100))
 ground_sur_2_rect = ground_sur_2.get_rect(center=(100, 100))
 ground_sur_3_rect = ground_sur_3.get_rect(center=(100, 100))
+ground_sur_4_rect = ground_sur_4.get_rect(center=(100, 100))
 
 # UI
 timer = pygame.image.load('graphics/UI/timer.png')
@@ -505,16 +508,19 @@ while running:  # The game will be continuously updated.
             scroll_sky = 0
 
         ground_1 = (0,450)
-        ground_2 = (600,920)
-        ground_3 = (1300,1950)
+        ground_2 = (550,820)
+        ground_3 = (1000,750)
+        ground_4 = (1300,1950)
 
         screen.blit(ground_sur_1,(0,710))
         screen.blit(ground_sur_2,(550,850))
-        screen.blit(ground_sur_3,(1300,610))
+        screen.blit(ground_sur_3,(1000,730))
+        screen.blit(ground_sur_4,(1300,610))
 
         walking_sur_1 = pygame.draw.line(screen, (0,0,0), (0,810), (480,810), 0)
-        walking_sur_2 = pygame.draw.line(screen, (0,0,0), (600,510), (960,510), 0)
-        walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
+        walking_sur_2 = pygame.draw.line(screen, (0,0,0), (550,710), (850,710), 0)
+        walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1000,730), (750,730), 0)
+        walking_sur_4 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
 
         check_current_player()
     
@@ -535,15 +541,18 @@ while running:  # The game will be continuously updated.
             if player_rect.bottom >= 810:
                 player_rect.bottom = 810
         if ground_2[0] < player_rect.x < ground_2[1]:
-            if player_rect.bottom >= 510:
-                player_rect.bottom = 510
-        if ground_3[0] < player_rect.x < ground_3[1]:
             if player_rect.bottom >= 610:
                 player_rect.bottom = 610
-        # elif player_rect.x > ground_1[1] and player_rect.x < ground_2[0] and jump == False:
-        #     player_gravity = 10
-        # elif player_rect.x > ground_2[1] and player_rect.x < ground_3[0] and jump == False:
-        #     player_gravity = 10
+        if ground_3[0] < player_rect.x < ground_3[1]:
+            if player_rect.bottom >= 750:
+                player_rect.bottom = 750
+        if ground_4[0] < player_rect.x < ground_4[1]:
+            if player_rect.bottom >= 610:
+                 player_rect.bottom = 610        
+        elif player_rect.x > ground_1[1] and player_rect.x < ground_2[0] and jump == False:
+             player_gravity = 10
+        elif player_rect.x > ground_2[1] and player_rect.x < ground_3[0] and jump == False:
+             player_gravity = 10
         else:
             if not jump:
                 player_rect.midbottom = (player_rect.midbottom[0],player_rect.midbottom[1])
@@ -553,7 +562,7 @@ while running:  # The game will be continuously updated.
 
         # morir por caida
         if player_rect.midbottom[1] > 1080:
-            game_active = False
+            game_active = True
 
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
