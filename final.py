@@ -526,10 +526,10 @@ while running:  # The game will be continuously updated.
         screen.blit(ground_sur_3,(1000,730))
         screen.blit(ground_sur_4,(1300,610))
 
-        walking_sur_1 = pygame.draw.line(screen, (0,0,0), (0,810), (480,810), 0)
-        walking_sur_2 = pygame.draw.line(screen, (0,0,0), (550,710), (850,710), 0)
-        walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1000,730), (750,730), 0)
-        walking_sur_4 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
+        walking_sur_1 = pygame.draw.line(screen, (255,0,0), (0,810), (480,810), 0)
+        walking_sur_2 = pygame.draw.line(screen, (255,0,0), (550,710), (850,710), 0)
+        walking_sur_3 = pygame.draw.line(screen, (255,0,0), (1000,730), (750,730), 0)
+        walking_sur_4 = pygame.draw.line(screen, (255,0,0), (1300,610), (1950,610), 0)
 
         check_current_player()
     
