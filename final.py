@@ -59,6 +59,11 @@ def collisions(player,objects):
                 return False
     return True
 
+# def atomsCollisions(player,objects):
+#     if objects:
+#         for object_rect in objects:
+#             if player.colliderect(object_rect):
+
 def itemsCollisions(player,objects):
     if objects:
         for object_rect in objects:

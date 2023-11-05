@@ -3,7 +3,7 @@ config = {
         "bad_atoms": 1,
         "good_atoms": 6,
         "protons": 15,
-        "electrons": 25,
+        "electrons": 35,
         "total_electrons_needed": 1,
         "total_protons_needed": 1
         # 15 y 15
