@@ -4,8 +4,8 @@ config = {
         "good_atoms": 6,
         "protons": 15,
         "electrons": 25,
-        "total_electrons_needed": 15,
-        "total_protons_needed": 15
+        "total_electrons_needed": 1,
+        "total_protons_needed": 1
         # 15 y 15
     },
     2: {

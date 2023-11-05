@@ -250,10 +250,12 @@ ground_sur_3_rect = ground_sur_3.get_rect(center=(100, 100))
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
 protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
+collected_proton_count = 0
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
 electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.55)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
+collected_electron_count = 0
 
 # Enemies
 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
@@ -328,10 +330,10 @@ title_rect = title_surf.get_rect(center=(960, 100))
 instructions = test_font.render('Press space to start',False,'White')
 instructions_rect = instructions.get_rect(center = (960,630))
 
-protons_number = test_font.render(str(protons),False,'White')
+protons_number = test_font.render(str(collected_proton_count),False,'White')
 protons_number_rect = protons_number.get_rect(center = (0,0))
 
-electrons_number = test_font.render(str(electrons),False,'White')
+electrons_number = test_font.render(str(collected_electron_count),False,'White')
 electrons_number_rect = electrons_number.get_rect(center = (0,0))
 
 # Timer
@@ -346,9 +348,6 @@ portal_index = 0
 portal_surf = portal_movement_frames[portal_index]
 
 portal_atom_rect_list = []
-
-collected_proton_count = 0
-collected_electron_count = 0
 
 running = True
 
@@ -543,14 +542,12 @@ while running:  # The game will be continuously updated.
         game_active = collisions(player_rect,bad_atom_rect_list)
         if proton_rect_list:
             if itemsCollisions(player_rect,proton_rect_list):
-                protons += 1
-                protons_number = test_font.render(str(protons),False,'White')
+                collected_proton_count += 1
+                protons_number = test_font.render(str(collected_proton_count),False,'White')
         if electron_rect_list:
             if itemsCollisions(player_rect,electron_rect_list):
-                electrons += 1 
-                electrons_number = test_font.render(str(electrons),False,'White')
-
-        print(protons)
+                collected_electron_count += 1 
+                electrons_number = test_font.render(str(collected_electron_count),False,'White')
 
         # Portals
         portal_animation()
