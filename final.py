@@ -12,7 +12,7 @@ from Config.config import config
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,'White')
-    score_rect = score_surf.get_rect(center = (935,115))
+    score_rect = score_surf.get_rect(center = (945,103))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -298,24 +298,24 @@ ground_sur_4_rect = ground_sur_4.get_rect(center=(100, 100))
 # UI
 timer = pygame.image.load('graphics/UI/timer.png')
 timer_rect = timer.get_rect(center = (0,0))
-timer = pygame.transform.rotozoom(timer,0,0.9)
+timer = pygame.transform.rotozoom(timer,0,0.8)
 timer_charging = pygame.image.load('graphics/UI/charging.png')
-timer_charging = pygame.transform.rotozoom(timer_charging,0,0.9)
+timer_charging = pygame.transform.rotozoom(timer_charging,0,0.8)
 
 hidden_sulfur = pygame.image.load('graphics/UI/hidden-sulfur.png')
-hidden_sulfur = pygame.transform.rotozoom(hidden_sulfur,0,0.9)
+hidden_sulfur = pygame.transform.rotozoom(hidden_sulfur,0,0.8)
 hidden_bromine = pygame.image.load('graphics/UI/hidden-bromine.png')
-hidden_bromine = pygame.transform.rotozoom(hidden_bromine,0,0.9)
+hidden_bromine = pygame.transform.rotozoom(hidden_bromine,0,0.8)
 hidden_xenon = pygame.image.load('graphics/UI/hidden-xenon.png')
-hidden_xenon = pygame.transform.rotozoom(hidden_xenon,0,0.9)
+hidden_xenon = pygame.transform.rotozoom(hidden_xenon,0,0.8)
 
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
-protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55)
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.5)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 collected_proton_count = 0
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
-electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.55)
+electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.5)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 collected_electron_count = 0
 
@@ -534,16 +534,16 @@ while running:  # The game will be continuously updated.
         check_current_player()
     
         # BARS
-        screen.blit(timer_charging,(100,0))
-        screen.blit(timer,(100,0))
-        screen.blit(hidden_sulfur,(100,0))
-        screen.blit(hidden_bromine,(100,0))
-        screen.blit(hidden_xenon,(100,0))
+        screen.blit(timer_charging,(200,0))
+        screen.blit(timer,(200,0))
+        screen.blit(hidden_sulfur,(200,0))
+        screen.blit(hidden_bromine,(200,0))
+        screen.blit(hidden_xenon,(200,0))
         
-        screen.blit(protons_bar_sur, (736,160))
-        screen.blit(electrons_bar_sur, (736,250))
-        screen.blit(protons_number,(1100,206))
-        screen.blit(electrons_number,(1100,295))
+        screen.blit(protons_bar_sur, (760,120))
+        screen.blit(electrons_bar_sur, (760,200))
+        screen.blit(protons_number,(1090,160))
+        screen.blit(electrons_number,(1090,242))
 
         score = displayScore()
 
