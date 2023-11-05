@@ -267,11 +267,9 @@ is_changing_level = False
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
-# sky_surface = pygame.transform.rotozoom(sky_surface,0,1.2)
 sky_surface_width = sky_surface.get_width()
 
 sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
-# sky_background_surface = pygame.transform.rotozoom(sky_background_surface,0,0.35)
 
 # Define game variables
 scroll_sky_background = 0
@@ -289,7 +287,10 @@ ground_sur_1_rect = ground_sur_1.get_rect(center=(100, 100))
 ground_sur_2_rect = ground_sur_2.get_rect(center=(100, 100))
 ground_sur_3_rect = ground_sur_3.get_rect(center=(100, 100))
 
-# Bars
+# UI
+timer = pygame.image.load('graphics/UI/timer.png')
+timer_rect = timer.get_rect(center = (0,0))
+
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
 protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
@@ -515,15 +516,14 @@ while running:  # The game will be continuously updated.
         walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
 
         check_current_player()
-
-        rect = pygame.Rect(0,0,1920,80)
-        pygame.draw.rect(screen, 'White', rect)
-
+    
         # BARS
+        screen.blit(timer,(0,0))
+        
         screen.blit(protons_bar_sur, (50,120))
         screen.blit(electrons_bar_sur, (50,210))
-        screen.blit(protons_number,(50,120))
-        screen.blit(electrons_number,(50,210))
+        screen.blit(protons_number,(414,166))
+        screen.blit(electrons_number,(414,255))
 
         score = displayScore()
 
