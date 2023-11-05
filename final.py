@@ -222,7 +222,7 @@ def extract_bad_atom_electrons():
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
 
 def check_current_player():
-    global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk
+    global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk, current_level
     if current_level == 1:
         player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
@@ -418,18 +418,13 @@ while running:  # The game will be continuously updated.
                 if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
                     player_gravity = -28
                     jump = True
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_w:
-                    jump = False
-
-            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     move_left = True
                 if event.key == pygame.K_d:
                     move_right = True
                 if event.key == pygame.K_s:
                     crouch = True
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     move_left = False
@@ -446,11 +441,12 @@ while running:  # The game will be continuously updated.
                 player_rect.right += 10
                 if player_rect.right >= 1920:
                     player_rect.right = 1920
-            if score > 20 and score <= 30:
+            if 20 < score <= 30:
                 if move_right:
                     player_rect.right += 14
                 if move_left:
                     player_rect.right -= 14
+
             player_animation()
 
             if crouch:
@@ -529,13 +525,14 @@ while running:  # The game will be continuously updated.
 
         player_gravity += 1
         player_rect.y += player_gravity
-        if player_rect.x > ground_1[0] and player_rect.x < ground_1[1]:
+
+        if ground_1[0] < player_rect.x < ground_1[1]:
             if player_rect.bottom >= 810:
                 player_rect.bottom = 810
-        if player_rect.x > ground_2[0] and player_rect.x < ground_2[1]:
+        if ground_2[0] < player_rect.x < ground_2[1]:
             if player_rect.bottom >= 510:
                 player_rect.bottom = 510
-        if player_rect.x > ground_3[0] and player_rect.x < ground_3[1]:
+        if ground_3[0] < player_rect.x < ground_3[1]:
             if player_rect.bottom >= 610:
                 player_rect.bottom = 610
         # elif player_rect.x > ground_1[1] and player_rect.x < ground_2[0] and jump == False:
@@ -543,13 +540,16 @@ while running:  # The game will be continuously updated.
         # elif player_rect.x > ground_2[1] and player_rect.x < ground_3[0] and jump == False:
         #     player_gravity = 10
         else:
-            if jump == False:
+            if not jump:
                 player_rect.midbottom = (player_rect.midbottom[0],player_rect.midbottom[1])
                 player_gravity = 10
+
         screen.blit(player_surf,player_rect)
+
+        # morir por caida
         if player_rect.midbottom[1] > 1080:
-            game_active = False    
-        print(player_rect.bottom)
+            game_active = False
+
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
         good_atom_rect_list = good_atom_movement(good_atom_rect_list)
@@ -598,6 +598,10 @@ while running:  # The game will be continuously updated.
         player_rect.midbottom = (80, 710)
 
         player_gravity = 0
+        move_left = False
+        move_right = False
+        crouch = False
+        jump = False
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
         score_message_rect = score_message.get_rect(center = (960,400))
