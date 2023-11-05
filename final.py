@@ -224,6 +224,7 @@ proton_surf = proton_fly[proton_index]
 
 proton_rect_list = []
 proton_spawn_count = 0
+protons = 0
 
 proton_rect = proton_surf.get_rect(center = (100,100))
 
@@ -237,6 +238,7 @@ electron_surf = electron_fly[electron_index]
 
 electron_rect_list = []
 electron_spawn_count = 0
+electrons = 0
 
 electron_rect = electron_surf.get_rect(center = (100,100))
 
