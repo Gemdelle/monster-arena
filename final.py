@@ -1,5 +1,5 @@
 import pygame
-from sys import exit # to exit the game without having issues with the True loop
+from sys import exit  # to exit the game without having issues with the True loop
 from random import randint
 import math
 
@@ -17,6 +17,7 @@ def displayScore():
 
     return current_time
 
+
 def bad_atom_movement(obstacle_list):
     global bad_atom_spawn_count
 
@@ -26,11 +27,13 @@ def bad_atom_movement(obstacle_list):
 
             screen.blit(bad_atom_surf,obstacle_rec)
 
-        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
+        obstacle_list = [obstacle for obstacle in obstacle_list if
+                         obstacle.x > -200]  # delete snails that are beyond -100(x)
 
         return obstacle_list
     else:
         return []
+
 
 def good_atom_movement(obstacle_list):
     global good_atom_spawn_count
@@ -39,10 +42,11 @@ def good_atom_movement(obstacle_list):
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
-            # if obstacle_rec.bottom <= 1000:  
+            # if obstacle_rec.bottom <= 1000:
             screen.blit(good_atom_surf,obstacle_rec)
 
-        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
+        obstacle_list = [obstacle for obstacle in obstacle_list if
+                         obstacle.x > -200]  # delete snails that are beyond -100(x)
 
         return obstacle_list
     else:
@@ -63,16 +67,29 @@ def itemsCollisions(player,objects):
                 return True
     return False
 
+def check_portal_collision(player, portal_atom_rect_list):
+    global current_level, collected_electron_count, collected_proton_count
+
+    if portal_atom_rect_list:
+        for portal_rect in portal_atom_rect_list:
+            if player.colliderect(portal_rect):
+                if (config[current_level]["total_electrons_needed"] == collected_electron_count and
+                        config[current_level]["total_protons_needed"] == collected_proton_count):
+                    current_level += 1
+
+
 def player_animation():
-    global player_surf, player_index, player_walk_1,player_walk_2,player_jump, player_crouch, score, current_level, good_atom_spawn_count, bad_atom_spawn_count, player_walk
-    
-    if player_rect.bottom < 710: # play walking animation if the player is on the floor
+    global player_surf, player_index, player_walk_1, player_walk_2, player_jump, player_crouch, score, current_level,\
+        good_atom_spawn_count, bad_atom_spawn_count, player_walk
+
+    if player_rect.bottom < 710:  # play walking animation if the player is on the floor
         player_surf = player_jump
-    else: # play jump animation if it is not on the floor
+    else:  # play jump animation if it is not on the floor
         player_index += 0.1
         if player_index >= len(player_walk):
             player_index = 0
         player_surf = player_walk[int(player_index)]
+
 
 def good_atom_animation():
     global good_atom_surf, good_atom_index
@@ -82,6 +99,7 @@ def good_atom_animation():
         good_atom_index = 0
     good_atom_surf = good_atom_walk[int(good_atom_index)]
 
+
 def bad_atom_animation():
     global bad_atom_surf, bad_atom_index
 
@@ -89,6 +107,7 @@ def bad_atom_animation():
     if bad_atom_index >= len(bad_atom_walk):
         bad_atom_index = 0
     bad_atom_surf = bad_atom_walk[int(bad_atom_index)]
+
 
 def proton_animation():
     global proton_surf, proton_index
@@ -99,7 +118,7 @@ def proton_animation():
     proton_surf = proton_fly[int(proton_index)]
 
 def proton_movement(proton_list):
-   
+
     if proton_list:
         for proton_rec in proton_list:
            proton_rec.x -= 5
@@ -123,7 +142,7 @@ def electron_animation():
     electron_surf = electron_fly[int(electron_index)]
 
 def electron_movement(electron_list):
-   
+
     if electron_list:
         for electron_rec in electron_list:
            electron_rec.x -= 5
@@ -136,29 +155,65 @@ def electron_movement(electron_list):
     else:
         return []
 
+
 def portal_animation():
     global portal_surf, portal_index
 
     portal_index += 0.1
-    if portal_index >= len(portal_movement):
+    if portal_index >= len(portal_movement_frames):
         portal_index = 0
-    portal_surf = portal_movement[int(portal_index)] 
+    portal_surf = portal_movement_frames[int(portal_index)]
 
-def portalMovement():
-    portal_rect.x -= 5
-    if portal_rect.midbottom > (-200,660): 
-        screen.blit(portal_surf, portal_rect)
-    if portal_rect.midbottom < (-200,660):
-        portal_rect.midbottom = (2000,660)
-    
+
+def portal_movement(portal_list):
+    if portal_list:
+        for portal_rec in portal_list:
+            portal_rec.x -= 5
+
+            screen.blit(portal_surf, portal_rec)
+
+        portal_list = [portal for portal in portal_list if portal.x > -200]  # delete snails that are beyond -100(x)
+
+        return portal_list
+    else:
+        return []
+
+
+def check_portals_spawn():
+    global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
+
+    if current_level == 2:
+        portal_down = pygame.image.load('graphics/portal/portal1up.png')
+        portal_up = pygame.image.load('graphics/portal/portal1down.png')
+        if not portal_1_already_spawned:
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_1_already_spawned = True
+
+    elif current_level == 3:
+        portal_up = pygame.image.load('graphics/portal/portal2up.png')
+        portal_down = pygame.image.load('graphics/portal/portal2down.png')
+        if not portal_2_already_spawned:
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_2_already_spawned = True
+
+    elif current_level == 4:
+        portal_up = pygame.image.load('graphics/portal/portal3up.png')
+        portal_down = pygame.image.load('graphics/portal/portal3down.png')
+        if not portal_3_already_spawned:
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_3_already_spawned = True
+
+    portal_movement_frames = [portal_up, portal_down]
+
 
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
-screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT)) # Create screen. This code ends, so to keep it running we use the while True (is never False).
+screen = pygame.display.set_mode((SCREEN_WIDTH,
+                                  SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
-clock = pygame.time.Clock() # clock object to handle frame rate
+clock = pygame.time.Clock()  # clock object to handle frame rate
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
@@ -181,19 +236,19 @@ scroll_sky = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_sur_1 = pygame.image.load('graphics/ground/ground-1.png').convert_alpha()
-ground_sur_1 = pygame.transform.rotozoom(ground_sur_1,0,1.5)
+ground_sur_1 = pygame.transform.rotozoom(ground_sur_1, 0, 1.5)
 ground_sur_2 = pygame.image.load('graphics/ground/ground-2.png').convert_alpha()
-ground_sur_2 = pygame.transform.rotozoom(ground_sur_2,0,1.5)
+ground_sur_2 = pygame.transform.rotozoom(ground_sur_2, 0, 1.5)
 ground_sur_3 = pygame.image.load('graphics/ground/ground-3.png').convert_alpha()
-ground_sur_3 = pygame.transform.rotozoom(ground_sur_3,0,1.5)
+ground_sur_3 = pygame.transform.rotozoom(ground_sur_3, 0, 1.5)
 
-ground_sur_1_rect = ground_sur_1.get_rect(center = (100,100))
-ground_sur_2_rect = ground_sur_2.get_rect(center = (100,100))
-ground_sur_3_rect = ground_sur_3.get_rect(center = (100,100))
+ground_sur_1_rect = ground_sur_1.get_rect(center=(100, 100))
+ground_sur_2_rect = ground_sur_2.get_rect(center=(100, 100))
+ground_sur_3_rect = ground_sur_3.get_rect(center=(100, 100))
 
 # Bars
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
-protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55) 
+protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
@@ -204,18 +259,18 @@ electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
 good_atom_2 = pygame.image.load('graphics/atoms/good_atom2.png').convert_alpha()
 good_atom_index = 0
-good_atom_walk = [good_atom_1,good_atom_2]
+good_atom_walk = [good_atom_1, good_atom_2]
 good_atom_surf = good_atom_walk[good_atom_index]
 
 good_atom_spawn_count = 0
 good_atom_rect_list = []
 
 bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
-bad_atom_1 = pygame.transform.rotozoom(bad_atom_1,0,0.5)
+bad_atom_1 = pygame.transform.rotozoom(bad_atom_1, 0, 0.5)
 bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
-bad_atom_2 = pygame.transform.rotozoom(bad_atom_2,0,0.5)
+bad_atom_2 = pygame.transform.rotozoom(bad_atom_2, 0, 0.5)
 bad_atom_index = 0
-bad_atom_walk = [bad_atom_1,bad_atom_2]
+bad_atom_walk = [bad_atom_1, bad_atom_2]
 bad_atom_surf = bad_atom_walk[bad_atom_index]
 
 bad_atom_rect_list = []
@@ -232,7 +287,6 @@ proton_surf = proton_fly[proton_index]
 
 proton_rect_list = []
 proton_spawn_count = 0
-protons = 0
 
 proton_rect = proton_surf.get_rect(center = (100,100))
 
@@ -246,7 +300,6 @@ electron_surf = electron_fly[electron_index]
 
 electron_rect_list = []
 electron_spawn_count = 0
-electrons = 0
 
 electron_rect = electron_surf.get_rect(center = (100,100))
 
@@ -254,7 +307,7 @@ electron_rect = electron_surf.get_rect(center = (100,100))
 
 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
-player_walk = [player_walk_1,player_walk_2]
+player_walk = [player_walk_1, player_walk_2]
 player_crouch = pygame.image.load('graphics/Player/hydrogen_character_crouch.png')
 player_index = 0
 player_surf = player_walk[player_index]
@@ -265,12 +318,12 @@ player_gravity = 0
 
 # Intro Screen
 player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
-player_stand = pygame.transform.rotozoom(player_stand,0,2) # overwrites variable to scale image 
-player_stand_rect = player_stand.get_rect(center = (960,500))
+player_stand = pygame.transform.rotozoom(player_stand, 0, 2)  # overwrites variable to scale image
+player_stand_rect = player_stand.get_rect(center=(960, 500))
 
 # text
-title_surf = test_font.render('Monster Arena',False, 'White')
-title_rect = title_surf.get_rect(center = (960,100))
+title_surf = test_font.render('Monster Arena', False, 'White')
+title_rect = title_surf.get_rect(center=(960, 100))
 
 instructions = test_font.render('Press space to start',False,'White')
 instructions_rect = instructions.get_rect(center = (960,630))
@@ -283,16 +336,19 @@ electrons_number_rect = electrons_number.get_rect(center = (0,0))
 
 # Timer
 obstacle_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(obstacle_timer,1500)
+pygame.time.set_timer(obstacle_timer, 1500)
 
 # Portals
 portal_up = pygame.image.load('graphics/portal/portal1up.png')
 portal_down = pygame.image.load('graphics/portal/portal1down.png')
-portal_movement = [portal_up,portal_down]
+portal_movement_frames = [portal_up, portal_down]
 portal_index = 0
-portal_surf = portal_movement[portal_index]
+portal_surf = portal_movement_frames[portal_index]
 
-portal_rect = portal_surf.get_rect(midbottom = (2000,660))
+portal_atom_rect_list = []
+
+collected_proton_count = 0
+collected_electron_count = 0
 
 running = True
 
@@ -301,19 +357,21 @@ move_right = False
 move_left = False
 crouch = False
 
-while running: # The game will be continuously updated.
+portal_1_already_spawned = False
+portal_2_already_spawned = False
+portal_3_already_spawned = False
+
+while running:  # The game will be continuously updated.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                pygame.quit() 
+                pygame.quit()
                 exit()
 
         if game_active:
             if event.type == pygame.KEYDOWN:
-                # print(player_rect.midbottom[1],score)
-
                 if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
                     player_gravity = -25
                     jump = True
@@ -326,13 +384,13 @@ while running: # The game will be continuously updated.
                 if event.key == pygame.K_a:
                     move_left = True
                 if event.key == pygame.K_d:
-                    move_right = True 
+                    move_right = True
                 if event.key == pygame.K_s:
                     crouch = True
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     move_left = False
-                if  event.key == pygame.K_d:
+                if event.key == pygame.K_d:
                     move_right = False
                 if event.key == pygame.K_s:
                     crouch = False
@@ -357,86 +415,72 @@ while running: # The game will be continuously updated.
             if player_surf == player_crouch:
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],760))
                 player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom))
-            
+
             if not crouch and player_rect.midbottom[1] < 711 and jump == False:
-                player_rect = player_surf.get_rect(midbottom = (player_rect.midbottom[0],710))
+                player_rect = player_surf.get_rect(midbottom=(player_rect.midbottom[0], 710))
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                game_active = True 
+                game_active = True
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 good_atom_spawn_count += 1
-                # print("good_atom_spawn_count ", good_atom_spawn_count)
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 bad_atom_spawn_count += 1
-                # print("bad_atom_spawn_count ", bad_atom_spawn_count)
 
             if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
                 electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 electron_spawn_count += 1
-                # print("electron_spawn_count ", electron_spawn_count)
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
                 proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 proton_spawn_count += 1
-                # print("proton_spawn_count ", proton_spawn_count)
                 
 
-            if score < 10:
+            if current_level == 1:
                 player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
                 player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
                 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
                 player_crouch = pygame.image.load('graphics/player/hydrogen_character_crouch.png')
-                current_level = 1
 
-            elif 10 < score <= 20:
+            elif current_level == 2:
                 player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
                 player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
                 player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
                 player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
-                portal_down = pygame.image.load('graphics/portal/portal1up.png')
-                portal_up = pygame.image.load('graphics/portal/portal1down.png')
 
-            elif 20 < score <= 30:
+            elif current_level == 3:
                 player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
                 player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
                 player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
                 player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
-                portal_up = pygame.image.load('graphics/portal/portal2up.png')
-                portal_down = pygame.image.load('graphics/portal/portal2down.png')
-                current_level = 3
 
-            elif score > 30:
+            elif current_level == 4:
                 player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
                 player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
                 player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
                 player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
-                portal_up = pygame.image.load('graphics/portal/portal3up.png')
-                portal_down = pygame.image.load('graphics/portal/portal3down.png')
-                current_level = 4
 
             player_walk = [player_walk_1, player_walk_2]
-            portal_movement = [portal_up,portal_down]            
-
+            check_portals_spawn()
 
     if game_active:
         # SKY BACKGROUND SURFACE
-        for i in range(0,tiles):
-            screen.blit(sky_background_surface,(i * sky_surface_width + scroll_sky_background,110))
+        for i in range(0, tiles):
+            screen.blit(sky_background_surface, (i * sky_surface_width + scroll_sky_background, 110))
         # scrolling sky_surface background and reseting
         scroll_sky_background -= 3
         if abs(scroll_sky_background) > sky_surface_width:
             scroll_sky_background = 0
 
         # SKY SURFACE
-        for i in range(0,tiles):
-            screen.blit(sky_surface,(i * sky_surface_width + scroll_sky,0))
+        for i in range(0, tiles):
+            screen.blit(sky_surface, (i * sky_surface_width + scroll_sky, 0))
         # scrolling sky_surface background and reseting
         scroll_sky -= 5
         if abs(scroll_sky) > sky_surface_width:
@@ -482,15 +526,18 @@ while running: # The game will be continuously updated.
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
         good_atom_rect_list = good_atom_movement(good_atom_rect_list)
+        portal_atom_rect_list = portal_movement(portal_atom_rect_list)
+
         good_atom_animation()
         bad_atom_animation()
 
         # Items
         electron_rect_list = electron_movement(electron_rect_list)
         proton_rect_list = proton_movement(proton_rect_list)
-        # proton_rect_list = proton_movement(proton_rect_list)
+
         proton_animation()
         electron_animation()
+        check_portal_collision(player_rect, portal_atom_rect_list)
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
@@ -506,22 +553,14 @@ while running: # The game will be continuously updated.
         print(protons)
 
         # Portals
-
-        if 10 < score < 20:
-            portalMovement()
-        elif 20 < score <= 30:
-            portalMovement()
-        elif 30 < score <= 40:
-            portalMovement()
-
         portal_animation()
 
     else:
-        screen.fill((94,129,162))
-        screen.blit(player_stand,player_stand_rect)
-        screen.blit(title_surf,title_rect)
+        screen.fill((94, 129, 162))
+        screen.blit(player_stand, player_stand_rect)
+        screen.blit(title_surf, title_rect)
         bad_atom_rect_list.clear()
-        player_rect.midbottom = (80,710)
+        player_rect.midbottom = (80, 710)
 
         player_gravity = 0
 
@@ -529,7 +568,7 @@ while running: # The game will be continuously updated.
         score_message_rect = score_message.get_rect(center = (960,400))
 
         if score == 0:
-            screen.blit(instructions,instructions_rect)
+            screen.blit(instructions, instructions_rect)
         else:
             screen.blit(score_message,score_message_rect)
         
