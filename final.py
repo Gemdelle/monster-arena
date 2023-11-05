@@ -260,7 +260,6 @@ player_index = 0
 player_surf = player_walk[player_index]
 player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
 
-
 player_rect = player_surf.get_rect(midbottom = (0,0))
 player_gravity = 0
 
@@ -275,6 +274,12 @@ title_rect = title_surf.get_rect(center = (960,100))
 
 instructions = test_font.render('Press space to start',False,'White')
 instructions_rect = instructions.get_rect(center = (960,630))
+
+protons_number = test_font.render(str(protons),False,'White')
+protons_number_rect = protons_number.get_rect(center = (0,0))
+
+electrons_number = test_font.render(str(electrons),False,'White')
+electrons_number_rect = electrons_number.get_rect(center = (0,0))
 
 # Timer
 obstacle_timer = pygame.USEREVENT + 1
@@ -445,9 +450,9 @@ while running: # The game will be continuously updated.
         screen.blit(ground_sur_2,(600,510))
         screen.blit(ground_sur_3,(1300,610))
 
-        walking_sur_1 = pygame.draw.line(screen, 'Blue', (0,810), (480,810), 2)
-        walking_sur_2 = pygame.draw.line(screen, 'Blue', (600,510), (960,510), 2)
-        walking_sur_3 = pygame.draw.line(screen, 'Blue', (1300,610), (1950,610), 2)
+        walking_sur_1 = pygame.draw.line(screen, (0,0,0), (0,810), (480,810), 0)
+        walking_sur_2 = pygame.draw.line(screen, (0,0,0), (600,510), (960,510), 0)
+        walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
 
         rect = pygame.Rect(0,0,1920,80)
         pygame.draw.rect(screen, 'White', rect)
@@ -455,6 +460,8 @@ while running: # The game will be continuously updated.
         # BARS
         screen.blit(protons_bar_sur, (50,120))
         screen.blit(electrons_bar_sur, (50,210))
+        screen.blit(protons_number,(50,120))
+        screen.blit(electrons_number,(50,210))
 
         score = displayScore()
 
@@ -490,10 +497,12 @@ while running: # The game will be continuously updated.
         if proton_rect_list:
             if itemsCollisions(player_rect,proton_rect_list):
                 protons += 1
+                protons_number = test_font.render(str(protons),False,'White')
         if electron_rect_list:
             if itemsCollisions(player_rect,electron_rect_list):
                 electrons += 1 
-        
+                electrons_number = test_font.render(str(electrons),False,'White')
+
         print(protons)
 
         # Portals
