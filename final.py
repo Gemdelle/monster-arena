@@ -24,8 +24,7 @@ def bad_atom_movement(obstacle_list):
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
-            if obstacle_rec.bottom <= 300:
-                screen.blit(bad_atom_surf,obstacle_rec)
+            screen.blit(bad_atom_surf,obstacle_rec)
 
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -200] # delete snails that are beyond -100(x)
 
