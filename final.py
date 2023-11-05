@@ -506,8 +506,8 @@ while running:  # The game will be continuously updated.
         ground_2 = (600,920)
         ground_3 = (1300,1950)
 
-        screen.blit(ground_sur_1,(0,810))
-        screen.blit(ground_sur_2,(600,510))
+        screen.blit(ground_sur_1,(0,710))
+        screen.blit(ground_sur_2,(550,850))
         screen.blit(ground_sur_3,(1300,610))
 
         walking_sur_1 = pygame.draw.line(screen, (0,0,0), (0,810), (480,810), 0)
