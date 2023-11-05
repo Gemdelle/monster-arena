@@ -501,7 +501,7 @@ while running: # The game will be continuously updated.
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (960,540))
+        score_message_rect = score_message.get_rect(center = (960,400))
 
         if score == 0:
             screen.blit(instructions,instructions_rect)
