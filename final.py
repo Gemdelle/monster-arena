@@ -64,7 +64,7 @@ def collisions(player,objects):
 #         for object_rect in objects:
 #             if player.colliderect(object_rect):
 
-def itemsCollisions(player,objects):
+def items_collisions_with_remove(player, objects):
     if objects:
         for object_rect in objects:
             if player.colliderect(object_rect):
@@ -72,6 +72,12 @@ def itemsCollisions(player,objects):
                 return True
     return False
 
+def items_collisions_without_remove(player, objects):
+    if objects:
+        for object_rect in objects:
+            if player.colliderect(object_rect):
+                return True
+    return False
 
 def player_animation():
     global player_surf, player_index, player_walk_1, player_walk_2, player_jump, player_crouch, score, current_level,\
@@ -175,11 +181,9 @@ def portal_movement(portal_list):
 
 
 def check_portals_spawn():
-    global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
+    global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned, game_active
 
-    if (current_level == 1 and
-        config[current_level]["total_electrons_needed"] == collected_electron_count and
-        config[current_level]["total_protons_needed"] == collected_proton_count):
+    if current_level == 1 and score == 30:
 
         portal_down = pygame.image.load('graphics/portal/portal1up.png')
         portal_up = pygame.image.load('graphics/portal/portal1down.png')
@@ -187,9 +191,7 @@ def check_portals_spawn():
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_1_already_spawned = True
 
-    elif (current_level == 2 and
-        config[current_level]["total_electrons_needed"] == collected_electron_count and
-        config[current_level]["total_protons_needed"] == collected_proton_count):
+    elif current_level == 2 and score == 90:
 
         portal_up = pygame.image.load('graphics/portal/portal2up.png')
         portal_down = pygame.image.load('graphics/portal/portal2down.png')
@@ -197,9 +199,7 @@ def check_portals_spawn():
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_2_already_spawned = True
 
-    elif (current_level == 3 and
-        config[current_level]["total_electrons_needed"] == collected_electron_count and
-        config[current_level]["total_protons_needed"] == collected_proton_count):
+    elif current_level == 3 and score == 180:
 
         portal_up = pygame.image.load('graphics/portal/portal3up.png')
         portal_down = pygame.image.load('graphics/portal/portal3down.png')
@@ -220,6 +220,7 @@ def extract_good_atom_electrons():
 
 def extract_bad_atom_electrons():
     global collected_electron_count, electrons_number
+
     if collected_electron_count - 6 < 0:
         collected_electron_count = 0
     else:
@@ -252,6 +253,71 @@ def check_current_player():
         player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
         player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
     player_walk = [player_walk_1, player_walk_2]
+
+def check_win_lose():
+    global collected_electron_count, current_level, score, collected_proton_count, game_active, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
+
+    player_lost_in_level_one = current_level == 1 and score > 30 and portal_1_already_spawned and len(portal_atom_rect_list) == 0
+    player_lost_in_level_two = current_level == 2 and score > 90 and portal_2_already_spawned and len(portal_atom_rect_list) == 0
+    player_lost_in_level_three = current_level == 3 and score > 180 and portal_3_already_spawned and len(portal_atom_rect_list) == 0
+
+    if player_lost_in_level_one or player_lost_in_level_two or player_lost_in_level_three :
+        game_active = False
+
+
+def check_collisions():
+    global protons_number, collected_electron_count, electrons_number, current_level, collected_proton_count, good_atom_1, good_atom_2, bad_atom_1, bad_atom_2
+
+    if bad_atom_rect_list:
+        if items_collisions_without_remove(player_rect, bad_atom_rect_list):
+            extract_bad_atom_electrons()
+    if good_atom_rect_list:
+        if items_collisions_without_remove(player_rect, good_atom_rect_list):
+            extract_good_atom_electrons()
+    if proton_rect_list:
+        if items_collisions_with_remove(player_rect, proton_rect_list):
+            collected_proton_count += 1
+            protons_number = test_font.render(str(collected_proton_count), False, 'White')
+    if electron_rect_list:
+        if items_collisions_with_remove(player_rect, electron_rect_list):
+            collected_electron_count += 1
+            electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+    if portal_atom_rect_list:
+        if items_collisions_without_remove(player_rect, portal_atom_rect_list):
+            if (config[current_level]["total_electrons_needed"] == collected_electron_count and
+                    config[current_level]["total_protons_needed"] == collected_proton_count):
+                current_level += 1
+                portal_atom_rect_list.clear()
+
+
+def check_player_ground_limits():
+    global player_rect, player_gravity
+
+    player_gravity += 1
+    player_rect.y += player_gravity
+
+    if ground_1[0] < player_rect.x < ground_1[1]:
+        if player_rect.bottom >= 710:
+            player_rect.bottom = 710
+    if ground_2[0] < player_rect.x < ground_2[1]:
+        if player_rect.bottom >= 850:
+            player_rect.bottom = 850
+    if ground_3[0] < player_rect.x < ground_3[1]:
+        if player_rect.bottom >= 730:
+            player_rect.bottom = 730
+    if ground_4[0] < player_rect.x < ground_4[1]:
+        if player_rect.bottom >= 610:
+            player_rect.bottom = 610
+    elif ground_1[1] < player_rect.x < ground_2[0] and jump == False:
+        player_gravity = 10
+    elif ground_2[1] < player_rect.x < ground_3[0] and jump == False:
+        player_gravity = 10
+    else:
+        if not jump:
+            player_rect.midbottom = (player_rect.midbottom[0], player_rect.midbottom[1])
+            player_gravity = 10
+
+    screen.blit(player_surf, player_rect)
 
 
 # Setup
@@ -320,8 +386,8 @@ electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 collected_electron_count = 0
 
 # Enemies
-good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
-good_atom_2 = pygame.image.load('graphics/atoms/good_atom2.png').convert_alpha()
+good_atom_1 = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
+good_atom_2 = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
 good_atom_index = 0
 good_atom_walk = [good_atom_1, good_atom_2]
 good_atom_surf = good_atom_walk[good_atom_index]
@@ -329,9 +395,9 @@ good_atom_surf = good_atom_walk[good_atom_index]
 good_atom_spawn_count = 0
 good_atom_rect_list = []
 
-bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
+bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1_light.png').convert_alpha()
 bad_atom_1 = pygame.transform.rotozoom(bad_atom_1, 0, 0.5)
-bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
+bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2_light.png').convert_alpha()
 bad_atom_2 = pygame.transform.rotozoom(bad_atom_2, 0, 0.5)
 bad_atom_index = 0
 bad_atom_walk = [bad_atom_1, bad_atom_2]
@@ -421,6 +487,8 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
+
+
 while running:  # The game will be continuously updated.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -482,6 +550,8 @@ while running:  # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
+                good_atom_1 = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
+                good_atom_2 = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 good_atom_spawn_count += 1
 
@@ -547,31 +617,7 @@ while running:  # The game will be continuously updated.
 
         score = displayScore()
 
-        player_gravity += 1
-        player_rect.y += player_gravity
-
-        if ground_1[0] < player_rect.x < ground_1[1]:
-            if player_rect.bottom >= 710:
-                player_rect.bottom = 710
-        if ground_2[0] < player_rect.x < ground_2[1]:
-            if player_rect.bottom >= 850:
-                player_rect.bottom = 850
-        if ground_3[0] < player_rect.x < ground_3[1]:
-            if player_rect.bottom >= 730:
-                player_rect.bottom = 730
-        if ground_4[0] < player_rect.x < ground_4[1]:
-            if player_rect.bottom >= 610:
-                 player_rect.bottom = 610        
-        elif player_rect.x > ground_1[1] and player_rect.x < ground_2[0] and jump == False:
-             player_gravity = 10
-        elif player_rect.x > ground_2[1] and player_rect.x < ground_3[0] and jump == False:
-             player_gravity = 10
-        else:
-            if not jump:
-                player_rect.midbottom = (player_rect.midbottom[0],player_rect.midbottom[1])
-                player_gravity = 10
-
-        screen.blit(player_surf,player_rect)
+        check_player_ground_limits()
 
         # morir por caida
         if player_rect.midbottom[1] > 1080:
@@ -593,29 +639,12 @@ while running:  # The game will be continuously updated.
         electron_animation()
 
         # Collisions
-        # game_active = collisions(player_rect,bad_atom_rect_list)
-        if bad_atom_rect_list:
-            if itemsCollisions(player_rect,bad_atom_rect_list):
-                extract_bad_atom_electrons()
-        if good_atom_rect_list:
-            if itemsCollisions(player_rect,good_atom_rect_list):
-                extract_good_atom_electrons()
-        if proton_rect_list:
-            if itemsCollisions(player_rect,proton_rect_list):
-                collected_proton_count += 1
-                protons_number = test_font.render(str(collected_proton_count),False,'White')
-        if electron_rect_list:
-            if itemsCollisions(player_rect,electron_rect_list):
-                collected_electron_count += 1
-                electrons_number = test_font.render(str(collected_electron_count),False,'White')
-        if portal_atom_rect_list:
-            if itemsCollisions(player_rect,portal_atom_rect_list):
-                if (config[current_level]["total_electrons_needed"] == collected_electron_count and
-                        config[current_level]["total_protons_needed"] == collected_proton_count):
-                    current_level += 1
-
+        check_collisions()
         # Portals
         portal_animation()
+
+        # Win / Lose
+        check_win_lose()
 
     else:
         screen.fill((94, 129, 162))
