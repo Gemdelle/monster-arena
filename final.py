@@ -222,7 +222,7 @@ def extract_bad_atom_electrons():
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
 
 def check_current_player():
-    global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk
+    global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk, current_level
     if current_level == 1:
         player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
         player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
