@@ -67,17 +67,6 @@ def itemsCollisions(player,objects):
                 return True
     return False
 
-def check_portal_collision(player, portal_atom_rect_list):
-    global current_level, collected_electron_count, collected_proton_count
-    print("collected_electron_count: ", collected_electron_count)
-    print("collected_proton_count: ", collected_proton_count)
-    if portal_atom_rect_list:
-        for portal_rect in portal_atom_rect_list:
-            if player.colliderect(portal_rect):
-                if (config[current_level]["total_electrons_needed"] == collected_electron_count and
-                        config[current_level]["total_protons_needed"] == collected_proton_count):
-                    current_level += 1
-
 
 def player_animation():
     global player_surf, player_index, player_walk_1, player_walk_2, player_jump, player_crouch, score, current_level,\
@@ -190,7 +179,7 @@ def check_portals_spawn():
         portal_down = pygame.image.load('graphics/portal/portal1up.png')
         portal_up = pygame.image.load('graphics/portal/portal1down.png')
         if not portal_1_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_1_already_spawned = True
 
     elif (current_level == 2 and
@@ -200,7 +189,7 @@ def check_portals_spawn():
         portal_up = pygame.image.load('graphics/portal/portal2up.png')
         portal_down = pygame.image.load('graphics/portal/portal2down.png')
         if not portal_2_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_2_already_spawned = True
 
     elif (current_level == 3 and
@@ -210,7 +199,7 @@ def check_portals_spawn():
         portal_up = pygame.image.load('graphics/portal/portal3up.png')
         portal_down = pygame.image.load('graphics/portal/portal3down.png')
         if not portal_3_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_3_already_spawned = True
 
     portal_movement_frames = [portal_up, portal_down]
@@ -231,6 +220,33 @@ def extract_bad_atom_electrons():
     else:
         collected_electron_count -= 6
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+
+def check_current_player():
+    global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk
+    if current_level == 1:
+        player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
+        player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
+        player_crouch = pygame.image.load('graphics/player/hydrogen_character_crouch.png')
+
+    elif current_level == 2:
+        player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
+        player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
+        player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
+
+    elif current_level == 3:
+        player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
+        player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
+        player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
+
+    elif current_level == 4:
+        player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
+        player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
+        player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
+    player_walk = [player_walk_1, player_walk_2]
 
 
 # Setup
@@ -387,10 +403,6 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
-
-
-
-
 while running:  # The game will be continuously updated.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -470,33 +482,7 @@ while running:  # The game will be continuously updated.
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
                 proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
                 proton_spawn_count += 1
-                
 
-            if current_level == 1:
-                player_walk_1 = pygame.image.load('graphics/player/hydrogen_character_1.png').convert_alpha()
-                player_walk_2 = pygame.image.load('graphics/player/hydrogen_character_2.png').convert_alpha()
-                player_jump = pygame.image.load('graphics/player/hydrogen_character_jump.png').convert_alpha()
-                player_crouch = pygame.image.load('graphics/player/hydrogen_character_crouch.png')
-
-            elif current_level == 2:
-                player_walk_1 = pygame.image.load('graphics/player/sulphur_character_1.png').convert_alpha()
-                player_walk_2 = pygame.image.load('graphics/player/sulphur_character_2.png').convert_alpha()
-                player_jump = pygame.image.load('graphics/player/sulphur_character_jump.png').convert_alpha()
-                player_crouch = pygame.image.load('graphics/player/sulphur_character_crouch.png')
-
-            elif current_level == 3:
-                player_walk_1 = pygame.image.load('graphics/player/bromine_character_1.png').convert_alpha()
-                player_walk_2 = pygame.image.load('graphics/player/bromine_character_2.png').convert_alpha()
-                player_jump = pygame.image.load('graphics/player/bromine_character_jump.png').convert_alpha()
-                player_crouch = pygame.image.load('graphics/player/bromine_character_crouch.png')
-
-            elif current_level == 4:
-                player_walk_1 = pygame.image.load('graphics/player/xenon_character_1.png').convert_alpha()
-                player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
-                player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
-                player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
-
-            player_walk = [player_walk_1, player_walk_2]
             check_portals_spawn()
 
     if game_active:
@@ -527,6 +513,8 @@ while running:  # The game will be continuously updated.
         walking_sur_1 = pygame.draw.line(screen, (0,0,0), (0,810), (480,810), 0)
         walking_sur_2 = pygame.draw.line(screen, (0,0,0), (600,510), (960,510), 0)
         walking_sur_3 = pygame.draw.line(screen, (0,0,0), (1300,610), (1950,610), 0)
+
+        check_current_player()
 
         rect = pygame.Rect(0,0,1920,80)
         pygame.draw.rect(screen, 'White', rect)
@@ -567,7 +555,6 @@ while running:  # The game will be continuously updated.
 
         proton_animation()
         electron_animation()
-        check_portal_collision(player_rect, portal_atom_rect_list)
 
         # Collisions
         # game_active = collisions(player_rect,bad_atom_rect_list)
@@ -585,6 +572,11 @@ while running:  # The game will be continuously updated.
             if itemsCollisions(player_rect,electron_rect_list):
                 collected_electron_count += 1
                 electrons_number = test_font.render(str(collected_electron_count),False,'White')
+        if portal_atom_rect_list:
+            if itemsCollisions(player_rect,portal_atom_rect_list):
+                if (config[current_level]["total_electrons_needed"] == collected_electron_count and
+                        config[current_level]["total_protons_needed"] == collected_proton_count):
+                    current_level += 1
 
         # Portals
         portal_animation()
