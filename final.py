@@ -96,8 +96,7 @@ def proton_movement(proton_list):
         for proton_rec in proton_list:
            proton_rec.x -= 5
 
-           if proton_rec.bottom <= 300:
-                screen.blit(proton_surf,proton_rec)
+           screen.blit(proton_surf,proton_rec)
         
         proton_list = [proton for proton in proton_list if proton.x > -200] # delete snails that are beyond -100(x)
 
@@ -121,8 +120,7 @@ def electron_movement(electron_list):
         for electron_rec in electron_list:
            electron_rec.x -= 5
 
-           if electron_rec.bottom <= 300:
-                screen.blit(electron_surf,electron_rec)
+           screen.blit(electron_surf,electron_rec)
         
         electron_list = [electron for electron in electron_list if electron.x > -200] # delete snails that are beyond -100(x)
 
