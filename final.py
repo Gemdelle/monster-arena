@@ -372,7 +372,7 @@ while running:  # The game will be continuously updated.
         if game_active:
             if event.type == pygame.KEYDOWN:
                 if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
-                    player_gravity = -25
+                    player_gravity = -28
                     jump = True
 
             if event.type == pygame.KEYUP:
@@ -519,8 +519,17 @@ while running:  # The game will be continuously updated.
         if player_rect.x > ground_3[0] and player_rect.x < ground_3[1]:
             if player_rect.bottom >= 610:
                 player_rect.bottom = 610
-
+        # elif player_rect.x > ground_1[1] and player_rect.x < ground_2[0] and jump == False:
+        #     player_gravity = 10
+        # elif player_rect.x > ground_2[1] and player_rect.x < ground_3[0] and jump == False:
+        #     player_gravity = 10
+        else:
+            if jump == False:
+                player_rect.midbottom = (player_rect.midbottom[0],player_rect.midbottom[1])
+                player_gravity = 10
         screen.blit(player_surf,player_rect)
+        # if player_rect.midbottom[1] < 500:
+        #     game_active = False    
 
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
