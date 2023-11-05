@@ -298,6 +298,16 @@ ground_sur_4_rect = ground_sur_4.get_rect(center=(100, 100))
 # UI
 timer = pygame.image.load('graphics/UI/timer.png')
 timer_rect = timer.get_rect(center = (0,0))
+timer = pygame.transform.rotozoom(timer,0,0.9)
+timer_charging = pygame.image.load('graphics/UI/charging.png')
+timer_charging = pygame.transform.rotozoom(timer_charging,0,0.9)
+
+hidden_sulfur = pygame.image.load('graphics/UI/hidden-sulfur.png')
+hidden_sulfur = pygame.transform.rotozoom(hidden_sulfur,0,0.9)
+hidden_bromine = pygame.image.load('graphics/UI/hidden-bromine.png')
+hidden_bromine = pygame.transform.rotozoom(hidden_bromine,0,0.9)
+hidden_xenon = pygame.image.load('graphics/UI/hidden-xenon.png')
+hidden_xenon = pygame.transform.rotozoom(hidden_xenon,0,0.9)
 
 protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
 protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.55)
@@ -525,7 +535,11 @@ while running:  # The game will be continuously updated.
         check_current_player()
     
         # BARS
+        screen.blit(timer_charging,(0,0))
         screen.blit(timer,(0,0))
+        screen.blit(hidden_sulfur,(0,0))
+        screen.blit(hidden_bromine,(0,0))
+        screen.blit(hidden_xenon,(0,0))
         
         screen.blit(protons_bar_sur, (50,120))
         screen.blit(electrons_bar_sur, (50,210))
