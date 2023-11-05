@@ -69,7 +69,8 @@ def itemsCollisions(player,objects):
 
 def check_portal_collision(player, portal_atom_rect_list):
     global current_level, collected_electron_count, collected_proton_count
-
+    print("collected_electron_count: ", collected_electron_count)
+    print("collected_proton_count: ", collected_proton_count)
     if portal_atom_rect_list:
         for portal_rect in portal_atom_rect_list:
             if player.colliderect(portal_rect):
@@ -182,21 +183,30 @@ def portal_movement(portal_list):
 def check_portals_spawn():
     global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
 
-    if current_level == 2:
+    if (current_level == 1 and
+        config[current_level]["total_electrons_needed"] == collected_electron_count and
+        config[current_level]["total_protons_needed"] == collected_proton_count):
+
         portal_down = pygame.image.load('graphics/portal/portal1up.png')
         portal_up = pygame.image.load('graphics/portal/portal1down.png')
         if not portal_1_already_spawned:
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
             portal_1_already_spawned = True
 
-    elif current_level == 3:
+    elif (current_level == 2 and
+        config[current_level]["total_electrons_needed"] == collected_electron_count and
+        config[current_level]["total_protons_needed"] == collected_proton_count):
+
         portal_up = pygame.image.load('graphics/portal/portal2up.png')
         portal_down = pygame.image.load('graphics/portal/portal2down.png')
         if not portal_2_already_spawned:
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright=(2000, 200)))
             portal_2_already_spawned = True
 
-    elif current_level == 4:
+    elif (current_level == 3 and
+        config[current_level]["total_electrons_needed"] == collected_electron_count and
+        config[current_level]["total_protons_needed"] == collected_proton_count):
+
         portal_up = pygame.image.load('graphics/portal/portal3up.png')
         portal_down = pygame.image.load('graphics/portal/portal3down.png')
         if not portal_3_already_spawned:
@@ -204,6 +214,23 @@ def check_portals_spawn():
             portal_3_already_spawned = True
 
     portal_movement_frames = [portal_up, portal_down]
+
+def extract_good_atom_electrons():
+    global collected_electron_count, electrons_number
+    if collected_electron_count - 1 < 0:
+        collected_electron_count = 0
+    else:
+        collected_electron_count -= 1
+    electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+
+
+def extract_bad_atom_electrons():
+    global collected_electron_count, electrons_number
+    if collected_electron_count - 6 < 0:
+        collected_electron_count = 0
+    else:
+        collected_electron_count -= 6
+    electrons_number = test_font.render(str(collected_electron_count), False, 'White')
 
 
 # Setup
@@ -359,6 +386,10 @@ crouch = False
 portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
+
+
+
+
 
 while running:  # The game will be continuously updated.
     for event in pygame.event.get():
@@ -539,14 +570,20 @@ while running:  # The game will be continuously updated.
         check_portal_collision(player_rect, portal_atom_rect_list)
 
         # Collisions
-        game_active = collisions(player_rect,bad_atom_rect_list)
+        # game_active = collisions(player_rect,bad_atom_rect_list)
+        if bad_atom_rect_list:
+            if itemsCollisions(player_rect,bad_atom_rect_list):
+                extract_bad_atom_electrons()
+        if good_atom_rect_list:
+            if itemsCollisions(player_rect,good_atom_rect_list):
+                extract_good_atom_electrons()
         if proton_rect_list:
             if itemsCollisions(player_rect,proton_rect_list):
                 collected_proton_count += 1
                 protons_number = test_font.render(str(collected_proton_count),False,'White')
         if electron_rect_list:
             if itemsCollisions(player_rect,electron_rect_list):
-                collected_electron_count += 1 
+                collected_electron_count += 1
                 electrons_number = test_font.render(str(collected_electron_count),False,'White')
 
         # Portals
