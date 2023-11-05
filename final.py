@@ -257,7 +257,7 @@ def check_current_player():
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
@@ -540,10 +540,10 @@ while running:  # The game will be continuously updated.
         screen.blit(hidden_bromine,(100,0))
         screen.blit(hidden_xenon,(100,0))
         
-        screen.blit(protons_bar_sur, (33,180))
-        screen.blit(electrons_bar_sur, (33,270))
-        screen.blit(protons_number,(397,226))
-        screen.blit(electrons_number,(397,315))
+        screen.blit(protons_bar_sur, (736,160))
+        screen.blit(electrons_bar_sur, (736,250))
+        screen.blit(protons_number,(1100,206))
+        screen.blit(electrons_number,(1100,295))
 
         score = displayScore()
 
