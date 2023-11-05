@@ -48,10 +48,10 @@ def good_atom_movement(obstacle_list):
     else:
         return []
 
-def collisions(player,obstacles):
-    if obstacles:
-        for obstacle_rect in obstacles:
-            if player.colliderect(obstacle_rect):
+def collisions(player,objects):
+    if objects:
+        for object_rect in objects:
+            if player.colliderect(object_rect):
                 return False
     return True
 
@@ -481,6 +481,10 @@ while running: # The game will be continuously updated.
 
         # Collisions
         game_active = collisions(player_rect,bad_atom_rect_list)
+        if collisions(player_rect,proton_rect_list):
+            protons += 1
+        if collisions(player_rect,electron_rect_list):
+            electrons += 1
 
         # Portals
 
