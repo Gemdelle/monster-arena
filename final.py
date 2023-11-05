@@ -96,8 +96,7 @@ def proton_movement(proton_list):
         for proton_rec in proton_list:
            proton_rec.x -= 5
 
-           if proton_rec.bottom <= 300:
-                screen.blit(proton_surf,proton_rec)
+           screen.blit(proton_surf,proton_rec)
         
         proton_list = [proton for proton in proton_list if proton.x > -200] # delete snails that are beyond -100(x)
 
@@ -121,8 +120,7 @@ def electron_movement(electron_list):
         for electron_rec in electron_list:
            electron_rec.x -= 5
 
-           if electron_rec.bottom <= 300:
-                screen.blit(electron_surf,electron_rec)
+           screen.blit(electron_surf,electron_rec)
         
         electron_list = [electron for electron in electron_list if electron.x > -200] # delete snails that are beyond -100(x)
 
@@ -507,7 +505,7 @@ while running: # The game will be continuously updated.
         player_gravity = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (960,540))
+        score_message_rect = score_message.get_rect(center = (960,400))
 
         if score == 0:
             screen.blit(instructions,instructions_rect)
