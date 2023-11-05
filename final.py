@@ -282,13 +282,13 @@ scroll_sky = 0
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_sur_1 = pygame.image.load('graphics/ground/ground-1.png').convert_alpha()
-ground_sur_1 = pygame.transform.rotozoom(ground_sur_1, 0, 1.5)
+ground_sur_1 = pygame.transform.rotozoom(ground_sur_1, 0, 1.3)
 ground_sur_2 = pygame.image.load('graphics/ground/ground-2.png').convert_alpha()
-ground_sur_2 = pygame.transform.rotozoom(ground_sur_2, 0, 1.5)
+ground_sur_2 = pygame.transform.rotozoom(ground_sur_2, 0, 1.3)
 ground_sur_3 = pygame.image.load('graphics/ground/ground-3.png').convert_alpha()
-ground_sur_3 = pygame.transform.rotozoom(ground_sur_3, 0, 1.5)
+ground_sur_3 = pygame.transform.rotozoom(ground_sur_3, 0, 1.3)
 ground_sur_4 = pygame.image.load('graphics/ground/ground-4.png').convert_alpha()
-ground_sur_4 = pygame.transform.rotozoom(ground_sur_4, 0, 1.5)
+ground_sur_4 = pygame.transform.rotozoom(ground_sur_4, 0, 1.3)
 
 ground_sur_1_rect = ground_sur_1.get_rect(center=(100, 100))
 ground_sur_2_rect = ground_sur_2.get_rect(center=(100, 100))
@@ -432,8 +432,8 @@ while running:  # The game will be continuously updated.
 
         if game_active:
             if event.type == pygame.KEYDOWN:
-                if (player_rect.bottom == 510 or player_rect.bottom == 610 or player_rect.bottom == 810) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
-                    player_gravity = -28
+                if (player_rect.bottom == 710 or player_rect.bottom == 850 or player_rect.bottom == 730 or player_rect.bottom == 610) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
+                    player_gravity = -25
                     jump = True
                 if event.key == pygame.K_a:
                     move_left = True
