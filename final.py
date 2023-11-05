@@ -547,9 +547,9 @@ while running:  # The game will be continuously updated.
                 player_rect.midbottom = (player_rect.midbottom[0],player_rect.midbottom[1])
                 player_gravity = 10
         screen.blit(player_surf,player_rect)
-        # if player_rect.midbottom[1] < 500:
-        #     game_active = False    
-
+        if player_rect.midbottom[1] > 1080:
+            game_active = False    
+        print(player_rect.bottom)
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
         good_atom_rect_list = good_atom_movement(good_atom_rect_list)
