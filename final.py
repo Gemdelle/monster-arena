@@ -449,7 +449,7 @@ while running:  # The game will be continuously updated.
                 player_rect.right += 10
                 if player_rect.right >= 1920:
                     player_rect.right = 1920
-            if 20 < score <= 30:
+            if current_level == 3:
                 if move_right:
                     player_rect.right += 14
                 if move_left:
