@@ -352,7 +352,7 @@ def updateTimer(charging, score):
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 700
+SCREEN_HEIGHT = 1080
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
