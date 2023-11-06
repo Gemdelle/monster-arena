@@ -12,7 +12,7 @@ from Config.config import config
 def displayScore():
     current_time = (int(pygame.time.get_ticks() / 1000) - start_time) 
     score_surf = test_font.render(str(current_time),False,'White')
-    score_rect = score_surf.get_rect(center = (945,103))
+    score_rect = score_surf.get_rect(center = (971,101))
     screen.blit(score_surf,score_rect)
 
     return current_time
@@ -73,6 +73,14 @@ def items_collisions_without_remove(player, objects):
                 return True
     return False
 
+def screenStartAnimation():
+    global screen_start_surf, screen_start_index
+
+    screen_start_index += 0.1
+    if screen_start_index >= len(screen_start_altern):
+        screen_start_index = 0
+    screen_start_surf = screen_start_altern[int(screen_start_index)]
+
 def player_animation():
     global player_surf, player_index, player_walk_1, player_walk_2, player_jump, player_crouch, score, current_level,\
         good_atom_spawn_count, bad_atom_spawn_count, player_walk
@@ -84,7 +92,6 @@ def player_animation():
         if player_index >= len(player_walk):
             player_index = 0
         player_surf = player_walk[int(player_index)]
-
 
 def good_atom_animation():
     global good_atom_surf, good_atom_index
@@ -345,7 +352,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
 clock = pygame.time.Clock()  # clock object to handle frame rate
-test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
+test_font = pygame.font.Font('font/Alkhemikal.ttf', 50)
 game_active = False
 start_time = 0
 score = 0
@@ -354,6 +361,18 @@ current_level = 1
 is_changing_level = False
 good_atom_has_already_extracted = False
 bad_atom_has_already_extracted = False
+
+# Screens
+screen_start_1 = pygame.image.load('graphics/screens/start1.png')
+screen_start_1 = pygame.transform.scale(screen_start_1,(1920,1080))
+screen_start_2 = pygame.image.load('graphics/screens/start2.png')
+screen_start_2 = pygame.transform.scale(screen_start_2,(1920,1080))
+
+screen_start_index = 0
+screen_start_altern = [screen_start_1, screen_start_2]
+screen_start_surf = screen_start_altern[screen_start_index]
+
+screen_start_1_rect = screen_start_1.get_rect(center = (960,540))
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
@@ -485,10 +504,8 @@ player_stand_rect = player_stand.get_rect(center=(960, 500))
 title_surf = test_font.render('Monster Arena', False, 'White')
 title_rect = title_surf.get_rect(center=(960, 100))
 
-instructions = test_font.render('Press space to start',False,'White')
-instructions_rect = instructions.get_rect(center = (960,630))
-
 protons_number = test_font.render(str(collected_proton_count),False,'White')
+protons_number = pygame.transform.scale(protons_number, (2,2))
 protons_number_rect = protons_number.get_rect(center = (0,0))
 
 electrons_number = test_font.render(str(collected_electron_count),False,'White')
@@ -588,18 +605,18 @@ while running:  # The game will be continuously updated.
                 good_atom_surf = good_atom_walk_light[int(good_atom_index)]
                 current_good_atom = good_atom_walk_light
                 good_atom_has_already_extracted = False
-                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
+                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_surf = bad_atom_walk_light[int(bad_atom_index)]
                 current_bad_atom = bad_atom_walk_light
                 bad_atom_has_already_extracted = False
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 bad_atom_spawn_count += 1
 
             if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
-                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
+                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 electron_spawn_count += 1
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
@@ -635,8 +652,8 @@ while running:  # The game will be continuously updated.
         screen.blit(ground_sur_3,(1000,730))
         screen.blit(ground_sur_4,(1300,610))
 
-        pygame.draw.line(screen, (255,0,255), (0,850), (1920,850), 1)
-        pygame.draw.line(screen, (255,0,255), (0,320), (1920,320), 1)
+        # pygame.draw.line(screen, (255,0,255), (0,850), (1920,850), 1)
+        # pygame.draw.line(screen, (255,0,255), (0,320), (1920,320), 1)
 
         check_current_player()
     
@@ -649,10 +666,10 @@ while running:  # The game will be continuously updated.
         screen.blit(hidden_bromine,(200,0))
         screen.blit(hidden_xenon,(200,0))
         
-        screen.blit(protons_bar_sur, (760,120))
-        screen.blit(electrons_bar_sur, (760,200))
-        screen.blit(protons_number,(1090,160))
-        screen.blit(electrons_number,(1090,242))
+        screen.blit(protons_bar_sur, (790,120))
+        screen.blit(electrons_bar_sur, (790,200))
+        screen.blit(protons_number,(1118,145))
+        screen.blit(electrons_number,(1118,225))
 
         score = displayScore()
 
@@ -686,9 +703,8 @@ while running:  # The game will be continuously updated.
         check_win_lose()
 
     else:
-        screen.fill((94, 129, 162))
-        screen.blit(player_stand, player_stand_rect)
-        screen.blit(title_surf, title_rect)
+        screenStartAnimation()
+        screen.blit(screen_start_surf,screen_start_1_rect)
         bad_atom_rect_list.clear()
         player_rect.midbottom = (80, 710)
 
@@ -701,12 +717,9 @@ while running:  # The game will be continuously updated.
         collected_proton_count = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (960,400))
+        score_message_rect = score_message.get_rect(center = (960,730))
 
-        if score == 0:
-            screen.blit(instructions, instructions_rect)
-        else:
-            screen.blit(score_message,score_message_rect)
+        screen.blit(score_message,score_message_rect)
         
     pygame.display.update() # update the screen
     clock.tick(60) # while True runs 60 times per second
