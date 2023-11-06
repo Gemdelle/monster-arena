@@ -204,22 +204,31 @@ def check_portals_spawn():
     portal_movement_frames = [portal_up, portal_down]
 
 def extract_good_atom_electrons():
-    global collected_electron_count, electrons_number
+    global collected_electron_count, electrons_number, good_atom_has_already_extracted
+
+    if good_atom_has_already_extracted:
+        return
+
     if collected_electron_count - 1 < 0:
         collected_electron_count = 0
     else:
         collected_electron_count -= 1
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+    good_atom_has_already_extracted = True
 
 
 def extract_bad_atom_electrons():
-    global collected_electron_count, electrons_number
+    global collected_electron_count, electrons_number, bad_atom_has_already_extracted
+
+    if bad_atom_has_already_extracted:
+        return
 
     if collected_electron_count - 6 < 0:
         collected_electron_count = 0
     else:
         collected_electron_count -= 6
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+    bad_atom_has_already_extracted = True
 
 def check_current_player():
     global player_walk_1, player_walk_2, player_jump, player_crouch, player_walk, current_level
@@ -343,6 +352,8 @@ score = 0
 current_level = 1
 
 is_changing_level = False
+good_atom_has_already_extracted = False
+bad_atom_has_already_extracted = False
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
@@ -574,12 +585,14 @@ while running:  # The game will be continuously updated.
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_surf = good_atom_walk_light[int(good_atom_index)]
                 current_good_atom = good_atom_walk_light
+                good_atom_has_already_extracted = False
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
                 bad_atom_surf = bad_atom_walk_light[int(bad_atom_index)]
                 current_bad_atom = bad_atom_walk_light
+                bad_atom_has_already_extracted = False
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 bad_atom_spawn_count += 1
 
