@@ -586,10 +586,10 @@ while running:  # The game will be continuously updated.
         if abs(scroll_sky) > sky_surface_width:
             scroll_sky = 0
 
-        ground_1 = (0,450)
-        ground_2 = (510,870)
-        ground_3 = (950,1205)
-        ground_4 = (1270,1950)
+        ground_1 = (0,380)
+        ground_2 = (500,820)
+        ground_3 = (950,1170)
+        ground_4 = (1260,1950)
 
         screen.blit(ground_sur_1,(0,710))
         screen.blit(ground_sur_2,(550,850))
