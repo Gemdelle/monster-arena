@@ -341,10 +341,9 @@ def updateTimer(charging, score):
     if score >= 30:
         width = charging.get_width()
     else:
-        # if charging.get_width() == 0:
         charging = pygame.image.load('graphics/UI/charging.png')
-        width = int(charging.get_width() * (score / 30))
-        print(charging.get_width())
+        width = int(charging.get_width() * (score / 36))
+
 
     charging = pygame.transform.scale(charging, (width, charging.get_height()))
     
@@ -353,7 +352,7 @@ def updateTimer(charging, score):
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))  # Create screen. This code ends, so to keep it running we use the while True (is never False).
 pygame.display.set_caption('Monster Arena')
