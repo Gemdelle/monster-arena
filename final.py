@@ -624,8 +624,8 @@ while running:  # The game will be continuously updated.
         check_player_ground_limits()
 
         # morir por caida
-        if player_rect.midbottom[1] > 1080:
-            game_active = True
+        if player_rect.midbottom[1] > 1200:
+            game_active = False
 
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
