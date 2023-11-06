@@ -629,6 +629,8 @@ while running:  # The game will be continuously updated.
         move_right = False
         crouch = False
         jump = False
+        collected_electron_count = 0
+        collected_proton_count = 0
 
         score_message = test_font.render(f'Your score: {score}',False,'White')
         score_message_rect = score_message.get_rect(center = (960,400))
