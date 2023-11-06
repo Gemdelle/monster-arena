@@ -317,7 +317,7 @@ def check_player_ground_limits():
     else:
         if jump == False:
             player_rect.midbottom = (player_rect.midbottom[0], player_rect.midbottom[1])
-            player_gravity = 5  
+            player_gravity = 15 
 
     screen.blit(player_surf, player_rect)
 
