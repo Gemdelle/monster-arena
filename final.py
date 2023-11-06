@@ -523,18 +523,18 @@ while running:  # The game will be continuously updated.
                     crouch = False
 
             if move_left:
-                player_rect.right -= 10
+                player_rect.right -= 15
                 if player_rect.right <= 140:
                     player_rect.right = 140
             if move_right:
-                player_rect.right += 10
+                player_rect.right += 15
                 if player_rect.right >= 1920:
                     player_rect.right = 1920
             if current_level == 3:
                 if move_right:
-                    player_rect.right += 14
+                    player_rect.right += 20
                 if move_left:
-                    player_rect.right -= 14
+                    player_rect.right -= 20
 
             player_animation()
 
@@ -600,10 +600,8 @@ while running:  # The game will be continuously updated.
         screen.blit(ground_sur_3,(1000,730))
         screen.blit(ground_sur_4,(1300,610))
 
-        walking_sur_1 = pygame.draw.line(screen, (255,0,0), (0,810), (480,810), 0)
-        walking_sur_2 = pygame.draw.line(screen, (255,0,0), (550,710), (850,710), 0)
-        walking_sur_3 = pygame.draw.line(screen, (255,0,0), (1000,730), (750,730), 0)
-        walking_sur_4 = pygame.draw.line(screen, (255,0,0), (1300,610), (1950,610), 0)
+        pygame.draw.line(screen, (255,0,0), (0,850), (1920,850), 1)
+        pygame.draw.line(screen, (255,0,0), (0,320), (1920,320), 1)
 
         check_current_player()
     
