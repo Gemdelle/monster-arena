@@ -330,11 +330,17 @@ def check_player_ground_limits():
 
     screen.blit(player_surf, player_rect)
 
-def updateTimer(charging,score):
-    timer_perc = (score * 100 / 300) + 1
-    width = int(charging.get_width() * 1.1)
-    charging = pygame.transform.scale(charging, (width, charging.get_height()))
+def updateTimer(charging, score):
+    if score >= 30:
+        width = charging.get_width()
+    else:
+        if charging.get_width() == 0:
+            charging = pygame.image.load('graphics/UI/charging.png')
+        width = int(charging.get_width() * (score / 30))
+        print(charging.get_width())
 
+    charging = pygame.transform.scale(charging, (width, charging.get_height()))
+    
     return charging
 
 # Setup
@@ -386,6 +392,7 @@ timer_rect = timer.get_rect(center = (0,0))
 timer = pygame.transform.rotozoom(timer,0,0.8)
 timer_charging = pygame.image.load('graphics/UI/charging.png')
 timer_charging = pygame.transform.rotozoom(timer_charging,0,0.8)
+charging = pygame.image.load('graphics/UI/charging.png')
 
 hidden_sulfur = pygame.image.load('graphics/UI/hidden-sulfur.png')
 hidden_sulfur = pygame.transform.rotozoom(hidden_sulfur,0,0.8)
@@ -641,9 +648,9 @@ while running:  # The game will be continuously updated.
         check_current_player()
     
         # BARS
-        #timer_charging = updateTimer(timer_charging,score)
+        timer_charging = updateTimer(timer_charging,score)
 
-        #screen.blit(timer_charging,(200,0))
+        screen.blit(timer_charging,(200,0))
         screen.blit(timer,(200,0))
         screen.blit(hidden_sulfur,(200,0))
         screen.blit(hidden_bromine,(200,0))
