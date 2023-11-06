@@ -639,9 +639,9 @@ while running:  # The game will be continuously updated.
         check_current_player()
     
         # BARS
-        timer_charging = updateTimer(timer_charging,score)
+        #timer_charging = updateTimer(timer_charging,score)
 
-        screen.blit(timer_charging,(200,0))
+        #screen.blit(timer_charging,(200,0))
         screen.blit(timer,(200,0))
         screen.blit(hidden_sulfur,(200,0))
         screen.blit(hidden_bromine,(200,0))
