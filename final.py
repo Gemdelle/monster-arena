@@ -308,14 +308,16 @@ def check_player_ground_limits():
     if ground_4[0] < player_rect.x < ground_4[1]:
         if player_rect.bottom >= 610:
             player_rect.bottom = 610
-    elif ground_1[1] < player_rect.x < ground_2[0] and jump == False:
-        player_gravity = 10
-    elif ground_2[1] < player_rect.x < ground_3[0] and jump == False:
-        player_gravity = 10
+    # elif ground_1[1] < player_rect.x < ground_2[0] and jump == False:
+    #     player_gravity = 1
+    # elif ground_2[1] < player_rect.x < ground_3[0] and jump == False:
+    #     player_gravity = 1
+    # elif ground_3[1] < player_rect.x < ground_4[0] and jump == False:
+    #     player_gravity = 1    
     else:
-        if not jump:
+        if jump == False:
             player_rect.midbottom = (player_rect.midbottom[0], player_rect.midbottom[1])
-            player_gravity = 10
+            player_gravity = 5  
 
     screen.blit(player_surf, player_rect)
 
@@ -511,6 +513,8 @@ while running:  # The game will be continuously updated.
                     crouch = True
 
             if event.type == pygame.KEYUP:
+                if event.key == pygame.K_w or event.key == pygame.K_SPACE:
+                    jump = False
                 if event.key == pygame.K_a:
                     move_left = False
                 if event.key == pygame.K_d:
