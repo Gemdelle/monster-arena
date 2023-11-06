@@ -42,7 +42,6 @@ def good_atom_movement(obstacle_list):
         for obstacle_rec in obstacle_list:
             obstacle_rec.x -= 5
 
-            # if obstacle_rec.bottom <= 1000:
             screen.blit(good_atom_surf,obstacle_rec)
 
         obstacle_list = [obstacle for obstacle in obstacle_list if
@@ -58,11 +57,6 @@ def collisions(player,objects):
             if player.colliderect(object_rect):
                 return False
     return True
-
-# def atomsCollisions(player,objects):
-#     if objects:
-#         for object_rect in objects:
-#             if player.colliderect(object_rect):
 
 def items_collisions_with_remove(player, objects):
     if objects:
@@ -96,18 +90,18 @@ def good_atom_animation():
     global good_atom_surf, good_atom_index
 
     good_atom_index += 0.1
-    if good_atom_index >= len(good_atom_walk):
+    if good_atom_index >= len(current_good_atom):
         good_atom_index = 0
-    good_atom_surf = good_atom_walk[int(good_atom_index)]
+    good_atom_surf = current_good_atom[int(good_atom_index)]
 
 
 def bad_atom_animation():
     global bad_atom_surf, bad_atom_index
 
     bad_atom_index += 0.1
-    if bad_atom_index >= len(bad_atom_walk):
+    if bad_atom_index >= len(current_bad_atom):
         bad_atom_index = 0
-    bad_atom_surf = bad_atom_walk[int(bad_atom_index)]
+    bad_atom_surf = current_bad_atom[int(bad_atom_index)]
 
 
 def proton_animation():
@@ -266,13 +260,19 @@ def check_win_lose():
 
 
 def check_collisions():
-    global protons_number, collected_electron_count, electrons_number, current_level, collected_proton_count, good_atom_1, good_atom_2, bad_atom_1, bad_atom_2
+    global protons_number, collected_electron_count,\
+        electrons_number, current_level, collected_proton_count, good_atom_surf,\
+        good_atom_2_light, current_good_atom, bad_atom_1_light, bad_atom_2_light, bad_atom_surf, bad_atom_walk, current_bad_atom
 
     if bad_atom_rect_list:
         if items_collisions_without_remove(player_rect, bad_atom_rect_list):
+            bad_atom_surf = bad_atom_walk[int(good_atom_index)]
+            current_bad_atom = bad_atom_walk
             extract_bad_atom_electrons()
     if good_atom_rect_list:
         if items_collisions_without_remove(player_rect, good_atom_rect_list):
+            good_atom_surf = good_atom_walk[int(good_atom_index)]
+            current_good_atom = good_atom_walk
             extract_good_atom_electrons()
     if proton_rect_list:
         if items_collisions_with_remove(player_rect, proton_rect_list):
@@ -313,11 +313,11 @@ def check_player_ground_limits():
     # elif ground_2[1] < player_rect.x < ground_3[0] and jump == False:
     #     player_gravity = 1
     # elif ground_3[1] < player_rect.x < ground_4[0] and jump == False:
-    #     player_gravity = 1    
+    #     player_gravity = 1
     else:
         if jump == False:
             player_rect.midbottom = (player_rect.midbottom[0], player_rect.midbottom[1])
-            player_gravity = 15 
+            player_gravity = 15
 
     screen.blit(player_surf, player_rect)
 
@@ -325,7 +325,7 @@ def updateTimer(charging,score):
     timer_perc = (score * 100 / 300) + 1
     width = int(charging.get_width() * 1.1)
     charging = pygame.transform.scale(charging, (width, charging.get_height()))
-    
+
     return charging
 
 # Setup
@@ -394,25 +394,37 @@ electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 collected_electron_count = 0
 
 # Enemies
-good_atom_1 = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
-good_atom_2 = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
+good_atom_1_light = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
+good_atom_2_light = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
 good_atom_index = 0
+good_atom_walk_light = [good_atom_1_light, good_atom_2_light]
+good_atom_surf = good_atom_walk_light[good_atom_index]
+
+good_atom_1 = pygame.image.load('graphics/atoms/good_atom1.png').convert_alpha()
+good_atom_2 = pygame.image.load('graphics/atoms/good_atom2.png').convert_alpha()
 good_atom_walk = [good_atom_1, good_atom_2]
-good_atom_surf = good_atom_walk[good_atom_index]
 
 good_atom_spawn_count = 0
 good_atom_rect_list = []
+current_good_atom = good_atom_walk_light
 
-bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1_light.png').convert_alpha()
-bad_atom_1 = pygame.transform.rotozoom(bad_atom_1, 0, 0.5)
-bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2_light.png').convert_alpha()
-bad_atom_2 = pygame.transform.rotozoom(bad_atom_2, 0, 0.5)
+bad_atom_1_light = pygame.image.load('graphics/atoms/bad_atom1_light.png').convert_alpha()
+bad_atom_1_light = pygame.transform.rotozoom(bad_atom_1_light, 0, 0.5)
+bad_atom_2_light = pygame.image.load('graphics/atoms/bad_atom2_light.png').convert_alpha()
+bad_atom_2_light = pygame.transform.rotozoom(bad_atom_2_light, 0, 0.5)
 bad_atom_index = 0
+bad_atom_walk_light = [bad_atom_1_light, bad_atom_2_light]
+bad_atom_surf = bad_atom_walk_light[bad_atom_index]
+
+bad_atom_1 = pygame.image.load('graphics/atoms/bad_atom1.png').convert_alpha()
+bad_atom_1 = pygame.transform.rotozoom(bad_atom_1, 0, 0.5)
+bad_atom_2 = pygame.image.load('graphics/atoms/bad_atom2.png').convert_alpha()
+bad_atom_2 = pygame.transform.rotozoom(bad_atom_2, 0, 0.5)
 bad_atom_walk = [bad_atom_1, bad_atom_2]
-bad_atom_surf = bad_atom_walk[bad_atom_index]
 
 bad_atom_rect_list = []
 bad_atom_spawn_count = 0
+current_bad_atom = bad_atom_walk_light
 
 # Items
 proton_1 = pygame.image.load('graphics/items/proton1.png')
@@ -560,12 +572,14 @@ while running:  # The game will be continuously updated.
 
         if event.type == obstacle_timer and game_active:
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
-                good_atom_1 = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
-                good_atom_2 = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
+                good_atom_surf = good_atom_walk_light[int(good_atom_index)]
+                current_good_atom = good_atom_walk_light
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
+                bad_atom_surf = bad_atom_walk_light[int(bad_atom_index)]
+                current_bad_atom = bad_atom_walk_light
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 bad_atom_spawn_count += 1
 
