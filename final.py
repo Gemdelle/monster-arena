@@ -579,6 +579,8 @@ while running:  # The game will be continuously updated.
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
+                electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+                protons_number = test_font.render(str(collected_electron_count), False, 'White')
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
