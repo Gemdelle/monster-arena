@@ -556,19 +556,19 @@ while running:  # The game will be continuously updated.
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_1 = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
                 good_atom_2 = pygame.image.load('graphics/atoms/good_atom2_light.png').convert_alpha()
-                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(300,800))))
+                good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
             if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
-                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(300,800))))
+                bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 bad_atom_spawn_count += 1
 
             if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
-                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(300,800))))
+                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 electron_spawn_count += 1
 
             if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
-                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(300,800))))
+                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
                 proton_spawn_count += 1
 
             check_portals_spawn()
