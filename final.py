@@ -169,7 +169,7 @@ def portal_animation():
 def portal_movement(portal_list):
     if portal_list:
         for portal_rec in portal_list:
-            portal_rec.x -= 5
+            portal_rec.x -= 10
 
             screen.blit(portal_surf, portal_rec)
 
