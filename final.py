@@ -321,6 +321,12 @@ def check_player_ground_limits():
 
     screen.blit(player_surf, player_rect)
 
+def updateTimer(charging,score):
+    timer_perc = (score * 100 / 300) + 1
+    width = int(charging.get_width() * 1.1)
+    charging = pygame.transform.scale(charging, (width, charging.get_height()))
+    
+    return charging
 
 # Setup
 pygame.init()
@@ -600,12 +606,14 @@ while running:  # The game will be continuously updated.
         screen.blit(ground_sur_3,(1000,730))
         screen.blit(ground_sur_4,(1300,610))
 
-        pygame.draw.line(screen, (255,0,0), (0,850), (1920,850), 1)
-        pygame.draw.line(screen, (255,0,0), (0,320), (1920,320), 1)
+        pygame.draw.line(screen, (255,0,255), (0,850), (1920,850), 1)
+        pygame.draw.line(screen, (255,0,255), (0,320), (1920,320), 1)
 
         check_current_player()
     
         # BARS
+        timer_charging = updateTimer(timer_charging,score)
+
         screen.blit(timer_charging,(200,0))
         screen.blit(timer,(200,0))
         screen.blit(hidden_sulfur,(200,0))
