@@ -23,7 +23,7 @@ def bad_atom_movement(obstacle_list):
 
     if obstacle_list:
         for obstacle_rec in obstacle_list:
-            obstacle_rec.x -= 5
+            obstacle_rec.x -= 10
 
             screen.blit(bad_atom_surf,obstacle_rec)
 
@@ -40,7 +40,7 @@ def good_atom_movement(obstacle_list):
 
     if obstacle_list:
         for obstacle_rec in obstacle_list:
-            obstacle_rec.x -= 5
+            obstacle_rec.x -= 10
 
             # if obstacle_rec.bottom <= 1000:
             screen.blit(good_atom_surf,obstacle_rec)
@@ -146,7 +146,7 @@ def electron_movement(electron_list):
 
     if electron_list:
         for electron_rec in electron_list:
-           electron_rec.x -= 5
+           electron_rec.x -= 10
 
            screen.blit(electron_surf,electron_rec)
         
@@ -169,7 +169,7 @@ def portal_animation():
 def portal_movement(portal_list):
     if portal_list:
         for portal_rec in portal_list:
-            portal_rec.x -= 5
+            portal_rec.x -= 10
 
             screen.blit(portal_surf, portal_rec)
 
