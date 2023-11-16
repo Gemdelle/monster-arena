@@ -341,10 +341,9 @@ def updateTimer(charging, score):
     if score >= 30:
         width = charging.get_width()
     else:
-        # if charging.get_width() == 0:
         charging = pygame.image.load('graphics/UI/charging.png')
-        width = int(charging.get_width() * (score / 30))
-        print(charging.get_width())
+        width = int(charging.get_width() * (score / 36))
+
 
     charging = pygame.transform.scale(charging, (width, charging.get_height()))
     
