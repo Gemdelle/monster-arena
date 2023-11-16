@@ -81,6 +81,23 @@ def screenStartAnimation():
         screen_start_index = 0
     screen_start_surf = screen_start_altern[int(screen_start_index)]
 
+def screenWinAnimation():
+    global screen_win_surf, screen_win_index
+
+    screen_win_index += 0.1
+    if screen_win_index >= len(screen_win_altern):
+        screen_win_index = 0
+    screen_win_surf = screen_win_altern[int(screen_win_index)]
+
+def screenLoseAnimation():
+    global screen_lose_surf, screen_lose_index
+
+    screen_lose_index += 0.1
+    if screen_lose_index >= len(screen_lose_altern):
+        screen_lose_index = 0
+    screen_lose_surf = screen_lose_altern[int(screen_lose_index)]
+
+
 def player_animation():
     global player_surf, player_index, player_walk_1, player_walk_2, player_jump, player_crouch, score, current_level,\
         good_atom_spawn_count, bad_atom_spawn_count, player_walk
@@ -265,13 +282,21 @@ def check_current_player():
     player_walk = [player_walk_1, player_walk_2]
 
 def check_win_lose():
-    global collected_electron_count, current_level, score, collected_proton_count, game_active, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
+    global win,lose, collected_electron_count, current_level, score, collected_proton_count, game_active, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
 
     player_lost_in_level_one = current_level == 1 and score > 30 and portal_1_already_spawned and len(portal_atom_rect_list) == 0
     player_lost_in_level_two = current_level == 2 and score > 90 and portal_2_already_spawned and len(portal_atom_rect_list) == 0
     player_lost_in_level_three = current_level == 3 and score > 180 and portal_3_already_spawned and len(portal_atom_rect_list) == 0
+    player_won = portal_3_already_spawned and collected_proton_count == 54 and collected_electron_count == 54
 
     if player_lost_in_level_one or player_lost_in_level_two or player_lost_in_level_three :
+        game_active = False
+        lose = True
+    elif current_level == 4 and score > 180: # Definir el tiempo para terminar
+        if player_won:
+            win = True
+        else:
+            lose = True
         game_active = False
 
 
@@ -349,6 +374,29 @@ def updateTimer(charging, score):
     
     return charging
 
+def check_screen_to_show():
+    if win:
+        screenWinAnimation()
+        screen.blit(screen_win_surf, screen_win_1_rect)
+        score_message = test_font.render(f'Your score: {score}', False, 'Grey')
+        score_message_rect = score_message.get_rect(center=(960, 890))
+
+        screen.blit(score_message, score_message_rect)
+    elif lose:
+        screenLoseAnimation()
+        screen.blit(screen_lose_surf, screen_lose_1_rect)
+        score_message = test_font.render(f'Your score: {score}', False, 'Grey')
+        score_message_rect = score_message.get_rect(center=(960, 890))
+
+        screen.blit(score_message, score_message_rect)
+    else:
+        screenStartAnimation()
+        screen.blit(screen_start_surf, screen_start_1_rect)
+        score_message = test_font.render(f'Your score: {score}', False, 'White')
+        score_message_rect = score_message.get_rect(center=(960, 730))
+
+        screen.blit(score_message, score_message_rect)
+
 # Setup
 pygame.init()
 SCREEN_WIDTH = 1920
@@ -359,6 +407,8 @@ pygame.display.set_caption('Monster Arena')
 clock = pygame.time.Clock()  # clock object to handle frame rate
 test_font = pygame.font.Font('font/Alkhemikal.ttf', 50)
 game_active = False
+win = False
+lose= False
 start_time = 0
 score = 0
 current_level = 1
@@ -378,6 +428,32 @@ screen_start_altern = [screen_start_1, screen_start_2]
 screen_start_surf = screen_start_altern[screen_start_index]
 
 screen_start_1_rect = screen_start_1.get_rect(center = (960,540))
+
+# Screen Win
+screen_win_1 = pygame.image.load('graphics/screens/win1.png')
+screen_win_1 = pygame.transform.scale(screen_win_1,(1920,1080))
+screen_win_2 = pygame.image.load('graphics/screens/win2.png')
+screen_win_2 = pygame.transform.scale(screen_win_2,(1920,1080))
+
+screen_win_index = 0
+screen_win_altern = [screen_win_1, screen_win_2]
+screen_win_surf = screen_win_altern[screen_win_index]
+
+screen_win_1_rect = screen_win_1.get_rect(center = (960,540))
+
+
+# Screen Lose
+screen_lose_1 = pygame.image.load('graphics/screens/lose1.png')
+screen_lose_1 = pygame.transform.scale(screen_lose_1,(1920,1080))
+screen_lose_2 = pygame.image.load('graphics/screens/lose2.png')
+screen_lose_2 = pygame.transform.scale(screen_lose_2,(1920,1080))
+
+screen_lose_index = 0
+screen_lose_altern = [screen_lose_1, screen_lose_2]
+screen_lose_surf = screen_lose_altern[screen_win_index]
+
+screen_lose_1_rect = screen_lose_1.get_rect(center = (960,540))
+
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
@@ -419,12 +495,12 @@ hidden_bromine = pygame.transform.rotozoom(hidden_bromine,0,0.8)
 hidden_xenon = pygame.image.load('graphics/UI/hidden-xenon.png')
 hidden_xenon = pygame.transform.rotozoom(hidden_xenon,0,0.8)
 
-protons_bar_sur = pygame.image.load('graphics/UI/protons_bar.png')
+protons_bar_sur = pygame.image.load('graphics/UI/protons-bar.png')
 protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.5)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 collected_proton_count = 0
 
-electrons_bar_sur = pygame.image.load('graphics/UI/electrons_bar.png')
+electrons_bar_sur = pygame.image.load('graphics/UI/electrons-bar.png')
 electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.5)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 collected_electron_count = 0
@@ -542,6 +618,13 @@ portal_2_already_spawned = False
 portal_3_already_spawned = False
 
 
+def check_falling_lose():
+    global game_active, lose
+    # morir por caida
+    if player_rect.midbottom[1] > 1200:
+        game_active = False
+        lose = True
+
 
 while running:  # The game will be continuously updated.
     for event in pygame.event.get():
@@ -602,6 +685,8 @@ while running:  # The game will be continuously updated.
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
+                win = False
+                lose = False
                 electrons_number = test_font.render(str(collected_electron_count), False, 'White')
                 protons_number = test_font.render(str(collected_electron_count), False, 'White')
                 start_time = int(pygame.time.get_ticks() / 1000)
@@ -681,9 +766,7 @@ while running:  # The game will be continuously updated.
 
         check_player_ground_limits()
 
-        # morir por caida
-        if player_rect.midbottom[1] > 1200:
-            game_active = False
+        check_falling_lose()
 
         # Obstacle movement
         bad_atom_rect_list = bad_atom_movement(bad_atom_rect_list)
@@ -709,8 +792,8 @@ while running:  # The game will be continuously updated.
         check_win_lose()
 
     else:
-        screenStartAnimation()
-        screen.blit(screen_start_surf,screen_start_1_rect)
+        check_screen_to_show()
+
         bad_atom_rect_list.clear()
         player_rect.midbottom = (80, 710)
 
@@ -721,11 +804,6 @@ while running:  # The game will be continuously updated.
         jump = False
         collected_electron_count = 0
         collected_proton_count = 0
-
-        score_message = test_font.render(f'Your score: {score}',False,'White')
-        score_message_rect = score_message.get_rect(center = (960,730))
-
-        screen.blit(score_message,score_message_rect)
         
     pygame.display.update() # update the screen
     clock.tick(60) # while True runs 60 times per second
