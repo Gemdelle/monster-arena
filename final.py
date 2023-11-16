@@ -349,12 +349,6 @@ def check_player_ground_limits():
     if ground_4[0] < player_rect.x < ground_4[1]:
         if player_rect.bottom >= 610:
             player_rect.bottom = 610
-    # elif ground_1[1] < player_rect.x < ground_2[0] and jump == False:
-    #     player_gravity = 1
-    # elif ground_2[1] < player_rect.x < ground_3[0] and jump == False:
-    #     player_gravity = 1
-    # elif ground_3[1] < player_rect.x < ground_4[0] and jump == False:
-    #     player_gravity = 1
     else:
         if jump == False:
             player_rect.midbottom = (player_rect.midbottom[0], player_rect.midbottom[1])
@@ -753,9 +747,13 @@ while running:  # The game will be continuously updated.
 
         screen.blit(timer_charging,(200,0))
         screen.blit(timer,(200,0))
-        screen.blit(hidden_sulfur,(200,0))
-        screen.blit(hidden_bromine,(200,0))
-        screen.blit(hidden_xenon,(200,0))
+
+        if current_level < 2:
+            screen.blit(hidden_sulfur,(200,0))
+        if current_level < 3:
+            screen.blit(hidden_bromine,(200,0))
+        if current_level < 4:
+            screen.blit(hidden_xenon,(200,0))
         
         screen.blit(protons_bar_sur, (790,120))
         screen.blit(electrons_bar_sur, (790,200))
