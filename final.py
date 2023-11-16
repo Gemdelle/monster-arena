@@ -208,6 +208,7 @@ def check_portals_spawn():
         if not portal_1_already_spawned:
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_1_already_spawned = True
+            play_portal_spawned_sound()
 
     elif current_level == 2 and score == 90:
 
@@ -216,6 +217,7 @@ def check_portals_spawn():
         if not portal_2_already_spawned:
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_2_already_spawned = True
+            play_portal_spawned_sound()
 
     elif current_level == 3 and score == 180:
 
@@ -224,6 +226,7 @@ def check_portals_spawn():
         if not portal_3_already_spawned:
             portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
             portal_3_already_spawned = True
+            play_portal_spawned_sound()
 
     portal_movement_frames = [portal_up, portal_down]
 
@@ -237,6 +240,7 @@ def extract_good_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 1
+        play_good_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     good_atom_has_already_extracted = True
 
@@ -251,6 +255,7 @@ def extract_bad_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 6
+        play_bad_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     bad_atom_has_already_extracted = True
 
@@ -292,11 +297,14 @@ def check_win_lose():
     if player_lost_in_level_one or player_lost_in_level_two or player_lost_in_level_three :
         game_active = False
         lose = True
+        play_lose_sound()
     elif current_level == 4 and score > 180: # Definir el tiempo para terminar
         if player_won:
             win = True
+            play_win_sound()
         else:
             lose = True
+            play_lose_sound()
         game_active = False
 
 
@@ -319,16 +327,19 @@ def check_collisions():
         if items_collisions_with_remove(player_rect, proton_rect_list):
             collected_proton_count += 1
             protons_number = test_font.render(str(collected_proton_count), False, 'White')
+            play_collect_sound()
     if electron_rect_list:
         if items_collisions_with_remove(player_rect, electron_rect_list):
             collected_electron_count += 1
             electrons_number = test_font.render(str(collected_electron_count), False, 'White')
+            play_collect_sound()
     if portal_atom_rect_list:
         if items_collisions_without_remove(player_rect, portal_atom_rect_list):
             if (config[current_level]["total_electrons_needed"] == collected_electron_count and
                     config[current_level]["total_protons_needed"] == collected_proton_count):
                 current_level += 1
                 portal_atom_rect_list.clear()
+                play_enter_portal_sound()
 
 
 def check_player_ground_limits():
@@ -390,6 +401,73 @@ def check_screen_to_show():
         score_message_rect = score_message.get_rect(center=(960, 730))
 
         screen.blit(score_message, score_message_rect)
+
+def check_falling_lose():
+    global game_active, lose
+    # morir por caida
+    if player_rect.midbottom[1] > 1200:
+        game_active = False
+        lose = True
+        play_lose_sound()
+
+
+def play_jump_sound():
+    jump_sound = pygame.mixer.Sound('audio/jump.mp3')
+    jump_sound.set_volume(0.8)
+    jump_sound.play()
+
+def play_collect_sound():
+    print("play_collect_sound")
+    # collect_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # collect_sound.set_volume(0.8)
+    # collect_sound.play()
+
+def play_portal_spawned_sound():
+    print("play_portal_spawned_sound")
+    # portal_spawned_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # portal_spawned_sound.set_volume(0.8)
+    # portal_spawned_sound.play()
+
+def play_enter_portal_sound():
+    print("play_enter_portal_sound")
+    # enter_portal_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # enter_portal_sound.set_volume(0.8)
+    # enter_portal_sound.play()
+
+def play_electrons_exceeded_sound():
+    print("play_electrons_exceeded_sound")
+    # electrons_exceeded_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # electrons_exceeded_sound.set_volume(0.8)
+    # electrons_exceeded_sound.play()
+
+def play_good_atom_sound():
+    print("play_good_atom_sound")
+    # good_atom_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # good_atom_sound.set_volume(0.8)
+    # good_atom_sound.play()
+
+def play_bad_atom_sound():
+    print("play_bad_atom_sound")
+    # bad_atom_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # bad_atom_sound.set_volume(0.8)
+    # bad_atom_sound.play()
+
+def play_win_sound():
+    print("play_win_sound")
+    # win_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # win_sound.set_volume(0.8)
+    # win_sound.play()
+
+def play_lose_sound():
+    print("play_lose_sound")
+    # lose_sound = pygame.mixer.Sound('audio/jump.mp3')
+    # lose_sound.set_volume(0.8)
+    # lose_sound.play()
+
+def play_background_music():
+    background_music = pygame.mixer.Sound('audio/music.wav')
+    background_music.set_volume(0.2)
+    background_music.play()
 
 # Setup
 pygame.init()
@@ -619,14 +697,8 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
-
-def check_falling_lose():
-    global game_active, lose
-    # morir por caida
-    if player_rect.midbottom[1] > 1200:
-        game_active = False
-        lose = True
-
+# Background Music
+play_background_music()
 
 while running:  # The game will be continuously updated.
     for event in pygame.event.get():
@@ -642,6 +714,8 @@ while running:  # The game will be continuously updated.
                 if (player_rect.bottom == 710 or player_rect.bottom == 850 or player_rect.bottom == 730 or player_rect.bottom == 610) and (event.key == pygame.K_SPACE or event.key == pygame.K_w):
                     player_gravity = -25
                     jump = True
+                    # Jump Sound
+                    play_jump_sound()
                 if event.key == pygame.K_a:
                     move_left = True
                 if event.key == pygame.K_d:
@@ -770,6 +844,7 @@ while running:  # The game will be continuously updated.
 
         if collected_electron_count > config[current_level]["total_electrons_needed"]:
             screen.blit(electrons_bar_exceeded_sur, (790, 200))
+            play_electrons_exceeded_sound()
         else:
             screen.blit(electrons_bar_sur, (790,200))
 
