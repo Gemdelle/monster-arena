@@ -191,7 +191,7 @@ def portal_movement(portal_list):
 
             screen.blit(portal_surf, portal_rec)
 
-        portal_list = [portal for portal in portal_list if portal.x > -200]  # delete snails that are beyond -100(x)
+        portal_list = [portal for portal in portal_list if portal.x > -200]  # delete portals that are beyond -200(x)
 
         return portal_list
     else:
@@ -409,8 +409,7 @@ def check_falling_lose():
         game_active = False
         lose = True
         play_lose_sound()
-
-
+           
 def play_jump_sound():
     jump_sound = pygame.mixer.Sound('audio/jump.mp3')
     jump_sound.set_volume(0.8)
@@ -418,54 +417,54 @@ def play_jump_sound():
 
 def play_collect_sound():
     print("play_collect_sound")
-    # collect_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # collect_sound.set_volume(0.8)
-    # collect_sound.play()
+    collect_sound = pygame.mixer.Sound('audio/collect.mp3')
+    collect_sound.set_volume(0.8)
+    collect_sound.play()
 
 def play_portal_spawned_sound():
     print("play_portal_spawned_sound")
-    # portal_spawned_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # portal_spawned_sound.set_volume(0.8)
-    # portal_spawned_sound.play()
+    portal_spawned_sound = pygame.mixer.Sound('audio/timer.mp3')
+    portal_spawned_sound.set_volume(0.8)
+    portal_spawned_sound.play()
 
 def play_enter_portal_sound():
     print("play_enter_portal_sound")
-    # enter_portal_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # enter_portal_sound.set_volume(0.8)
-    # enter_portal_sound.play()
+    enter_portal_sound = pygame.mixer.Sound('audio/enter-portal.wav')
+    enter_portal_sound.set_volume(0.8)
+    enter_portal_sound.play()         
 
 def play_electrons_exceeded_sound():
     print("play_electrons_exceeded_sound")
-    # electrons_exceeded_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # electrons_exceeded_sound.set_volume(0.8)
-    # electrons_exceeded_sound.play()
+    electrons_exceeded_sound = pygame.mixer.Sound('audio/exceed.wav')
+    electrons_exceeded_sound.set_volume(0.8)
+    electrons_exceeded_sound.play()
 
 def play_good_atom_sound():
     print("play_good_atom_sound")
-    # good_atom_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # good_atom_sound.set_volume(0.8)
-    # good_atom_sound.play()
+    good_atom_sound = pygame.mixer.Sound('audio/good-atom.mp3')
+    good_atom_sound.set_volume(0.8)
+    good_atom_sound.play()
 
 def play_bad_atom_sound():
     print("play_bad_atom_sound")
-    # bad_atom_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # bad_atom_sound.set_volume(0.8)
-    # bad_atom_sound.play()
+    bad_atom_sound = pygame.mixer.Sound('audio/bad-atom.mp3')
+    bad_atom_sound.set_volume(0.8)
+    bad_atom_sound.play()
 
 def play_win_sound():
     print("play_win_sound")
-    # win_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # win_sound.set_volume(0.8)
-    # win_sound.play()
+    win_sound = pygame.mixer.Sound('audio/win.mp3')
+    win_sound.set_volume(0.8)
+    win_sound.play()
 
 def play_lose_sound():
     print("play_lose_sound")
-    # lose_sound = pygame.mixer.Sound('audio/jump.mp3')
-    # lose_sound.set_volume(0.8)
-    # lose_sound.play()
+    lose_sound = pygame.mixer.Sound('audio/lose.mp3')
+    lose_sound.set_volume(0.8)
+    lose_sound.play()
 
 def play_background_music():
-    background_music = pygame.mixer.Sound('audio/music.wav')
+    background_music = pygame.mixer.Sound('audio/music.mp3')
     background_music.set_volume(0.2)
     background_music.play()
 
