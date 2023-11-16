@@ -494,10 +494,18 @@ protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.5)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 collected_proton_count = 0
 
+protons_bar_exceeded_sur = pygame.image.load('graphics/UI/protons-bar-exceeded.png')
+protons_bar_exceeded_sur = pygame.transform.rotozoom(protons_bar_exceeded_sur,0,0.5)
+protons_bar_exceeded_rect = protons_bar_exceeded_sur.get_rect(center = (100,100))
+
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons-bar.png')
 electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.5)
 electrons_bar_rect = electrons_bar_sur.get_rect(center = (100,100))
 collected_electron_count = 0
+
+electrons_bar_exceeded_sur = pygame.image.load('graphics/UI/electrons-bar-exceeded.png')
+electrons_bar_exceeded_sur = pygame.transform.rotozoom(electrons_bar_exceeded_sur,0,0.5)
+electrons_bar_exceeded_rect = electrons_bar_exceeded_sur.get_rect(center = (100,100))
 
 # Enemies
 good_atom_1_light = pygame.image.load('graphics/atoms/good_atom1_light.png').convert_alpha()
@@ -754,9 +762,17 @@ while running:  # The game will be continuously updated.
             screen.blit(hidden_bromine,(200,0))
         if current_level < 4:
             screen.blit(hidden_xenon,(200,0))
-        
-        screen.blit(protons_bar_sur, (790,120))
-        screen.blit(electrons_bar_sur, (790,200))
+
+        if collected_proton_count > config[current_level]["total_protons_needed"]:
+            screen.blit(protons_bar_exceeded_sur, (790, 120))
+        else:
+            screen.blit(protons_bar_sur, (790,120))
+
+        if collected_electron_count > config[current_level]["total_electrons_needed"]:
+            screen.blit(electrons_bar_exceeded_sur, (790, 200))
+        else:
+            screen.blit(electrons_bar_sur, (790,200))
+
         screen.blit(protons_number,(1118,145))
         screen.blit(electrons_number,(1118,225))
 
