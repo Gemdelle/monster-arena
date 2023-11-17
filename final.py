@@ -844,10 +844,7 @@ while running:  # The game will be continuously updated.
         if current_level < 4:
             screen.blit(hidden_xenon,(200,0))
 
-        if collected_proton_count > config[current_level]["total_protons_needed"]:
-            screen.blit(protons_bar_exceeded_sur, (790, 120))
-        else:
-            screen.blit(protons_bar_sur, (790,120))
+        screen.blit(protons_bar_sur, (790,120))
 
         if collected_electron_count > config[current_level]["total_electrons_needed"]:
             screen.blit(electrons_bar_exceeded_sur, (790, 200))
