@@ -208,7 +208,7 @@ def check_portals_spawn():
             portal_1_already_spawned = True
             play_portal_spawned_sound()
 
-    elif current_level == 2 and score == 90:
+    elif current_level == 2 and score == 60:
         portal_up = pygame.image.load('graphics/portal/portal2up.png')
         portal_down = pygame.image.load('graphics/portal/portal2down.png')
         if not portal_2_already_spawned:
@@ -216,7 +216,7 @@ def check_portals_spawn():
             portal_2_already_spawned = True
             play_portal_spawned_sound()
 
-    elif current_level == 3 and score == 180:
+    elif current_level == 3 and score == 90:
         portal_up = pygame.image.load('graphics/portal/portal3up.png')
         portal_down = pygame.image.load('graphics/portal/portal3down.png')
         if not portal_3_already_spawned:
@@ -284,7 +284,7 @@ def check_current_player():
     player_walk = [player_walk_1, player_walk_2] 
 
 def check_current_background():
-    global sky_surface, sky_2_surface, sky_3_surface, sky_4_surface, sky_background_surface, sky_background_2_surface, sky_background_3_surface, sky_background_4_surface
+    global sky_surface, sky_background_surface
     
     if current_level == 2:
         sky_surface = pygame.image.load('graphics/sky-2.png').convert_alpha()
@@ -305,15 +305,15 @@ def check_win_lose():
     global win,lose, collected_electron_count, current_level, score, collected_proton_count, game_active, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
 
     player_lost_in_level_one = current_level == 1 and score > 30 and portal_1_already_spawned and len(portal_atom_rect_list) == 0
-    player_lost_in_level_two = current_level == 2 and score > 90 and portal_2_already_spawned and len(portal_atom_rect_list) == 0
-    player_lost_in_level_three = current_level == 3 and score > 180 and portal_3_already_spawned and len(portal_atom_rect_list) == 0
+    player_lost_in_level_two = current_level == 2 and score > 60 and portal_2_already_spawned and len(portal_atom_rect_list) == 0
+    player_lost_in_level_three = current_level == 3 and score > 90 and portal_3_already_spawned and len(portal_atom_rect_list) == 0
     player_won = portal_3_already_spawned and collected_proton_count == 54 and collected_electron_count == 54
 
     if player_lost_in_level_one or player_lost_in_level_two or player_lost_in_level_three :
         game_active = False
         lose = True
         play_lose_sound()
-    elif current_level == 4 and score > 180: # Definir el tiempo para terminar
+    elif current_level == 4 and score > 120: # Definir el tiempo para terminar
         if player_won:
             win = True
             play_win_sound()
@@ -805,13 +805,16 @@ while running:  # The game will be continuously updated.
                 bad_atom_rect_list.append(bad_atom_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 bad_atom_spawn_count += 1
 
-            if electron_spawn_count <= config[current_level]["electrons"] and not electron_rect_list:
-                electron_rect_list.append(electron_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
+            if electron_spawn_count <= config[current_level]["electrons"]:
+                electron_rect_list.append(electron_surf.get_rect(bottomright=(randint(1950, 2500), randint(350, 850))))
                 electron_spawn_count += 1
+                print("electron_spawn_count ", electron_spawn_count)
 
-            if proton_spawn_count <= config[current_level]["protons"] and not proton_rect_list:
-                proton_rect_list.append(proton_surf.get_rect(bottomright = (randint(1500,2500),randint(350,850))))
+            if proton_spawn_count <= config[current_level]["protons"]:
+                proton_rect_list.append(proton_surf.get_rect(bottomright=(randint(1950, 2500), randint(350, 850))))
                 proton_spawn_count += 1
+                print("proton_spawn_count ", proton_spawn_count)
+
 
             check_portals_spawn()
 
