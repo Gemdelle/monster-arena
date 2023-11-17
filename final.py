@@ -434,9 +434,12 @@ def play_jump_sound():
 
 def play_collect_sound():
     print("play_collect_sound")
-    collect_sound = pygame.mixer.Sound('audio/collect.mp3')
-    collect_sound.set_volume(0.8)
-    collect_sound.play()
+    if collected_electron_count > config[current_level]["total_electrons_needed"]:
+        play_electrons_exceeded_sound()
+    else:
+        collect_sound = pygame.mixer.Sound('audio/collect.mp3')
+        collect_sound.set_volume(0.8)
+        collect_sound.play()
 
 def play_portal_spawned_sound():
     print("play_portal_spawned_sound")
@@ -448,7 +451,7 @@ def play_enter_portal_sound():
     print("play_enter_portal_sound")
     enter_portal_sound = pygame.mixer.Sound('audio/enter-portal.wav')
     enter_portal_sound.set_volume(0.8)
-    enter_portal_sound.play()         
+    enter_portal_sound.play()
 
 def play_electrons_exceeded_sound():
     print("play_electrons_exceeded_sound")
@@ -709,8 +712,6 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
-electrons_amount_exceeded_sound_notified = False
-
 # Background Music
 play_background_music()
 
@@ -856,12 +857,8 @@ while running:  # The game will be continuously updated.
 
         if collected_electron_count > config[current_level]["total_electrons_needed"]:
             screen.blit(electrons_bar_exceeded_sur, (790, 200))
-            if not electrons_amount_exceeded_sound_notified:
-                play_electrons_exceeded_sound()
-                electrons_amount_exceeded_sound_notified = True
         else:
             screen.blit(electrons_bar_sur, (790,200))
-            electrons_amount_exceeded_sound_notified = False
 
         screen.blit(protons_number,(1118,145))
         screen.blit(electrons_number,(1118,225))
