@@ -704,6 +704,8 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
+electrons_amount_exceeded_sound_notified = False
+
 # Background Music
 play_background_music()
 
@@ -848,9 +850,12 @@ while running:  # The game will be continuously updated.
 
         if collected_electron_count > config[current_level]["total_electrons_needed"]:
             screen.blit(electrons_bar_exceeded_sur, (790, 200))
-            play_electrons_exceeded_sound()
+            if not electrons_amount_exceeded_sound_notified:
+                play_electrons_exceeded_sound()
+                electrons_amount_exceeded_sound_notified = True
         else:
             screen.blit(electrons_bar_sur, (790,200))
+            electrons_amount_exceeded_sound_notified = False
 
         screen.blit(protons_number,(1118,145))
         screen.blit(electrons_number,(1118,225))
