@@ -236,7 +236,8 @@ def extract_good_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 1
-        play_good_atom_sound()
+
+    play_good_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     good_atom_has_already_extracted = True
 
@@ -251,8 +252,8 @@ def extract_bad_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 6
-        play_bad_atom_sound()
 
+    play_bad_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     bad_atom_has_already_extracted = True
 
@@ -382,14 +383,12 @@ def check_player_ground_limits():
 
     screen.blit(player_surf, player_rect)
 
-# ORIGINAL
-# def updateTimer(charging, score):
-#     if score >= 30:
-#         width = charging.get_width()
-#     else:
-#         charging = pygame.image.load('graphics/UI/charging.png')
-#         width = int(charging.get_width() * (score / 90))
-
+def updateTimer(charging, score):
+    if score >= 90:
+        width = charging.get_width()
+    else:
+        charging = pygame.image.load('graphics/UI/charging.png')
+        width = int(charging.get_width() * (score / 100))
 
 #     charging = pygame.transform.scale(charging, (width, charging.get_height()))
     
@@ -440,7 +439,6 @@ def play_jump_sound():
     jump_sound.play()
 
 def play_collect_electron_sound():
-    print("play_collect_sound")
     if collected_electron_count > config[current_level]["total_electrons_needed"]:
         play_electrons_exceeded_sound()
     else:
@@ -449,49 +447,41 @@ def play_collect_electron_sound():
         collect_sound.play()
 
 def play_collect_proton_sound():
-    print("play_collect_sound")
     collect_sound = pygame.mixer.Sound('audio/collect.mp3')
     collect_sound.set_volume(0.8)
     collect_sound.play()
 
 def play_portal_spawned_sound():
-    print("play_portal_spawned_sound")
     portal_spawned_sound = pygame.mixer.Sound('audio/timer.mp3')
     portal_spawned_sound.set_volume(0.8)
     portal_spawned_sound.play()
 
 def play_enter_portal_sound():
-    print("play_enter_portal_sound")
     enter_portal_sound = pygame.mixer.Sound('audio/enter-portal.wav')
     enter_portal_sound.set_volume(0.8)
     enter_portal_sound.play()
 
 def play_electrons_exceeded_sound():
-    print("play_electrons_exceeded_sound")
     electrons_exceeded_sound = pygame.mixer.Sound('audio/exceed.wav')
     electrons_exceeded_sound.set_volume(0.8)
     electrons_exceeded_sound.play()
 
 def play_good_atom_sound():
-    print("play_good_atom_sound")
     good_atom_sound = pygame.mixer.Sound('audio/good-atom.wav')
     good_atom_sound.set_volume(1)
     good_atom_sound.play()
 
 def play_bad_atom_sound():
-    print("play_bad_atom_sound")
     bad_atom_sound = pygame.mixer.Sound('audio/bad-atom.wav')
     bad_atom_sound.set_volume(1)
     bad_atom_sound.play()
 
 def play_win_sound():
-    print("play_win_sound")
     win_sound = pygame.mixer.Sound('audio/win.mp3')
     win_sound.set_volume(0.8)
     win_sound.play()
 
 def play_lose_sound():
-    print("play_lose_sound")
     lose_sound = pygame.mixer.Sound('audio/lose.mp3')
     lose_sound.set_volume(0.8)
     lose_sound.play()
@@ -799,6 +789,7 @@ while running:  # The game will be continuously updated.
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
+            random_x = randint(1950,2500)
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_surf = good_atom_walk_light[int(good_atom_index)]
                 current_good_atom = good_atom_walk_light
@@ -806,7 +797,7 @@ while running:  # The game will be continuously updated.
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
-            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
+            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list and random_x > 2200:
                 bad_atom_surf = bad_atom_walk_light[int(bad_atom_index)]
                 current_bad_atom = bad_atom_walk_light
                 bad_atom_has_already_extracted = False
@@ -816,12 +807,10 @@ while running:  # The game will be continuously updated.
             if electron_spawn_count <= config[current_level]["electrons"]:
                 electron_rect_list.append(electron_surf.get_rect(bottomright=(randint(1950, 2500), randint(350, 850))))
                 electron_spawn_count += 1
-                print("electron_spawn_count ", electron_spawn_count)
 
             if proton_spawn_count <= config[current_level]["protons"]:
                 proton_rect_list.append(proton_surf.get_rect(bottomright=(randint(1950, 2500), randint(350, 850))))
                 proton_spawn_count += 1
-                print("proton_spawn_count ", proton_spawn_count)
 
 
             check_portals_spawn()
@@ -861,7 +850,6 @@ while running:  # The game will be continuously updated.
     
         # BARS
         timer_charging = updateTimer(timer_charging,score)
-
         screen.blit(timer_charging,(220,0))
         screen.blit(timer,(200,0))
 
@@ -927,6 +915,8 @@ while running:  # The game will be continuously updated.
         portal_3_already_spawned = False
         collected_electron_count = 0
         collected_proton_count = 0
-        
+        electron_spawn_count = 0
+        proton_spawn_count = 0
+
     pygame.display.update() # update the screen
     clock.tick(60) # while True runs 60 times per second
