@@ -236,7 +236,8 @@ def extract_good_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 1
-        play_good_atom_sound()
+
+    play_good_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     good_atom_has_already_extracted = True
 
@@ -251,8 +252,8 @@ def extract_bad_atom_electrons():
         collected_electron_count = 0
     else:
         collected_electron_count -= 6
-        play_bad_atom_sound()
 
+    play_bad_atom_sound()
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     bad_atom_has_already_extracted = True
 
@@ -383,12 +384,11 @@ def check_player_ground_limits():
     screen.blit(player_surf, player_rect)
 
 def updateTimer(charging, score):
-    if score >= 30:
+    if score >= 90:
         width = charging.get_width()
     else:
         charging = pygame.image.load('graphics/UI/charging.png')
-        width = int(charging.get_width() * (score / 36))
-
+        width = int(charging.get_width() * (score / 100))
 
     charging = pygame.transform.scale(charging, (width, charging.get_height()))
     
@@ -842,7 +842,6 @@ while running:  # The game will be continuously updated.
     
         # BARS
         timer_charging = updateTimer(timer_charging,score)
-
         screen.blit(timer_charging,(200,0))
         screen.blit(timer,(200,0))
 
