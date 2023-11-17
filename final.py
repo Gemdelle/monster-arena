@@ -528,6 +528,10 @@ screen_lose_1_rect = screen_lose_1.get_rect(center = (960,540))
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
 sky_surface_width = sky_surface.get_width()
 
+sky_2_surface = pygame.image.load('graphics/sky-2.png').convert_alpha()
+sky_3_surface = pygame.image.load('graphics/sky-3.png').convert_alpha()
+sky_4_surface = pygame.image.load('graphics/sky-4.png').convert_alpha()
+
 sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
 sky_background_surface = pygame.transform.scale(sky_background_surface,(1920,1000))
 
