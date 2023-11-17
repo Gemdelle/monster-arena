@@ -489,10 +489,10 @@ def play_lose_sound():
     lose_sound.set_volume(0.8)
     lose_sound.play()
 
-def play_background_music():
-    background_music = pygame.mixer.Sound('audio/intro-music.mp3')
-    background_music.set_volume(0.2)
-    background_music.play()
+# def play_background_music():
+#     background_music = pygame.mixer.Sound('audio/intro-music.mp3')
+#     background_music.set_volume(0.2)
+#     background_music.play()
 
 # Setup
 pygame.init()
@@ -718,10 +718,14 @@ portal_1_already_spawned = False
 portal_2_already_spawned = False
 portal_3_already_spawned = False
 
-# Background Music
-play_background_music()
+# # Background Music
+# play_background_music()
 
 while running:  # The game will be continuously updated.
+    pygame.mixer.init()
+    pygame.mixer.music.load('audio/intro-music.mp3')
+    pygame.mixer.music.play()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
