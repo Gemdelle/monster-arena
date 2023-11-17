@@ -782,6 +782,7 @@ while running:  # The game will be continuously updated.
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         if event.type == obstacle_timer and game_active:
+            random_x = randint(1950,2500)
             if good_atom_spawn_count <= config[current_level]["good_atoms"] and not good_atom_rect_list:
                 good_atom_surf = good_atom_walk_light[int(good_atom_index)]
                 current_good_atom = good_atom_walk_light
@@ -789,7 +790,7 @@ while running:  # The game will be continuously updated.
                 good_atom_rect_list.append(good_atom_surf.get_rect(bottomright = (randint(1950,2500),randint(350,850))))
                 good_atom_spawn_count += 1
 
-            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list:
+            if bad_atom_spawn_count <= config[current_level]["bad_atoms"] and not bad_atom_rect_list and random_x > 2200:
                 bad_atom_surf = bad_atom_walk_light[int(bad_atom_index)]
                 current_bad_atom = bad_atom_walk_light
                 bad_atom_has_already_extracted = False
