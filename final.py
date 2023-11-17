@@ -283,7 +283,25 @@ def check_current_player():
         player_walk_2 = pygame.image.load('graphics/player/xenon_character_2.png').convert_alpha()
         player_jump = pygame.image.load('graphics/player/xenon_character_jump.png').convert_alpha()
         player_crouch = pygame.image.load('graphics/player/xenon_character_crouch.png')
-    player_walk = [player_walk_1, player_walk_2]
+    player_walk = [player_walk_1, player_walk_2] 
+
+def check_current_background():
+    global sky_surface, sky_2_surface, sky_3_surface, sky_4_surface, sky_background_surface, sky_background_2_surface, sky_background_3_surface, sky_background_4_surface
+    
+    if current_level == 2:
+        sky_surface = pygame.image.load('graphics/sky-2.png').convert_alpha()
+        sky_background_surface = pygame.image.load('graphics/sky-background-2.png').convert()
+
+    elif current_level == 3:
+        sky_surface = pygame.image.load('graphics/sky-3.png').convert_alpha()
+        sky_background_surface = pygame.image.load('graphics/sky-background-3.png').convert()
+
+    elif current_level == 4:
+        sky_surface = pygame.image.load('graphics/sky-4.png').convert_alpha()
+        sky_background_surface = pygame.image.load('graphics/sky-background-4.png').convert()
+
+    sky_background_surface = pygame.transform.scale(sky_background_surface,(1920,1000))
+
 
 def check_win_lose():
     global win,lose, collected_electron_count, current_level, score, collected_proton_count, game_active, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned
@@ -526,27 +544,14 @@ screen_lose_1_rect = screen_lose_1.get_rect(center = (960,540))
 
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
-sky_surface_width = sky_surface.get_width()
-
-sky_2_surface = pygame.image.load('graphics/sky-2.png').convert_alpha()
-sky_3_surface = pygame.image.load('graphics/sky-3.png').convert_alpha()
-sky_4_surface = pygame.image.load('graphics/sky-4.png').convert_alpha()
-
 sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
 sky_background_surface = pygame.transform.scale(sky_background_surface,(1920,1000))
-
-sky_background_2_surface = pygame.image.load('graphics/sky-background-2.png').convert()
-sky_background_2_surface = pygame.transform.scale(sky_background_2_surface,(1920,1000))
-
-sky_background_3_surface = pygame.image.load('graphics/sky-background-3.png').convert()
-sky_background_3_surface = pygame.transform.scale(sky_background_3_surface,(1920,1000))
-
-sky_background_4_surface = pygame.image.load('graphics/sky-background-4.png').convert()
-sky_background_4_surface = pygame.transform.scale(sky_background_4_surface,(1920,1000))
 
 # Define game variables
 scroll_sky_background = 0
 scroll_sky = 0
+sky_surface_width = sky_surface.get_width()  
+
 tiles = math.ceil(SCREEN_WIDTH / sky_surface_width) + 1
 
 ground_sur_1 = pygame.image.load('graphics/ground/ground-1.png').convert_alpha()
@@ -832,6 +837,7 @@ while running:  # The game will be continuously updated.
         # pygame.draw.line(screen, (255,0,255), (0,320), (1920,320), 1)
 
         check_current_player()
+        check_current_background()
     
         # BARS
         timer_charging = updateTimer(timer_charging,score)
