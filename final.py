@@ -344,12 +344,12 @@ def check_collisions():
         if items_collisions_with_remove(player_rect, proton_rect_list):
             collected_proton_count += 1
             protons_number = test_font.render(str(collected_proton_count), False, 'White')
-            play_collect_sound()
+            play_collect_proton_sound()
     if electron_rect_list:
         if items_collisions_with_remove(player_rect, electron_rect_list):
             collected_electron_count += 1
             electrons_number = test_font.render(str(collected_electron_count), False, 'White')
-            play_collect_sound()
+            play_collect_electron_sound()
     if portal_atom_rect_list:
         if items_collisions_without_remove(player_rect, portal_atom_rect_list):
             if (config[current_level]["total_electrons_needed"] == collected_electron_count and
@@ -432,7 +432,7 @@ def play_jump_sound():
     jump_sound.set_volume(0.8)
     jump_sound.play()
 
-def play_collect_sound():
+def play_collect_electron_sound():
     print("play_collect_sound")
     if collected_electron_count > config[current_level]["total_electrons_needed"]:
         play_electrons_exceeded_sound()
@@ -440,6 +440,12 @@ def play_collect_sound():
         collect_sound = pygame.mixer.Sound('audio/collect.mp3')
         collect_sound.set_volume(0.8)
         collect_sound.play()
+
+def play_collect_proton_sound():
+    print("play_collect_sound")
+    collect_sound = pygame.mixer.Sound('audio/collect.mp3')
+    collect_sound.set_volume(0.8)
+    collect_sound.play()
 
 def play_portal_spawned_sound():
     print("play_portal_spawned_sound")
