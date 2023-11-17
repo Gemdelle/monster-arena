@@ -524,12 +524,21 @@ screen_lose_surf = screen_lose_altern[screen_win_index]
 
 screen_lose_1_rect = screen_lose_1.get_rect(center = (960,540))
 
-
 # Surfaces
 sky_surface = pygame.image.load('graphics/sky.png').convert_alpha()
 sky_surface_width = sky_surface.get_width()
 
 sky_background_surface = pygame.image.load('graphics/sky-background.png').convert()
+sky_background_surface = pygame.transform.scale(sky_background_surface,(1920,1000))
+
+sky_background_2_surface = pygame.image.load('graphics/sky-background-2.png').convert()
+sky_background_2_surface = pygame.transform.scale(sky_background_2_surface,(1920,1000))
+
+sky_background_3_surface = pygame.image.load('graphics/sky-background-3.png').convert()
+sky_background_3_surface = pygame.transform.scale(sky_background_3_surface,(1920,1000))
+
+sky_background_4_surface = pygame.image.load('graphics/sky-background-4.png').convert()
+sky_background_4_surface = pygame.transform.scale(sky_background_4_surface,(1920,1000))
 
 # Define game variables
 scroll_sky_background = 0
@@ -569,10 +578,6 @@ protons_bar_sur = pygame.image.load('graphics/UI/protons-bar.png')
 protons_bar_sur = pygame.transform.rotozoom(protons_bar_sur,0,0.5)
 protons_bar_rect = protons_bar_sur.get_rect(center = (100,100))
 collected_proton_count = 0
-
-protons_bar_exceeded_sur = pygame.image.load('graphics/UI/protons-bar-exceeded.png')
-protons_bar_exceeded_sur = pygame.transform.rotozoom(protons_bar_exceeded_sur,0,0.5)
-protons_bar_exceeded_rect = protons_bar_exceeded_sur.get_rect(center = (100,100))
 
 electrons_bar_sur = pygame.image.load('graphics/UI/electrons-bar.png')
 electrons_bar_sur = pygame.transform.rotozoom(electrons_bar_sur,0,0.5)
