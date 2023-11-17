@@ -201,29 +201,26 @@ def check_portals_spawn():
     global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned, game_active
 
     if current_level == 1 and score == 30:
-
         portal_down = pygame.image.load('graphics/portal/portal1up.png')
         portal_up = pygame.image.load('graphics/portal/portal1down.png')
         if not portal_1_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500), 850)))
             portal_1_already_spawned = True
             play_portal_spawned_sound()
 
     elif current_level == 2 and score == 90:
-
         portal_up = pygame.image.load('graphics/portal/portal2up.png')
         portal_down = pygame.image.load('graphics/portal/portal2down.png')
         if not portal_2_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500), 850)))
             portal_2_already_spawned = True
             play_portal_spawned_sound()
 
     elif current_level == 3 and score == 180:
-
         portal_up = pygame.image.load('graphics/portal/portal3up.png')
         portal_down = pygame.image.load('graphics/portal/portal3down.png')
         if not portal_3_already_spawned:
-            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500),randint(100,900))))
+            portal_atom_rect_list.append(portal_surf.get_rect(bottomright = (randint(1500,2500), 850)))
             portal_3_already_spawned = True
             play_portal_spawned_sound()
 
@@ -255,6 +252,7 @@ def extract_bad_atom_electrons():
     else:
         collected_electron_count -= 6
         play_bad_atom_sound()
+
     electrons_number = test_font.render(str(collected_electron_count), False, 'White')
     bad_atom_has_already_extracted = True
 
@@ -913,6 +911,9 @@ while running:  # The game will be continuously updated.
         move_right = False
         crouch = False
         jump = False
+        portal_1_already_spawned = False
+        portal_2_already_spawned = False
+        portal_3_already_spawned = False
         collected_electron_count = 0
         collected_proton_count = 0
         
