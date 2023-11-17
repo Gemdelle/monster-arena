@@ -464,8 +464,8 @@ def play_good_atom_sound():
 
 def play_bad_atom_sound():
     print("play_bad_atom_sound")
-    bad_atom_sound = pygame.mixer.Sound('audio/bad-atom.mp3')
-    bad_atom_sound.set_volume(0.8)
+    bad_atom_sound = pygame.mixer.Sound('audio/bad-atom.wav')
+    bad_atom_sound.set_volume(1)
     bad_atom_sound.play()
 
 def play_win_sound():
