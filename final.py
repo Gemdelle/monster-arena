@@ -440,7 +440,7 @@ def play_electrons_exceeded_sound():
 
 def play_good_atom_sound():
     print("play_good_atom_sound")
-    good_atom_sound = pygame.mixer.Sound('audio/good-atom.mp3')
+    good_atom_sound = pygame.mixer.Sound('audio/good-atom.wav')
     good_atom_sound.set_volume(0.8)
     good_atom_sound.play()
 
