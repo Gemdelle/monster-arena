@@ -197,7 +197,6 @@ def portal_movement(portal_list):
     else:
         return []
 
-
 def check_portals_spawn():
     global portal_down, portal_up, portal_movement_frames, portal_1_already_spawned, portal_2_already_spawned, portal_3_already_spawned, game_active
 
