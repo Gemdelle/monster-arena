@@ -390,17 +390,10 @@ def updateTimer(charging, score):
         charging = pygame.image.load('graphics/UI/charging.png')
         width = int(charging.get_width() * (score / 100))
 
-#     charging = pygame.transform.scale(charging, (width, charging.get_height()))
-    
-#     return charging
-
-def updateTimer(charging, score):
-    
-    width = int(charging.get_width() * (score / 90))
-    charging = pygame.image.load('graphics/UI/charging.png')
     charging = pygame.transform.scale(charging, (width, charging.get_height()))
-    
+
     return charging
+
 
 def check_screen_to_show():
     if win:
@@ -485,11 +478,10 @@ def play_lose_sound():
     lose_sound = pygame.mixer.Sound('audio/lose.mp3')
     lose_sound.set_volume(0.8)
     lose_sound.play()
-
-# def play_background_music():
-#     background_music = pygame.mixer.Sound('audio/intro-music.mp3')
-#     background_music.set_volume(0.2)
-#     background_music.play()
+def play_background_music():
+    background_music = pygame.mixer.Sound('audio/intro-music.mp3')
+    background_music.set_volume(0.2)
+    background_music.play()
 
 # Setup
 pygame.init()
@@ -715,7 +707,7 @@ portal_2_already_spawned = False
 portal_3_already_spawned = False
 
 # # Background Music
-# play_background_music()
+play_background_music()
 
 while running:  # The game will be continuously updated.
     pygame.mixer.init()
